@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Exact L&E brand colors extracted from live site */
+  --black: #000000;
+  --white: #ffffff;
+  --off-white: #fcfcfa;
+  --bg-light: #f3f2ee;
+  --primary: #3d3d31;       /* WP primary — donker olijf/khaki */
+  --primary-light: #5a5a48;
+  --text: #1a1a1a;
+  --text-muted: #6b6b5e;
+  --border: #3d3d31;
+  --border-light: rgba(61,61,49,0.15);
+
+  --heading-font: Georgia, 'Times New Roman', serif; /* Lucette fallback */
+  --body-font: 'Jost', sans-serif;
+}
+
+body { font-family: var(--body-font); background: var(--white); color: var(--text); font-size: 16px; line-height: 1.6; font-weight: 300; }
+
+/* ── STICKY NOTIFICATION BAR (nieuw) ── */
+.notif-bar {
+  background: var(--primary);
+  color: var(--white);
+  text-align: center;
+  padding: 10px 24px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  position: sticky; top: 0; z-index: 200;
+}
+.notif-bar a { color: var(--white); text-decoration: underline; cursor: pointer; }
+
+/* ── EXACT L&E HEADER STYLE ── */
+.site-header {
+  background: var(--black);
+  padding: 20px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 36px; z-index: 100;
+}
+.logo-area { display: flex; align-items: center; gap: 12px; }
+.logo-crown { color: var(--white); font-size: 28px; line-height: 1; }
+.logo-text { color: var(--white); font-family: var(--heading-font); font-size: 18px; font-weight: 400; letter-spacing: 0.08em; line-height: 1.1; }
+.logo-sub { font-family: var(--body-font); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.6); display: block; }
+.header-right { display: flex; align-items: center; gap: 24px; }
+.header-phone { color: rgba(255,255,255,0.75); font-size: 13px; text-decoration: none; font-weight: 400; letter-spacing: 0.04em; }
+.header-phone:hover { color: var(--white); }
+/* Exact L&E CTA button style */
+.btn-outline {
+  border: 1px solid var(--white);
+  color: var(--white);
+  background: transparent;
+  padding: 12px 22px;
+  font-family: var(--body-font);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-outline:hover { background: var(--white); color: var(--black); }
+/* Filled variant for high-priority CTAs */
+.btn-filled {
+  border: 1px solid var(--white);
+  color: var(--black);
+  background: var(--white);
+  padding: 12px 22px;
+  font-family: var(--body-font);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-filled:hover { background: transparent; color: var(--white); }
+
+/* ── HERO — zwart, L&E stijl ── */
+.hero {
+  background: var(--black);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 580px;
+}
+.hero-text {
+  padding: 80px 56px 80px 56px;
+  display: flex; flex-direction: column; justify-content: center; gap: 28px;
+}
+.hero-eyebrow {
+  font-size: 11px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+.hero h1 {
+  font-family: var(--heading-font);
+  font-size: 52px;
+  line-height: 1.1;
+  color: var(--white);
+  font-weight: 400;
+}
+.hero-sub {
+  color: rgba(255,255,255,0.55);
+  font-size: 15px;
+  line-height: 1.85;
+  max-width: 400px;
+  font-weight: 300;
+}
+.hero-cta-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.hero-img {
+  background: url('https://leneinterieur.be/wp-content/uploads/2025/09/27.jpg') center/cover no-repeat;
+  min-height: 500px;
+}
+
+/* ── USP STRIP — lichte achtergrond L&E stijl ── */
+.usp-strip {
+  background: var(--bg-light);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+.usp-item {
+  padding: 32px 28px;
+  border-right: 1px solid var(--border-light);
+}
+.usp-item:last-child { border-right: none; }
+.usp-number {
+  font-family: var(--heading-font);
+  font-size: 32px;
+  color: var(--primary);
+  font-weight: 400;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.usp-label { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; letter-spacing: 0.02em; }
+.usp-desc { font-size: 12px; color: var(--text-muted); line-height: 1.6; font-weight: 300; }
+
+/* ── INTRO SECTIE ── */
+.intro-section {
+  background: var(--white);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: 480px;
+}
+.intro-img {
+  background: url('https://leneinterieur.be/wp-content/uploads/2025/08/wmp-1.jpg') center/cover no-repeat;
+}
+.intro-text {
+  padding: 80px 64px;
+  display: flex; flex-direction: column; justify-content: center; gap: 24px;
+}
+.section-eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); font-weight: 400; }
+.intro-text h2 {
+  font-family: var(--heading-font);
+  font-size: 38px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.2;
+}
+.intro-text p { font-size: 15px; color: var(--text-muted); line-height: 1.85; font-weight: 300; }
+.btn-dark {
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  background: transparent;
+  padding: 14px 24px;
+  font-family: var(--body-font);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  align-self: flex-start;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-dark:hover { background: var(--primary); color: var(--white); }
+
+/* ── USP DETAIL SECTIE ── */
+.usp-detail-section {
+  background: var(--white);
+  padding: 88px 56px;
+}
+.usp-detail-header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 64px;
+}
+.usp-detail-header h2 {
+  font-family: var(--heading-font);
+  font-size: 38px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.2;
+  margin-top: 12px;
+}
+.usp-detail-header p {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.85;
+  margin-top: 16px;
+  font-weight: 300;
+}
+.usp-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--border-light);
+}
+.usp-detail-card {
+  background: var(--off-white);
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.usp-detail-icon {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.usp-detail-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+.usp-detail-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.75;
+  font-weight: 300;
+}
+
+/* ── PROCESS — zwart L&E stijl ── */
+.process-section {
+  background: var(--black);
+  padding: 88px 56px;
+}
+.process-section .section-eyebrow { color: rgba(255,255,255,0.4); margin-bottom: 12px; }
+.process-section h2 {
+  font-family: var(--heading-font);
+  font-size: 38px;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 64px;
+  line-height: 1.2;
+}
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.process-step {
+  padding: 32px 24px 32px 0;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  padding-right: 32px;
+  margin-right: 0;
+}
+.process-step:last-child { border-right: none; }
+.step-num {
+  font-family: var(--heading-font);
+  font-size: 42px;
+  color: rgba(255,255,255,0.35);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.step-title { font-size: 13px; font-weight: 500; color: var(--white); margin-bottom: 8px; letter-spacing: 0.04em; }
+.step-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.65; font-weight: 300; }
+
+/* ── PORTFOLIO ── */
+.portfolio-section {
+  background: var(--off-white);
+  padding: 88px 56px;
+}
+.portfolio-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; }
+.portfolio-header h2 { font-family: var(--heading-font); font-size: 38px; font-weight: 400; color: var(--text); line-height: 1.2; }
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 240px 240px;
+  gap: 6px;
+}
+.p-img { overflow: hidden; background: #ccc; position: relative; }
+.p-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+.p-img:hover img { transform: scale(1.03); }
+.p-img.span2 { grid-row: span 2; }
+.p-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.55));
+  padding: 28px 16px 12px;
+  font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.85);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* ── FAQ / BEZWAREN SECTIE ── */
+.faq-section {
+  background: var(--bg-light);
+  padding: 88px 56px;
+  text-align: center;
+}
+.faq-section .section-eyebrow { margin-bottom: 12px; }
+.faq-section h2 { font-family: var(--heading-font); font-size: 38px; font-weight: 400; color: var(--text); line-height: 1.2; margin-bottom: 56px; }
+.faq-grid { max-width: 800px; margin: 0 auto; text-align: left; }
+.faq-item {
+  border-bottom: 1px solid var(--border-light);
+}
+.faq-q {
+  font-size: 15px; font-weight: 500; color: var(--text); line-height: 1.4;
+  padding: 24px 0;
+  cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+}
+.faq-q::after {
+  content: '+';
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: transform 0.3s;
+}
+.faq-item.open .faq-q::after {
+  content: '−';
+}
+.faq-a {
+  font-size: 14px; color: var(--text-muted); line-height: 1.85; font-weight: 300;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 0 0 0;
+}
+.faq-item.open .faq-a {
+  max-height: 300px;
+  padding: 0 0 24px 0;
+}
+
+/* ── VERGELIJKINGSTABEL ── */
+.compare-table-section {
+  background: var(--black);
+  padding: 88px 56px;
+}
+.compare-table-section .section-eyebrow { margin-bottom: 12px; color: rgba(255,255,255,0.5); }
+.compare-table-section h2 {
+  font-family: var(--heading-font);
+  font-size: 38px;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.compare-table-section > p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.85;
+  font-weight: 300;
+  max-width: 560px;
+  margin-bottom: 48px;
+}
+.compare-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.compare-table thead th {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 20px 28px;
+  border-bottom: 2px solid rgba(255,255,255,0.12);
+}
+.compare-table thead th:first-child {
+  color: rgba(255,255,255,0.4);
+  width: 22%;
+}
+.compare-table thead th:nth-child(2) {
+  color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.03);
+}
+.compare-table thead th:last-child {
+  color: var(--white);
+  background: rgba(255,255,255,0.08);
+}
+.compare-table tbody td {
+  font-size: 14px;
+  font-weight: 300;
+  padding: 20px 28px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  vertical-align: top;
+}
+.compare-table tbody td:first-child {
+  color: rgba(255,255,255,0.7);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+.compare-table tbody td:nth-child(2) {
+  color: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.03);
+}
+.compare-table tbody td:last-child {
+  color: var(--white);
+  background: rgba(255,255,255,0.08);
+}
+.compare-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.ct-check { color: #a8a88a; margin-right: 4px; }
+.ct-cross { color: rgba(255,255,255,0.2); margin-right: 4px; }
+
+/* ── REVIEWS ── */
+.reviews-section {
+  background: var(--black);
+  padding: 88px 56px;
+}
+.reviews-section .section-eyebrow { color: rgba(255,255,255,0.4); margin-bottom: 12px; }
+.reviews-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 56px; }
+.reviews-header h2 { font-family: var(--heading-font); font-size: 38px; font-weight: 400; color: var(--white); line-height: 1.2; }
+.google-badge { display: flex; align-items: center; gap: 12px; }
+.score-num { font-family: var(--heading-font); font-size: 48px; color: var(--white); line-height: 1; }
+.score-stars { color: #F4A623; font-size: 16px; display: block; margin-bottom: 2px; }
+.score-label { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; text-transform: uppercase; }
+.review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.08); }
+.review-card {
+  background: #1a1a1a;
+  padding: 36px 32px;
+}
+.review-stars-sm { color: #F4A623; font-size: 12px; margin-bottom: 16px; letter-spacing: 2px; }
+.review-text { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.8; margin-bottom: 20px; font-weight: 300; font-style: italic; }
+.review-author { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.85); letter-spacing: 0.06em; text-transform: uppercase; }
+.review-note { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 4px; }
+.review-source { display: flex; align-items: center; gap: 6px; margin-top: 10px; }
+.review-source svg { flex-shrink: 0; }
+.review-source span { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* ── FORM SECTIE ── */
+.form-section {
+  background: var(--bg-light);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.form-left {
+  background: var(--black);
+  padding: 80px 56px;
+  display: flex; flex-direction: column; gap: 28px; justify-content: center;
+}
+.form-left .section-eyebrow { color: rgba(255,255,255,0.5); }
+.form-left h2 { font-family: var(--heading-font); font-size: 36px; font-weight: 400; color: var(--white); line-height: 1.25; }
+.form-left p { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.85; font-weight: 300; }
+.promise-list { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.promise-item { display: flex; align-items: flex-start; gap: 12px; font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 300; }
+.promise-mark { color: rgba(255,255,255,0.4); font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+.form-right { padding: 80px 56px; background: var(--white); }
+.form-right h3 { font-family: var(--heading-font); font-size: 24px; font-weight: 400; margin-bottom: 32px; color: var(--text); }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; font-size: 11px; font-weight: 500; color: var(--text-muted); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.1em; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 13px 16px;
+  border: 1px solid var(--border-light);
+  font-family: var(--body-font); font-size: 14px; font-weight: 300;
+  color: var(--text); background: var(--off-white);
+  outline: none; transition: border-color 0.2s;
+  appearance: none;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); background: var(--white); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-submit {
+  width: 100%; background: var(--black); color: var(--white);
+  border: 1px solid var(--black); padding: 16px;
+  font-family: var(--body-font); font-size: 12px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  cursor: pointer; margin-top: 8px; transition: background 0.2s, color 0.2s;
+}
+.form-submit:hover { background: var(--primary); border-color: var(--primary); }
+.form-divider { display: flex; align-items: center; gap: 12px; margin: 16px 0; }
+.form-divider::before, .form-divider::after { content: ''; flex: 1; height: 1px; background: var(--border-light); }
+.form-divider span { font-size: 11px; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.phone-cta { text-align: center; }
+.phone-cta a { font-family: var(--heading-font); font-size: 22px; color: var(--primary); text-decoration: none; letter-spacing: 0.04em; }
+.phone-cta p { font-size: 11px; color: var(--text-muted); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* ── FOOTER BAR ── */
+.footer-bar {
+  background: var(--black);
+  padding: 28px 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.footer-bar p { font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 0.06em; }
+.footer-bar a { color: rgba(255,255,255,0.6); text-decoration: none; }
+.footer-bar a:hover { color: var(--white); }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE — TABLET (max 1024px)
+══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .hero h1 { font-size: 42px; }
+  .usp-detail-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-grid { grid-template-columns: repeat(3, 1fr); }
+  .process-step:nth-child(3) { border-right: none; }
+  .process-step:nth-child(4),
+  .process-step:nth-child(5) { border-top: 1px solid rgba(255,255,255,0.08); }
+  .portfolio-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 220px 220px 220px;
+  }
+  .p-img.span2 { grid-row: span 1; grid-column: span 2; }
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE — MOBIEL (max 768px)
+══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Notificatiebalk */
+  .notif-bar {
+    font-size: 12px;
+    padding: 9px 16px;
+    position: static; /* niet sticky op mobiel — header neemt die rol */
+  }
+  .notif-bar .notif-hide { display: none; } /* verberg "plan een gesprek" link */
+
+  /* Header */
+  .site-header {
+    padding: 14px 20px;
+    top: 0;
+  }
+
+  /* Hero */
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .hero-text {
+    padding: 52px 24px 44px;
+    gap: 20px;
+  }
+  .hero h1 {
+    font-size: 34px;
+    line-height: 1.15;
+  }
+  .hero-sub {
+    font-size: 14px;
+    max-width: 100%;
+  }
+  .hero-cta-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .hero-cta-row .btn-filled,
+  .hero-cta-row .btn-outline {
+    width: 100%;
+    text-align: center;
+  }
+  .hero-img { min-height: 260px; }
+
+  /* USP strip */
+  .usp-strip { grid-template-columns: repeat(2, 1fr); }
+  .usp-item { padding: 22px 18px; }
+  .usp-item:nth-child(2) { border-right: none; }
+  .usp-item:nth-child(3) {
+    border-right: 1px solid var(--border-light);
+    border-top: 1px solid var(--border-light);
+  }
+  .usp-item:nth-child(4) {
+    border-right: none;
+    border-top: 1px solid var(--border-light);
+  }
+  .usp-number { font-size: 26px; }
+
+  /* Intro sectie */
+  .intro-section {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .intro-img {
+    min-height: 260px;
+    order: -1;
+  }
+  .intro-text {
+    padding: 44px 24px;
+    gap: 18px;
+  }
+  .intro-text h2 { font-size: 28px; }
+  .intro-text p { font-size: 14px; }
+  .btn-dark { align-self: stretch; text-align: center; }
+
+  /* USP detail */
+  .usp-detail-section { padding: 60px 24px; }
+  .usp-detail-header h2 { font-size: 28px; }
+  .usp-detail-grid { grid-template-columns: 1fr; }
+  .usp-detail-card { padding: 28px 24px; }
+
+  /* Vergelijkingstabel — card layout op mobiel */
+  .compare-table-section { padding: 60px 24px; }
+  .compare-table-section h2 { font-size: 28px; }
+  .compare-table, .compare-table thead, .compare-table tbody, .compare-table tr, .compare-table th, .compare-table td {
+    display: block;
+  }
+  .compare-table thead { display: none; }
+  .compare-table tbody tr {
+    background: rgba(255,255,255,0.05);
+    padding: 24px 20px;
+    margin-bottom: 12px;
+    border-bottom: none;
+  }
+  .compare-table tbody td {
+    padding: 0;
+    border-bottom: none;
+    background: none !important;
+  }
+  .compare-table tbody td:first-child {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 12px;
+  }
+  .compare-table tbody td:nth-child(2) {
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    padding: 10px 16px;
+    margin-bottom: 6px;
+    border-left: 2px solid rgba(255,255,255,0.08);
+  }
+  .compare-table tbody td:nth-child(2)::before {
+    content: 'Standaard: ';
+    font-weight: 500;
+    color: rgba(255,255,255,0.25);
+  }
+  .compare-table tbody td:last-child {
+    font-size: 14px;
+    color: var(--white);
+    padding: 10px 16px;
+    border-left: 2px solid #a8a88a;
+  }
+  .compare-table tbody td:last-child::before {
+    content: 'L&E: ';
+    font-weight: 500;
+    color: #a8a88a;
+  }
+
+  /* Process */
+  .process-section { padding: 60px 24px; }
+  .process-section h2 { font-size: 28px; margin-bottom: 36px; }
+  .process-grid {
+    grid-template-columns: 1fr;
+    border-top: none;
+  }
+  .process-step {
+    border-right: none;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 24px 0;
+  }
+
+  /* Portfolio */
+  .portfolio-section { padding: 60px 24px; }
+  .portfolio-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .portfolio-header h2 { font-size: 28px; }
+  .portfolio-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 160px 160px 160px;
+  }
+  .p-img.span2 { grid-row: span 1; grid-column: span 2; }
+
+  /* FAQ */
+  .faq-section { padding: 60px 24px; }
+  .faq-section h2 { font-size: 28px; margin-bottom: 28px; }
+  .faq-q { font-size: 14px; }
+
+  /* Reviews */
+  .reviews-section { padding: 60px 24px; }
+  .reviews-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .reviews-header h2 { font-size: 28px; }
+  .review-grid { grid-template-columns: 1fr; }
+  .review-card { padding: 28px 22px; }
+  .score-num { font-size: 40px; }
+
+  /* Formulier */
+  .form-section { grid-template-columns: 1fr; }
+  .form-left { padding: 48px 24px; gap: 20px; }
+  .form-left h2 { font-size: 28px; }
+  .form-right { padding: 40px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .form-submit { padding: 18px; font-size: 13px; }
+
+  /* Footer */
+  .footer-bar {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+    padding: 22px 20px;
+  }
+}
+
+/* ── ANNOTATION LABELS ── */
+.ann { display: inline-block; background: #FFE066; color: #333; font-size: 10px; font-weight: 600; padding: 2px 7px; font-family: 'Jost', sans-serif; vertical-align: middle; white-space: nowrap; margin-left: 6px; }
+.ann-bar { background: rgba(255,224,102,0.15); border-top: 2px solid #FFE066; padding: 8px 56px; display: flex; align-items: center; gap: 8px; }
+.ann-bar span { font-size: 11px; color: #FFE066; font-family: 'Jost', sans-serif; }
+</style>
+</head>
+<body>
+
+<!-- NOTIFICATIEBALK — nieuw conversieelement -->
+<div class="notif-bar">
+  📞 Bel direct voor advies: <strong>011 82 38 28</strong> <span class="notif-hide">&nbsp;·&nbsp; Ma–Vr 9:30–18:00 · Za 10:00–16:00 &nbsp;·&nbsp; <a onclick="document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})">Of plan een gratis gesprek →</a></span>
+</div>
+<!-- HEADER — exact L&E stijl -->
+<header class="site-header">
+  <div class="logo-area">
+    <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/cropped-goed.png?w=192&ssl=1" alt="L&E Interieur" style="height:48px;width:auto;display:block;filter:brightness(0) invert(1);">
+  </div>
+  <div class="header-right">
+    <a href="tel:+3211823828" class="header-phone">011 82 38 28</a>
+    <a href="#afspraak" onclick="event.preventDefault();document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})" class="btn-filled">Gratis gesprek</a>
+  </div>
+</header>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Keukens op maat · Pelt, Limburg</div>
+    <h1>Uw keuken,<br>gemaakt in ons<br>eigen atelier</h1>
+    <p class="hero-sub">Meer dan 30 jaar vakmanschap. Van ontwerp tot plaatsing — volledig in eigen beheer. Geen cataloguswerk, geen tussenpersonen.</p>
+    <div class="hero-cta-row">
+      <a href="#afspraak" onclick="event.preventDefault();document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})" class="btn-filled">Plan een gratis gesprek</a>
+      <a href="#portfolio" onclick="event.preventDefault();document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})" class="btn-outline" style="margin-left:4px;">Bekijk realisaties</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:4px;">
+      <span style="color:#F4A623;font-size:15px;letter-spacing:2px;">★★★★☆</span>
+      <span style="color:rgba(255,255,255,0.75);font-size:13px;font-weight:400;"><strong style="color:var(--white);">4.2</strong> / 5 · 22 Google Reviews</span>
+    </div>
+  </div>
+  <div class="hero-img"></div>
+</div>
+<!-- USP STRIP -->
+<div class="usp-strip">
+  <div class="usp-item">
+    <div class="usp-number">30+</div>
+    <div class="usp-label">Jaar vakmanschap</div>
+    <div class="usp-desc">Familiebedrijf met generaties ervaring in maatwerk</div>
+  </div>
+  <div class="usp-item">
+    <div class="usp-number">Atelier</div>
+    <div class="usp-label">Eigen productie in Pelt</div>
+    <div class="usp-desc">Alles op maat geproduceerd — geen cataloguswerk</div>
+  </div>
+  <div class="usp-item">
+    <div class="usp-number">3D</div>
+    <div class="usp-label">Ontwerp inbegrepen</div>
+    <div class="usp-desc">U ziet uw keuken volledig uitgetekend vóór de productie</div>
+  </div>
+  <div class="usp-item">
+    <div class="usp-number">4.2</div>
+    <div class="usp-label">Google Reviews</div>
+    <div class="usp-desc">Gemiddeld 4.2 op 22 reviews door tevreden klanten</div>
+  </div>
+</div>
+<!-- INTRO -->
+<div class="intro-section">
+  <div class="intro-img"></div>
+  <div class="intro-text">
+    <div class="section-eyebrow">Geen stress, geen verrassingen</div>
+    <h2>U hoeft niets te coördineren. Dat doen wij.</h2>
+    <p>Een keuken laten maken voelt groot. U wil niet twijfelen achteraf, niet zelf alles moeten regelen, en niet verrast worden op de factuur. Dat begrijpen we — en het is precies waarom wij anders werken.</p>
+    <p>Jos begeleidt u van het eerste gesprek. Jos en Richard tekenen alles uit in 3D vóór er iets gebouwd wordt. Alles wordt stuk voor stuk gemaakt in ons eigen atelier in Pelt — door hetzelfde team dat u van bij het begin kende.</p>
+    <a href="#afspraak" onclick="event.preventDefault();document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})" class="btn-dark">Plan een gratis gesprek</a>
+  </div>
+</div>
+
+<!-- PORTFOLIO DEEL 1 -->
+<div class="portfolio-section" id="portfolio">
+  <div class="portfolio-header">
+    <div>
+      <div class="section-eyebrow" style="margin-bottom:8px;">Realisaties</div>
+      <h2>Keukens waar we trots op zijn</h2>
+    </div>
+  </div>
+  <div class="portfolio-grid">
+    <div class="p-img span2">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/09/27.jpg" alt="Keuken realisatie Pelt" loading="lazy">
+      <div class="p-label">Strak & tijdloos · Pelt</div>
+    </div>
+    <div class="p-img">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-2-4.jpg" alt="Keuken maatwerk" loading="lazy">
+      <div class="p-label">Moderne keuken · Neerpelt</div>
+    </div>
+    <div class="p-img">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-10-1.jpg" alt="Keuken design" loading="lazy">
+      <div class="p-label">Open leefkeuken · Lommel</div>
+    </div>
+    <div class="p-img">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-12.jpg" alt="Moderne keuken" loading="lazy">
+      <div class="p-label">Keuken met eiland · Pelt</div>
+    </div>
+    <div class="p-img">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-5-3.jpg" alt="Landelijke keuken" loading="lazy">
+      <div class="p-label">Landelijke stijl · Hamont</div>
+    </div>
+    <div class="p-img">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-11-1.jpg" alt="Keuken eiland" loading="lazy">
+      <div class="p-label">Maatwerk · Overpelt</div>
+    </div>
+  </div>
+</div>
+
+<!-- WAAROM L&E -->
+<div class="usp-detail-section">
+  <div class="usp-detail-header">
+    <div class="section-eyebrow">Waarom L&amp;E Interieur</div>
+    <h2>Uw keuken, zonder zorgen</h2>
+    <p>Al meer dan 30 jaar combineren wij vakmanschap, persoonlijke begeleiding en eerlijke prijzen. Dit is waarom klanten voor ons kiezen.</p>
+  </div>
+  <div class="usp-detail-grid">
+    <div class="usp-detail-card">
+      <div class="usp-detail-icon">&#9881;</div>
+      <div class="usp-detail-title">Volledig eigen productie</div>
+      <div class="usp-detail-desc">Alles wordt stuk voor stuk op maat gemaakt in ons eigen atelier in Pelt. Dat garandeert volledige controle over kwaliteit en afwerking — geen uitbesteding, geen compromissen.</div>
+    </div>
+    <div class="usp-detail-card">
+      <div class="usp-detail-icon">&#9733;</div>
+      <div class="usp-detail-title">Meer dan 30 jaar ervaring</div>
+      <div class="usp-detail-desc">Jos en Richard hebben ruim 30 jaar ervaring in het vak. Die expertise vertaalt zich in een uitzonderlijke afwerkingsgraad bij elk project.</div>
+    </div>
+    <div class="usp-detail-card">
+      <div class="usp-detail-icon">&#9634;</div>
+      <div class="usp-detail-title">Van ontwerp tot plaatsing</div>
+      <div class="usp-detail-desc">Wij begeleiden u van A tot Z: kennismaking, 3D-ontwerp, opmeting, productie en plaatsing. Alles in eigen beheer, door hetzelfde team.</div>
+    </div>
+    <div class="usp-detail-card">
+      <div class="usp-detail-icon">&#9825;</div>
+      <div class="usp-detail-title">Persoonlijke, familiale aanpak</div>
+      <div class="usp-detail-desc">L&amp;E Interieur is een familiebedrijf waarbij een persoonlijke aanpak centraal staat. Een vast team begeleidt u doorheen het hele project.</div>
+    </div>
+    <div class="usp-detail-card">
+      <div class="usp-detail-icon">&#9776;</div>
+      <div class="usp-detail-title">Breed aanbod onder één dak</div>
+      <div class="usp-detail-desc">Keukens, keukenrenovatie, dressings, badkamers, TV-meubels en algemene inrichting — alles op maat, alles vanuit ons eigen atelier.</div>
+    </div>
+    <div class="usp-detail-card">
+      <div class="usp-detail-icon">&#9854;</div>
+      <div class="usp-detail-title">Duurzaam maatwerk</div>
+      <div class="usp-detail-desc">Onze keukens gaan 20+ jaar mee. Wij bouwen met duurzame materialen en vakmanschap — zodat u op lange termijn beter af bent.</div>
+    </div>
+  </div>
+</div>
+
+<!-- VERGELIJKINGSTABEL -->
+<div class="compare-table-section">
+  <div class="section-eyebrow">Waarom maatwerk</div>
+  <h2>L&amp;E Interieur vs. standaard keukens</h2>
+  <p>Een eerlijke vergelijking tussen een keuken op maat uit eigen atelier en een standaardkeuken uit de winkel.</p>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Standaard keuken</th>
+        <th>L&amp;E Interieur</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Productie</td>
+        <td><span class="ct-cross">&#10007;</span> Fabriek in het buitenland</td>
+        <td><span class="ct-check">&#10003;</span> Eigen atelier in Pelt</td>
+      </tr>
+      <tr>
+        <td>Maatwerk</td>
+        <td><span class="ct-cross">&#10007;</span> Standaardmaten, u past zich aan</td>
+        <td><span class="ct-check">&#10003;</span> Volledig op maat van uw ruimte</td>
+      </tr>
+      <tr>
+        <td>Materialen</td>
+        <td><span class="ct-cross">&#10007;</span> Beperkte keuze, vaste pakketten</td>
+        <td><span class="ct-check">&#10003;</span> Vrije keuze: lak, fineer, acryl, composiet, …</td>
+      </tr>
+      <tr>
+        <td>3D-ontwerp</td>
+        <td><span class="ct-cross">&#10007;</span> Zelden of beperkt</td>
+        <td><span class="ct-check">&#10003;</span> Gedetailleerd 3D vóór productie</td>
+      </tr>
+      <tr>
+        <td>Aanspreekpunt</td>
+        <td><span class="ct-cross">&#10007;</span> Wisselende verkoper of callcenter</td>
+        <td><span class="ct-check">&#10003;</span> Jos begeleidt u persoonlijk van A tot Z</td>
+      </tr>
+      <tr>
+        <td>Plaatsing</td>
+        <td><span class="ct-cross">&#10007;</span> Externe onderaannemers</td>
+        <td><span class="ct-check">&#10003;</span> Eigen team, zelfde vakmensen</td>
+      </tr>
+      <tr>
+        <td>Levensduur</td>
+        <td><span class="ct-cross">&#10007;</span> 8–12 jaar gemiddeld</td>
+        <td><span class="ct-check">&#10003;</span> 20+ jaar, gebouwd om mee te gaan</td>
+      </tr>
+      <tr>
+        <td>Prijs-kwaliteit</td>
+        <td><span class="ct-cross">&#10007;</span> Goedkoop op korte termijn</td>
+        <td><span class="ct-check">&#10003;</span> Beste waarde op lange termijn</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- PROCESS — zwart L&E stijl -->
+<div class="process-section">
+  <div class="section-eyebrow">Hoe het werkt</div>
+  <h2>Van eerste gesprek tot perfecte keuken</h2>
+  <div class="process-grid">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <div class="step-title">Kennismaking</div>
+      <div class="step-desc">Jos ontvangt u in onze showroom. Hij luistert — zonder verkoopdruk. Vrijblijvend gesprek: geen verplichting, geen tijdsdruk.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <div class="step-title">3D-ontwerp</div>
+      <div class="step-desc">Jos en Richard tekenen uw droomkeuken uit in gedetailleerde 3D. U ziet alles vóór de productie start.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <div class="step-title">Opmeting</div>
+      <div class="step-desc">Wij komen bij u thuis voor perfecte opmetingen. Geen verrassingen bij plaatsing.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">04</div>
+      <div class="step-title">Productie</div>
+      <div class="step-desc">Alles wordt stuk voor stuk op maat gemaakt in ons eigen atelier — met 30+ jaar vakmanschap als garantie.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">05</div>
+      <div class="step-title">Plaatsing &amp; nazorg</div>
+      <div class="step-desc">Professionele installatie door Jos en Richard. Ook achteraf staan we voor u klaar.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PORTFOLIO DEEL 2 -->
+<div class="portfolio-section">
+  <div class="portfolio-header">
+    <div>
+      <div class="section-eyebrow" style="margin-bottom:8px;">Meer realisaties</div>
+      <h2>Nog meer keukens uit ons atelier</h2>
+    </div>
+  </div>
+  <div class="portfolio-grid">
+    <div class="p-img span2">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/02/wmp.jpg" alt="Keuken realisatie" loading="lazy">
+      <div class="p-label">Moderne leefkeuken · Hechtel</div>
+    </div>
+    <div class="p-img">
+      <img src="https://leneinterieur.be/wp-content/uploads/2024/02/wmp-82-1.jpg" alt="Keuken realisatie" loading="lazy">
+      <div class="p-label">Klassiek maatwerk · Peer</div>
+    </div>
+    <div class="p-img">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/10/wmp-2.jpg" alt="Keuken realisatie" loading="lazy">
+      <div class="p-label">Strakke lijnen · Bocholt</div>
+    </div>
+    <div class="p-img">
+      <img src="https://leneinterieur.be/wp-content/uploads/2024/02/wmp-64.jpg" alt="Keuken realisatie" loading="lazy">
+      <div class="p-label">Warme tinten · Lommel</div>
+    </div>
+    <div class="p-img">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/07/wmp-2.jpg" alt="Keuken realisatie" loading="lazy">
+      <div class="p-label">Minimalistisch · Pelt</div>
+    </div>
+    <div class="p-img">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/11/wmp-1-2.jpg" alt="Keuken realisatie" loading="lazy">
+      <div class="p-label">Familiekeuken · Hamont</div>
+    </div>
+    <div class="p-img">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/12/1.jpg" alt="Keuken realisatie" loading="lazy">
+      <div class="p-label">Eigentijds · Neerpelt</div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ / BEZWAREN -->
+<div class="faq-section">
+  <div class="section-eyebrow">Veelgestelde vragen</div>
+  <h2>Wat klanten ons vragen</h2>
+  <div class="faq-grid">
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Is een keuken op maat niet veel duurder dan bij een keukenwinkel?</div>
+      <div class="faq-a">Niet noodzakelijk. Omdat wij alles zelf produceren in ons eigen atelier, zijn er geen tussenpersonen en geen importmarges. U betaalt voor vakmanschap en kwaliteit — niet voor distributieschakels. Bovendien gaat een keuken van ons 20 jaar mee, zodat u op lange termijn goedkoper uit bent.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Wat als ik de keuken toch niet mooi vind zodra ze er staat?</div>
+      <div class="faq-a">Dat risico bestaat bij ons niet. Vóór er ook maar één plank geproduceerd wordt, tekenen Jos en Richard uw keuken volledig uit in gedetailleerde 3D. U ziet elke hoek, elk materiaal, elke maat — en u beslist pas verder als u 100% zeker bent.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Hoe lang duurt het hele traject van gesprek tot plaatsing?</div>
+      <div class="faq-a">Reken op 8 tot 12 weken van eerste afspraak tot perfecte plaatsing. Wij coördineren alles: ontwerp, opmeting, productie en installatie. U hoeft zelf niets te regelen of op te volgen — het hetzelfde team begeleidt u van A tot Z.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Moet ik me tot iets verbinden na het eerste gesprek?</div>
+      <div class="faq-a">Absoluut niet. Het eerste gesprek is volledig vrijblijvend. Jos luistert naar uw wensen en stelt vragen — zonder verkoopdruk en zonder tijdslimieten. U beslist zelf wanneer en of u verdergaat. Er is geen offerteplicht.</div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS — zwart L&E stijl -->
+<div class="reviews-section">
+  <div class="section-eyebrow">Klantervaringen</div>
+  <div class="reviews-header">
+    <h2>Wat klanten zeggen</h2>
+    <div class="google-badge">
+      <svg viewBox="0 0 24 24" width="32" height="32" style="flex-shrink:0;"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      <div class="score-num">4.2</div>
+      <div>
+        <span class="score-stars">★★★★☆</span>
+        <span class="score-label">22 Google Reviews</span>
+      </div>
+    </div>
+  </div>
+  <div class="review-grid">
+    <div class="review-card">
+      <div class="review-stars-sm">★★★★★</div>
+      <div class="review-text">"Van het eerste gesprek tot de plaatsing: alles verliep perfect. Jos en zijn team denken echt mee en leveren vakwerk. Onze keuken is precies wat we ons hadden voorgesteld."</div>
+      <div class="review-author">Marie V.</div>
+      <div class="review-note">Pelt · Keuken op maat</div>
+      <div class="review-source"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg><span>Google Review</span></div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars-sm">★★★★★</div>
+      <div class="review-text">"Het 3D-ontwerp maakte alles zo duidelijk — we konden alles zien vóór de productie. Geen stress, geen verrassingen op de factuur. Een echte aanrader voor iedereen in Limburg."</div>
+      <div class="review-author">Tom &amp; Els D.</div>
+      <div class="review-note">Neerpelt · Moderne keuken</div>
+      <div class="review-source"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg><span>Google Review</span></div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars-sm">★★★★★</div>
+      <div class="review-text">"Professioneel, vriendelijk en eerlijk. We bevelen L&amp;E aan bij iedereen die een keuken laat plaatsen. Familiebedrijf met een hart voor hun klanten."</div>
+      <div class="review-author">Peter K.</div>
+      <div class="review-note">Hamont · Keuken renovatie</div>
+      <div class="review-source"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg><span>Google Review</span></div>
+    </div>
+  </div>
+</div>
+<!-- FORM -->
+<div class="form-section" id="afspraak">
+  <div class="form-left">
+    <div class="section-eyebrow">Gratis adviesgesprek</div>
+    <h2>Plan uw vrijblijvend gesprek</h2>
+    <p>Vertel ons over uw project en wij plannen een gesprek in onze showroom of bij u thuis. Geen verplichtingen, geen verkoopdruk.</p>
+    <div class="promise-list">
+      <div class="promise-item"><span class="promise-mark">—</span>Reactie binnen 1 werkdag</div>
+      <div class="promise-item"><span class="promise-mark">—</span>Volledig vrijblijvend</div>
+      <div class="promise-item"><span class="promise-mark">—</span>Gratis 3D-ontwerp bij offerte</div>
+      <div class="promise-item"><span class="promise-mark">—</span>30+ jaar ervaring in maatwerk</div>
+      <div class="promise-item"><span class="promise-mark">—</span>Traject van 8–12 weken, volledig begeleid</div>
+    </div>
+  </div>
+  <div class="form-right">
+    <h3>Vraag een gratis gesprek aan</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Naam *</label>
+        <input type="text" placeholder="Jan Janssen">
+      </div>
+      <div class="form-group">
+        <label>Telefoon *</label>
+        <input type="tel" placeholder="0499 00 00 00">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>E-mail *</label>
+      <input type="email" placeholder="jan@email.be">
+    </div>
+    <div class="form-group">
+      <label>Uw project</label>
+      <select>
+        <option value="">Wat kan ik voor u doen?</option>
+        <option>Nieuwe keuken op maat</option>
+        <option>Keukenrenovatie</option>
+        <option>Badkamer op maat</option>
+        <option>Maatwerk / andere</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Extra info (optioneel)</label>
+      <textarea rows="3" placeholder="Bv. stijl, afmetingen, timing..."></textarea>
+    </div>
+    <button class="form-submit">Stuur mijn aanvraag →</button>
+    <div class="form-divider"><span>of</span></div>
+    <div class="phone-cta">
+      <a href="tel:+3211823828">011 82 38 28</a>
+      <p>Direct bellen — Ma–Vr 9:30–18:00 · Za 10:00–16:00</p>
+    </div>
+  </div>
+</div>
+<!-- FOOTER -->
+<div class="footer-bar">
+  <p>L&amp;E Interieur &nbsp;·&nbsp; Leopoldlaan 104, 3900 Pelt &nbsp;·&nbsp; <a href="tel:+3211823828">011 82 38 28</a> &nbsp;·&nbsp; info@leneinterieur.be</p>
+  <p>Ma–Vr 9:30–18:00 &nbsp;·&nbsp; Za 10:00–16:00</p>
+</div>
+
+</body>
+</html>
