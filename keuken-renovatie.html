@@ -122,27 +122,27 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 
 /* ── USP STRIP ── */
 .usp-strip {
-  background: var(--black);
+  background: var(--bg-light);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid rgba(255,255,255,0.08);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
 }
 .usp-item {
   padding: 32px 28px;
-  border-right: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid var(--border-light);
 }
 .usp-item:last-child { border-right: none; }
 .usp-number {
   font-family: var(--heading-font);
   font-size: 32px;
-  color: rgba(255,255,255,0.5);
+  color: var(--primary);
   font-weight: 400;
   line-height: 1;
   margin-bottom: 8px;
 }
-.usp-label { font-size: 13px; font-weight: 500; color: var(--white); margin-bottom: 4px; letter-spacing: 0.02em; }
-.usp-desc { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.6; font-weight: 300; }
+.usp-label { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; letter-spacing: 0.02em; }
+.usp-desc { font-size: 12px; color: var(--text-muted); line-height: 1.6; font-weight: 300; }
 
 /* ── INTRO SECTIE ── */
 .intro-section {
@@ -593,7 +593,7 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 
 <!-- NOTIFICATIEBALK -->
 <div class="notif-bar">
-  Bel direct voor advies: <strong>011 82 38 28</strong> <span class="notif-hide">&nbsp;&middot;&nbsp; Ma&ndash;Vr 9:30&ndash;18:00 &middot; Za 10:00&ndash;16:00 &nbsp;&middot;&nbsp; <a onclick="document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})">Of plan een gratis gesprek &rarr;</a></span>
+  Bel direct voor advies: <strong>011 82 38 28</strong> <span class="notif-hide">&nbsp;&middot;&nbsp; Ma&ndash;Vr 09:30&ndash;18:00 &middot; Woe op afspraak &middot; Za 10:00&ndash;16:00 &nbsp;&middot;&nbsp; <a onclick="document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})">Of plan een gratis gesprek &rarr;</a></span>
 </div>
 
 <!-- HEADER -->
@@ -634,7 +634,7 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
   </div>
   <div class="usp-item">
     <div class="usp-number">Atelier</div>
-    <div class="usp-label">Eigen productie in Pelt</div>
+    <div class="usp-label">Eigen productie in Peer</div>
     <div class="usp-desc">Nieuwe fronten op maat uit ons eigen atelier</div>
   </div>
   <div class="usp-item">
@@ -656,7 +656,7 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
     <div class="section-eyebrow">Slim renoveren, geen compromissen</div>
     <h2>Houden wat goed is. Vernieuwen wat nodig is.</h2>
     <p>Uw keukenkasten zijn vaak nog perfect in orde. Wij vervangen enkel wat nodig is — fronten, werkblad, toestellen — en geven uw keuken een volledig nieuwe uitstraling.</p>
-    <p>Jos begeleidt u persoonlijk en tekent alles uit in 3D. Productie gebeurt op maat in ons eigen atelier in Pelt.</p>
+    <p>Jos begeleidt u persoonlijk en tekent alles uit in 3D. Productie gebeurt op maat in ons eigen atelier in Peer.</p>
     <a href="#afspraak" onclick="event.preventDefault();document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})" class="btn-dark">Plan een gratis gesprek</a>
   </div>
 </div>
@@ -805,7 +805,7 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
     <div class="usp-detail-card">
       <div class="usp-detail-icon">&#9881;</div>
       <div class="usp-detail-title">Volledig eigen productie</div>
-      <div class="usp-detail-desc">Alles wordt stuk voor stuk op maat gemaakt in ons eigen atelier in Pelt. Dat garandeert volledige controle over kwaliteit en afwerking.</div>
+      <div class="usp-detail-desc">Alles wordt stuk voor stuk op maat gemaakt in ons eigen atelier in Peer. Dat garandeert volledige controle over kwaliteit en afwerking.</div>
     </div>
     <div class="usp-detail-card">
       <div class="usp-detail-icon">&#9733;</div>
@@ -908,8 +908,11 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
       <label>Wat wilt u renoveren?</label>
       <select>
         <option value="">Kies een optie</option>
-        <option>Enkel fronten vernieuwen</option>
-        <option>Fronten + werkblad</option>
+        <option>Nieuwe fronten</option>
+        <option>Nieuw werkblad</option>
+        <option>Nieuwe apparatuur</option>
+        <option>Achterwand &amp; verlichting</option>
+        <option>Greeplijsten &amp; details</option>
         <option>Totaalrenovatie</option>
         <option>Weet nog niet — advies gewenst</option>
       </select>
@@ -922,15 +925,15 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
     <div class="form-divider"><span>of</span></div>
     <div class="phone-cta">
       <a href="tel:+3211823828">011 82 38 28</a>
-      <p>Direct bellen &mdash; Ma&ndash;Vr 9:30&ndash;18:00 &middot; Za 10:00&ndash;16:00</p>
+      <p>Direct bellen &mdash; Ma&ndash;Vr 09:30&ndash;18:00 &middot; Woe op afspraak &middot; Za 10:00&ndash;16:00</p>
     </div>
   </div>
 </div>
 
 <!-- FOOTER -->
 <div class="footer-bar">
-  <p>L&amp;E Interieur &nbsp;&middot;&nbsp; Leopoldlaan 104, 3900 Pelt &nbsp;&middot;&nbsp; <a href="tel:+3211823828">011 82 38 28</a> &nbsp;&middot;&nbsp; info@leneinterieur.be</p>
-  <p>Ma&ndash;Vr 9:30&ndash;18:00 &nbsp;&middot;&nbsp; Za 10:00&ndash;16:00</p>
+  <p>L&amp;E Interieur &nbsp;&middot;&nbsp; Leopoldlaan 104, 3900 Pelt &nbsp;&middot;&nbsp; <a href="tel:+3211823828">011 82 38 28</a> &nbsp;&middot;&nbsp; info@leneinterieur.be &nbsp;&middot;&nbsp; BTW BE 0866.300.961</p>
+  <p>Ma&ndash;Vr 09:30&ndash;18:00 &nbsp;&middot;&nbsp; Woe op afspraak &nbsp;&middot;&nbsp; Za 10:00&ndash;16:00</p>
 </div>
 
 </body>
