@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-ND5Z382N');</script>
+<!-- End Google Tag Manager -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Keukenrenovatie in Limburg — L&amp;E Interieur</title>
@@ -592,6 +599,10 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-ND5Z382N"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <!-- BEDANKT-BANNER -->
 <div id="bedankt-banner" style="display:none;position:fixed;top:0;left:0;width:100%;background:#2d6a4f;color:#fff;text-align:center;padding:16px 24px;font-size:15px;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
@@ -991,12 +1002,9 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
       document.getElementById('afspraak').scrollIntoView({ behavior: 'smooth' });
       this.reset();
 
-      // Google Ads conversie-tracking
-      if (typeof gtag === 'function') {
-        gtag('event', 'conversion', {
-          'send_to': 'AW-CONVERSION_ID/CONVERSION_LABEL' // ← vervang na Google Ads setup
-        });
-      }
+      // Google Ads conversie-tracking via GTM
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'renovatie_submission' });
     } catch (err) {
       btn.textContent = 'Stuur mijn aanvraag →';
       btn.disabled = false;
