@@ -2,7 +2,7 @@
 // Deploy als Web App: Execute as "Me", Who has access "Anyone"
 // Koppel dit script aan de Google Sheet met de 2 tabs
 
-const ONTVANGER = "jos@leneinterieur.be";
+const ONTVANGER = "jos@leneinterieur.be,arthur@relightmarketing.com";
 
 const SHEET_TABS = {
   'Keukenrenovatie': 'keukenrenovatie',   // ← exacte tabnaam in jouw Sheet
