@@ -16,7 +16,7 @@ const KOLOMMEN = {
 
 function doPost(e) {
   try {
-    const data = JSON.parse(e.postData.contents);
+    const data = e.parameter;
     logNaarSheet(data);
     stuurMail(data);
 
