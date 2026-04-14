@@ -742,6 +742,12 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 </head>
 <body>
 
+<!-- BEDANKT-BANNER -->
+<div id="bedankt-banner" style="display:none;position:fixed;top:0;left:0;width:100%;background:#2d6a4f;color:#fff;text-align:center;padding:16px 24px;font-size:15px;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+  ✓ &nbsp;Bedankt! We nemen binnen 1 werkdag contact met u op.
+  <button onclick="document.getElementById('bedankt-banner').style.display='none'" style="margin-left:16px;background:none;border:1px solid rgba(255,255,255,0.5);color:#fff;padding:4px 12px;cursor:pointer;font-size:13px;">✕</button>
+</div>
+
 <!-- NOTIFICATIEBALK — nieuw conversieelement -->
 <div class="notif-bar">
   📞 Bel direct voor advies: <strong>011 82 38 28</strong> <span class="notif-hide">&nbsp;·&nbsp; Ma–Vr 09:30–18:00 · Woe op afspraak · Za 10:00–16:00 &nbsp;·&nbsp; <a onclick="document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})">Of plan een gratis gesprek →</a></span>
@@ -1094,35 +1100,37 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
   </div>
   <div class="form-right">
     <h3>Vraag een gratis gesprek aan</h3>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Naam *</label>
-        <input type="text" placeholder="Jan Janssen">
+    <form id="keukens-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Naam *</label>
+          <input type="text" name="naam" placeholder="Jan Janssen" required>
+        </div>
+        <div class="form-group">
+          <label>Telefoon *</label>
+          <input type="tel" name="telefoon" placeholder="0499 00 00 00" required>
+        </div>
       </div>
       <div class="form-group">
-        <label>Telefoon *</label>
-        <input type="tel" placeholder="0499 00 00 00">
+        <label>E-mail *</label>
+        <input type="email" name="email" placeholder="jan@email.be" required>
       </div>
-    </div>
-    <div class="form-group">
-      <label>E-mail *</label>
-      <input type="email" placeholder="jan@email.be">
-    </div>
-    <div class="form-group">
-      <label>Uw project</label>
-      <select>
-        <option value="">Wat kan ik voor u doen?</option>
-        <option>Nieuwe keuken op maat</option>
-        <option>Keukenrenovatie</option>
-        <option>Badkamer op maat</option>
-        <option>Maatwerk / andere</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Extra info (optioneel)</label>
-      <textarea rows="3" placeholder="Bv. stijl, afmetingen, timing..."></textarea>
-    </div>
-    <button class="form-submit">Stuur mijn aanvraag →</button>
+      <div class="form-group">
+        <label>Uw project</label>
+        <select name="type">
+          <option value="">Wat kan ik voor u doen?</option>
+          <option>Nieuwe keuken op maat</option>
+          <option>Keukenrenovatie</option>
+          <option>Badkamer op maat</option>
+          <option>Maatwerk / andere</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Extra info (optioneel)</label>
+        <textarea name="bericht" rows="3" placeholder="Bv. stijl, afmetingen, timing..."></textarea>
+      </div>
+      <button type="submit" class="form-submit" id="keukens-submit">Stuur mijn aanvraag →</button>
+    </form>
     <div class="form-divider"><span>of</span></div>
     <div class="phone-cta">
       <a href="tel:+3211823828">011 82 38 28</a>
@@ -1136,5 +1144,39 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
   <p>Ma–Vr 09:30–18:00 &nbsp;·&nbsp; Woe op afspraak &nbsp;·&nbsp; Za 10:00–16:00</p>
 </div>
 
+<script>
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXQQXDWopeMGWoaoLQ5D1PhYj25NOZDU-5Ti9tFw9YL2y5QnNb0VyPpD5k2J_Tg0Ycjg/exec'; // ← plak hier de Web App URL na deploy
+
+  document.getElementById('keukens-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('keukens-submit');
+    btn.textContent = 'Bezig met verzenden…';
+    btn.disabled = true;
+
+    const data = Object.fromEntries(new FormData(this).entries());
+    data.pagina = 'Keukens';
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      });
+      document.getElementById('bedankt-banner').style.display = 'block';
+      document.getElementById('afspraak').scrollIntoView({ behavior: 'smooth' });
+      this.reset();
+
+      // Google Ads conversie-tracking
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-CONVERSION_ID/CONVERSION_LABEL' // ← vervang na Google Ads setup
+        });
+      }
+    } catch (err) {
+      btn.textContent = 'Stuur mijn aanvraag →';
+      btn.disabled = false;
+      alert('Er ging iets mis. Probeer opnieuw of bel ons op 011 82 38 28.');
+    }
+  });
+</script>
 </body>
 </html>
