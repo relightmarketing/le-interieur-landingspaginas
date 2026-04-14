@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keukenrenovatie in Limburg — L&amp;E Interieur</title>
+<meta name="description" content="Renoveer uw bestaande keuken zonder volledige verbouwing: nieuwe fronten, werkblad en toestellen. Vakmanschap uit eigen atelier in Peer.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
 
@@ -591,6 +593,12 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 </head>
 <body>
 
+<!-- BEDANKT-BANNER -->
+<div id="bedankt-banner" style="display:none;position:fixed;top:0;left:0;width:100%;background:#2d6a4f;color:#fff;text-align:center;padding:16px 24px;font-size:15px;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+  ✓ &nbsp;Bedankt! We nemen binnen 1 werkdag contact met u op.
+  <button onclick="document.getElementById('bedankt-banner').style.display='none'" style="margin-left:16px;background:none;border:1px solid rgba(255,255,255,0.5);color:#fff;padding:4px 12px;cursor:pointer;font-size:13px;">✕</button>
+</div>
+
 <!-- NOTIFICATIEBALK -->
 <div class="notif-bar">
   Bel direct voor advies: <strong>011 82 38 28</strong> <span class="notif-hide">&nbsp;&middot;&nbsp; Ma&ndash;Vr 09:30&ndash;18:00 &middot; Woe op afspraak &middot; Za 10:00&ndash;16:00 &nbsp;&middot;&nbsp; <a onclick="document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})">Of plan een gratis gesprek &rarr;</a></span>
@@ -890,38 +898,40 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
   </div>
   <div class="form-right">
     <h3>Vraag een gratis renovatiegesprek aan</h3>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Naam *</label>
-        <input type="text" placeholder="Jan Janssen">
+    <form id="renovatie-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Naam *</label>
+          <input type="text" name="naam" placeholder="Jan Janssen" required>
+        </div>
+        <div class="form-group">
+          <label>Telefoon *</label>
+          <input type="tel" name="telefoon" placeholder="0499 00 00 00" required>
+        </div>
       </div>
       <div class="form-group">
-        <label>Telefoon *</label>
-        <input type="tel" placeholder="0499 00 00 00">
+        <label>E-mail *</label>
+        <input type="email" name="email" placeholder="jan@email.be" required>
       </div>
-    </div>
-    <div class="form-group">
-      <label>E-mail *</label>
-      <input type="email" placeholder="jan@email.be">
-    </div>
-    <div class="form-group">
-      <label>Wat wilt u renoveren?</label>
-      <select>
-        <option value="">Kies een optie</option>
-        <option>Nieuwe fronten</option>
-        <option>Nieuw werkblad</option>
-        <option>Nieuwe apparatuur</option>
-        <option>Achterwand &amp; verlichting</option>
-        <option>Greeplijsten &amp; details</option>
-        <option>Totaalrenovatie</option>
-        <option>Weet nog niet — advies gewenst</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Extra info (optioneel)</label>
-      <textarea rows="3" placeholder="Bv. afmetingen, huidige stijl, budget..."></textarea>
-    </div>
-    <button class="form-submit">Stuur mijn aanvraag &rarr;</button>
+      <div class="form-group">
+        <label>Wat wilt u renoveren?</label>
+        <select name="type">
+          <option value="">Kies een optie</option>
+          <option>Nieuwe fronten</option>
+          <option>Nieuw werkblad</option>
+          <option>Nieuwe apparatuur</option>
+          <option>Achterwand &amp; verlichting</option>
+          <option>Greeplijsten &amp; details</option>
+          <option>Totaalrenovatie</option>
+          <option>Weet nog niet — advies gewenst</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Extra info (optioneel)</label>
+        <textarea name="bericht" rows="3" placeholder="Bv. afmetingen, huidige stijl, budget..."></textarea>
+      </div>
+      <button type="submit" class="form-submit" id="renovatie-submit">Stuur mijn aanvraag &rarr;</button>
+    </form>
     <div class="form-divider"><span>of</span></div>
     <div class="phone-cta">
       <a href="tel:+3211823828">011 82 38 28</a>
@@ -936,5 +946,41 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
   <p>Ma&ndash;Vr 09:30&ndash;18:00 &nbsp;&middot;&nbsp; Woe op afspraak &nbsp;&middot;&nbsp; Za 10:00&ndash;16:00</p>
 </div>
 
+<script>
+  const APPS_SCRIPT_URL = 'JOUW_APPS_SCRIPT_URL_HIER'; // ← plak hier de Web App URL na deploy
+
+  document.getElementById('renovatie-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('renovatie-submit');
+    btn.textContent = 'Bezig met verzenden…';
+    btn.disabled = true;
+
+    const fd = new FormData(this);
+    const data = Object.fromEntries(fd.entries());
+    data.pagina = 'Keukenrenovatie';
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      });
+      // Toon bedankt-banner
+      document.getElementById('bedankt-banner').style.display = 'block';
+      document.getElementById('afspraak').scrollIntoView({ behavior: 'smooth' });
+      this.reset();
+
+      // Google Ads conversie-tracking
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-CONVERSION_ID/CONVERSION_LABEL' // ← vervang na Google Ads setup
+        });
+      }
+    } catch (err) {
+      btn.textContent = 'Stuur mijn aanvraag →';
+      btn.disabled = false;
+      alert('Er ging iets mis. Probeer opnieuw of bel ons op 011 82 38 28.');
+    }
+  });
+</script>
 </body>
 </html>
