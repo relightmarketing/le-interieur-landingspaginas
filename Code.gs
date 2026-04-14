@@ -76,11 +76,19 @@ Tijdstip:  ${new Date().toLocaleString("nl-BE")}
 
 function doGet(e) {
   try {
+    Logger.log('doGet aangeroepen');
+    Logger.log('e.parameter: ' + JSON.stringify(e.parameter));
     const data = e.parameter;
     if (data && data.naam) {
+      Logger.log('Data geldig, verwerken...');
       logNaarSheet(data);
       stuurMail(data);
+      Logger.log('Klaar');
+    } else {
+      Logger.log('Geen geldige data ontvangen: ' + JSON.stringify(data));
     }
-  } catch (err) {}
+  } catch (err) {
+    Logger.log('FOUT: ' + err.message);
+  }
   return ContentService.createTextOutput("OK").setMimeType(ContentService.MimeType.TEXT);
 }
