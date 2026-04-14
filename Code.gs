@@ -74,6 +74,13 @@ Tijdstip:  ${new Date().toLocaleString("nl-BE")}
   GmailApp.sendEmail(ONTVANGER, onderwerp, body);
 }
 
-function doGet() {
+function doGet(e) {
+  try {
+    const data = e.parameter;
+    if (data && data.naam) {
+      logNaarSheet(data);
+      stuurMail(data);
+    }
+  } catch (err) {}
   return ContentService.createTextOutput("OK").setMimeType(ContentService.MimeType.TEXT);
 }

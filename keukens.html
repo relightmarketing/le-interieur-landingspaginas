@@ -1169,7 +1169,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script>
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJ2E1aGzpV6CEZO5wCRQFOuJFr9C7d0rZgTw5zGbtar6nLX4U_nbgXb8nMx_UnWvOY/exec';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby8Rv_Sju8xMxo0Rf7CeXfIGV-P65N6BHW2Xo8JESHH-ZJkswBYAGCTlEpSv6Wefr4/exec';
 
   // Cookie banner
   function cookieKeuze(geaccepteerd) {
@@ -1190,11 +1190,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     data.pagina = 'Keukens';
 
     try {
-      await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(data).toString()
+      await fetch(APPS_SCRIPT_URL + '?' + new URLSearchParams(data).toString(), {
+        method: 'GET',
+        mode: 'no-cors'
       });
       document.getElementById('bedankt-banner').style.display = 'block';
       document.getElementById('afspraak').scrollIntoView({ behavior: 'smooth' });
