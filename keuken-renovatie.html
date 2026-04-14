@@ -944,10 +944,32 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 <div class="footer-bar">
   <p>L&amp;E Interieur &nbsp;&middot;&nbsp; Leopoldlaan 104, 3900 Pelt &nbsp;&middot;&nbsp; <a href="tel:+3211823828">011 82 38 28</a> &nbsp;&middot;&nbsp; info@leneinterieur.be &nbsp;&middot;&nbsp; BTW BE 0866.300.961</p>
   <p>Ma&ndash;Vr 09:30&ndash;18:00 &nbsp;&middot;&nbsp; Woe op afspraak &nbsp;&middot;&nbsp; Za 10:00&ndash;16:00</p>
+  <p><a href="https://leneinterieur.be/info-voorwaarden/" target="_blank">Privacybeleid</a></p>
+</div>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:#fff;border-top:1px solid #e8e6e0;box-shadow:0 -4px 24px rgba(0,0,0,0.08);padding:20px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+  <p style="margin:0;font-size:13px;color:#555;line-height:1.6;flex:1;min-width:220px;">
+    Wij gebruiken cookies om uw bezoek te verbeteren en onze advertenties te optimaliseren.
+    <a href="https://leneinterieur.be/info-voorwaarden/" target="_blank" style="color:#3d3d31;text-decoration:underline;">Meer info</a>
+  </p>
+  <div style="display:flex;align-items:center;gap:16px;flex-shrink:0;">
+    <button onclick="cookieKeuze(false)" style="background:none;border:none;font-size:13px;color:#999;cursor:pointer;padding:4px;text-decoration:underline;">Weiger</button>
+    <button onclick="cookieKeuze(true)" style="background:#3d3d31;color:#fff;border:none;padding:12px 28px;font-size:13px;font-family:inherit;letter-spacing:0.08em;cursor:pointer;">Accepteer cookies</button>
+  </div>
 </div>
 
 <script>
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXQQXDWopeMGWoaoLQ5D1PhYj25NOZDU-5Ti9tFw9YL2y5QnNb0VyPpD5k2J_Tg0Ycjg/exec'; // ← plak hier de Web App URL na deploy
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXQQXDWopeMGWoaoLQ5D1PhYj25NOZDU-5Ti9tFw9YL2y5QnNb0VyPpD5k2J_Tg0Ycjg/exec';
+
+  // Cookie banner
+  function cookieKeuze(geaccepteerd) {
+    localStorage.setItem('cookie_consent', geaccepteerd ? 'ja' : 'nee');
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+  if (!localStorage.getItem('cookie_consent')) {
+    document.getElementById('cookie-banner').style.display = 'flex';
+  } // ← plak hier de Web App URL na deploy
 
   document.getElementById('renovatie-form').addEventListener('submit', async function(e) {
     e.preventDefault();
