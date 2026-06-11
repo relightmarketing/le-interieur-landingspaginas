@@ -40,13 +40,13 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 
-// GDPR: standaard geen toestemming — pixel houdt events tegen tot de bezoeker accepteert
+// GDPR: standaard geen toestemming — pixel vuurt pas na akkoord op de cookiebanner
 fbq('consent', 'revoke');
 fbq('init', '886954613675038');
-fbq('track', 'PageView');
-// Eerder gegeven toestemming respecteren (terugkerende bezoeker)
+// Alleen vuren als er al toestemming is (terugkerende bezoeker); anders wacht op de banner
 if (localStorage.getItem('cookie_consent') === 'ja') {
   fbq('consent', 'grant');
+  fbq('track', 'PageView');
 }
 </script>
 <noscript><img height="1" width="1" style="display:none"
@@ -1376,9 +1376,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       ad_storage: state, ad_user_data: state,
       ad_personalization: state, analytics_storage: state
     });
-    // Meta Pixel consent meeschakelen
+    // Meta Pixel: toestemming meeschakelen en PageView vuren zodra de bezoeker accepteert
     if (typeof fbq === 'function') {
-      fbq('consent', geaccepteerd ? 'grant' : 'revoke');
+      if (geaccepteerd) {
+        fbq('consent', 'grant');
+        fbq('track', 'PageView');
+      } else {
+        fbq('consent', 'revoke');
+      }
     }
   }
   if (!localStorage.getItem('cookie_consent')) {
