@@ -1417,8 +1417,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: 'keukens_submission', lead_event_id: leadEventId });
 
-      // Meta Pixel — Lead conversie (vuurt enkel als toestemming is gegeven)
+      // Meta Pixel — Lead conversie met advanced matching (pixel hasht de gegevens lokaal)
       if (typeof fbq === 'function') {
+        var _naam = (data.naam || '').trim();
+        fbq('init', '886954613675038', {
+          em: (data.email || '').trim().toLowerCase(),
+          ph: (data.telefoon || '').replace(/[^0-9]/g, ''),
+          fn: _naam.split(' ')[0] || '',
+          ln: _naam.split(' ').slice(1).join(' ')
+        });
         fbq('track', 'Lead',
           { content_name: 'Keukens — gratis 3D-ontwerp', content_category: 'Keukens' },
           { eventID: leadEventId });
@@ -1464,6 +1471,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       form.scrollIntoView({ behavior: 'smooth' });
     });
   })();
+
+  // ── Telefoon-kliks (alle tel:-links) meten als Meta 'Contact'-event ──
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest ? e.target.closest('a[href^="tel:"]') : null;
+    if (!link) return;
+    var contactId = 'contact.' + Date.now() + '.' + Math.random().toString(36).slice(2);
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'phone_click', phone_event_id: contactId });
+    if (typeof fbq === 'function') {
+      fbq('track', 'Contact', { content_name: 'Telefoon-klik keukens' }, { eventID: contactId });
+    }
+  }, true);
 </script>
 </body>
 </html>
