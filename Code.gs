@@ -4,6 +4,12 @@
 
 const ONTVANGER = "arthur@relightmarketing.com";
 
+// Meta Conversions API (server-side)
+const META_PIXEL_ID   = "886954613675038";
+const META_API_VERSION = "v25.0";
+// De access token staat veilig in Script-eigenschappen (Projectinstellingen → Scripteigenschappen),
+// onder de sleutel META_CAPI_TOKEN — niet in deze code.
+
 const SHEET_TABS = {
   'Keukenrenovatie': 'keukenrenovatie',   // ← exacte tabnaam in jouw Sheet
   'Keukens':         'keuken nieuw'        // ← exacte tabnaam in jouw Sheet
@@ -19,6 +25,7 @@ function doPost(e) {
     const data = e.parameter;
     logNaarSheet(data);
     stuurMail(data);
+    if (data.event_id) stuurMetaCapi(data);
 
     return ContentService
       .createTextOutput(JSON.stringify({ success: true }))
@@ -83,6 +90,7 @@ function doGet(e) {
       Logger.log('Data geldig, verwerken...');
       logNaarSheet(data);
       stuurMail(data);
+      if (data.event_id) stuurMetaCapi(data);
       Logger.log('Klaar');
     } else {
       Logger.log('Geen geldige data ontvangen: ' + JSON.stringify(data));
@@ -91,4 +99,70 @@ function doGet(e) {
     Logger.log('FOUT: ' + err.message);
   }
   return ContentService.createTextOutput("OK").setMimeType(ContentService.MimeType.TEXT);
+}
+
+// ── Meta Conversions API: stuurt server-side een gehashte, gededupliceerde Lead ──
+function stuurMetaCapi(data) {
+  try {
+    const token = PropertiesService.getScriptProperties().getProperty('META_CAPI_TOKEN');
+    if (!token) { Logger.log('META_CAPI_TOKEN ontbreekt — CAPI overgeslagen'); return; }
+
+    const userData = {};
+    if (data.email)    userData.em = [sha256(normEmail(data.email))];
+    if (data.telefoon) userData.ph = [sha256(normPhone(data.telefoon))];
+
+    const naam = (data.naam || "").trim();
+    if (naam) {
+      const delen = naam.split(/\s+/);
+      userData.fn = [sha256(delen[0].toLowerCase())];
+      if (delen.length > 1) userData.ln = [sha256(delen.slice(1).join(" ").toLowerCase())];
+    }
+    if (data.fbp) userData.fbp = data.fbp;   // niet hashen
+    if (data.fbc) userData.fbc = data.fbc;   // niet hashen
+
+    const event = {
+      event_name: "Lead",
+      event_time: Math.floor(Date.now() / 1000),
+      action_source: "website",
+      event_id: data.event_id,                                 // dedup met de browser-pixel
+      event_source_url: data.event_source_url || "https://info.leneinterieur.be/keukens",
+      user_data: userData,
+      custom_data: { content_name: "Keukens — gratis 3D-ontwerp", content_category: "Keukens" }
+    };
+
+    const payload = { data: [event] };
+    // Tijdens testen: haal de volgende regel uit commentaar en zet je testcode uit Events Manager erin.
+    // payload.test_event_code = "TEST76055";
+
+    const url = "https://graph.facebook.com/" + META_API_VERSION + "/" + META_PIXEL_ID +
+                "/events?access_token=" + encodeURIComponent(token);
+
+    const resp = UrlFetchApp.fetch(url, {
+      method: "post",
+      contentType: "application/json",
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true
+    });
+    Logger.log("Meta CAPI " + resp.getResponseCode() + ": " + resp.getContentText());
+  } catch (err) {
+    Logger.log("Meta CAPI fout: " + err.message);
+  }
+}
+
+function normEmail(v) {
+  return String(v).trim().toLowerCase();
+}
+
+function normPhone(v) {
+  let d = String(v).replace(/[^0-9]/g, "");
+  if (d.indexOf("0") === 0) d = "32" + d.substring(1);   // BE: 0... → 32...
+  return d;
+}
+
+function sha256(str) {
+  const bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, str, Utilities.Charset.UTF_8);
+  return bytes.map(function (b) {
+    const v = (b < 0 ? b + 256 : b).toString(16);
+    return v.length === 1 ? "0" + v : v;
+  }).join("");
 }

@@ -1365,6 +1365,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4jNlqf8xBN88VLGgYFsdu89r_nTfMp45m-8i6KSfkvDkWiy8U4VkSqWeLiAHs5hog_A/exec';
 
+  // Leest een cookie (voor Meta's _fbp/_fbc — verbetert de server-side matching)
+  function getCookie(name) {
+    var m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return m ? m.pop() : '';
+  }
+
   // Cookie banner
   function cookieKeuze(geaccepteerd) {
     localStorage.setItem('cookie_consent', geaccepteerd ? 'ja' : 'nee');
@@ -1401,6 +1407,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const data = Object.fromEntries(new FormData(this).entries());
     data.pagina = 'Keukens';
 
+    // Uniek event-ID + Meta-cookies meesturen, zodat de server-side CAPI dedupliceert en beter matcht
+    var leadEventId = 'lead.' + Date.now() + '.' + Math.random().toString(36).slice(2);
+    data.event_id = leadEventId;
+    data.event_source_url = window.location.href;
+    data.fbp = getCookie('_fbp');
+    data.fbc = getCookie('_fbc');
+
     try {
       await fetch(APPS_SCRIPT_URL + '?' + new URLSearchParams(data).toString(), {
         method: 'GET',
@@ -1409,9 +1422,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       document.getElementById('bedankt-banner').style.display = 'block';
       document.getElementById('afspraak').scrollIntoView({ behavior: 'smooth' });
       this.reset();
-
-      // Uniek event-ID voor deduplicatie tussen browser-pixel en server-side CAPI
-      var leadEventId = 'lead.' + Date.now() + '.' + Math.random().toString(36).slice(2);
 
       // Google Ads conversie-tracking via GTM
       window.dataLayer = window.dataLayer || [];
