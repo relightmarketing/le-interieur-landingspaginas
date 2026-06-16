@@ -28,44 +28,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-ND5Z382N');</script>
 <!-- End Google Tag Manager -->
-
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-
-// GDPR: standaard geen toestemming — pixel vuurt pas na akkoord op de cookiebanner
-fbq('consent', 'revoke');
-fbq('init', '886954613675038');
-// Alleen vuren als er al toestemming is (terugkerende bezoeker); anders wacht op de banner
-if (localStorage.getItem('cookie_consent') === 'ja') {
-  fbq('consent', 'grant');
-  fbq('track', 'PageView');
-}
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=886954613675038&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Keukens op maat in Limburg — L&amp;E Interieur</title>
 <meta name="description" content="Volledig op maat gemaakte keukens uit eigen atelier in Peer. Ontwerp, productie en plaatsing door één vast team. Vraag uw vrijblijvend gesprek aan.">
-<!-- Performance: preconnect naar afbeeldingen-CDN + preload van de hero (LCP) -->
-<link rel="preconnect" href="https://i0.wp.com" crossorigin>
-<link rel="preload" as="image"
-      imagesrcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=480&quality=70&ssl=1 480w,
-                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=800&quality=70&ssl=1 800w,
-                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=1200&quality=70&ssl=1 1200w"
-      imagesizes="(max-width: 768px) 100vw, 50vw"
-      fetchpriority="high">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
 
@@ -185,18 +151,8 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 }
 .hero-cta-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .hero-img {
-  position: relative;
+  background: url('https://leneinterieur.be/wp-content/uploads/2025/09/27.jpg') center/cover no-repeat;
   min-height: 500px;
-  background: var(--black);
-  overflow: hidden;
-}
-.hero-img img, .intro-img img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
 }
 
 /* ── USP STRIP — lichte achtergrond L&E stijl ── */
@@ -232,9 +188,7 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
   min-height: 480px;
 }
 .intro-img {
-  position: relative;
-  background: var(--bg-light);
-  overflow: hidden;
+  background: url('https://leneinterieur.be/wp-content/uploads/2025/08/wmp-1.jpg') center/cover no-repeat;
 }
 .intro-text {
   padding: 80px 64px;
@@ -360,12 +314,12 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 .step-num {
   font-family: var(--heading-font);
   font-size: 42px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.35);
   line-height: 1;
   margin-bottom: 16px;
 }
-.step-title { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 10px; letter-spacing: 0.04em; }
-.step-desc { font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.7; font-weight: 400; }
+.step-title { font-size: 13px; font-weight: 500; color: var(--white); margin-bottom: 8px; letter-spacing: 0.04em; }
+.step-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.65; font-weight: 300; }
 
 /* ── PORTFOLIO ── */
 .portfolio-section {
@@ -471,11 +425,11 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
   border-bottom: 2px solid rgba(255,255,255,0.12);
 }
 .compare-table thead th:first-child {
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.4);
   width: 22%;
 }
 .compare-table thead th:nth-child(2) {
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.4);
   background: rgba(255,255,255,0.03);
 }
 .compare-table thead th:last-child {
@@ -490,13 +444,13 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
   vertical-align: top;
 }
 .compare-table tbody td:first-child {
-  color: rgba(255,255,255,0.82);
+  color: rgba(255,255,255,0.7);
   font-weight: 500;
   font-size: 13px;
   letter-spacing: 0.02em;
 }
 .compare-table tbody td:nth-child(2) {
-  color: rgba(255,255,255,0.58);
+  color: rgba(255,255,255,0.35);
   background: rgba(255,255,255,0.03);
 }
 .compare-table tbody td:last-child {
@@ -506,8 +460,8 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 .compare-table tbody tr:last-child td {
   border-bottom: none;
 }
-.ct-check { color: #c2c2a3; margin-right: 4px; }
-.ct-cross { color: rgba(255,255,255,0.5); margin-right: 4px; }
+.ct-check { color: #a8a88a; margin-right: 4px; }
+.ct-cross { color: rgba(255,255,255,0.2); margin-right: 4px; }
 
 /* ── REVIEWS ── */
 .reviews-section {
@@ -546,12 +500,12 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
   padding: 80px 56px;
   display: flex; flex-direction: column; gap: 28px; justify-content: center;
 }
-.form-left .section-eyebrow { color: rgba(255,255,255,0.65); }
+.form-left .section-eyebrow { color: rgba(255,255,255,0.5); }
 .form-left h2 { font-family: var(--heading-font); font-size: 36px; font-weight: 400; color: var(--white); line-height: 1.25; }
-.form-left p { font-size: 15px; color: rgba(255,255,255,0.78); line-height: 1.85; font-weight: 300; }
-.promise-list { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
-.promise-item { display: flex; align-items: flex-start; gap: 12px; font-size: 15px; color: rgba(255,255,255,0.88); font-weight: 400; }
-.promise-mark { color: #c2c2a3; font-size: 18px; line-height: 1; margin-top: 1px; flex-shrink: 0; }
+.form-left p { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.85; font-weight: 300; }
+.promise-list { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.promise-item { display: flex; align-items: flex-start; gap: 12px; font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 300; }
+.promise-mark { color: rgba(255,255,255,0.4); font-size: 16px; margin-top: 1px; flex-shrink: 0; }
 .form-right { padding: 80px 56px; background: var(--white); }
 .form-right h3 { font-family: var(--heading-font); font-size: 24px; font-weight: 400; margin-bottom: 32px; color: var(--text); }
 .form-group { margin-bottom: 18px; }
@@ -702,8 +656,7 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
   }
   .compare-table thead { display: none; }
   .compare-table tbody tr {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.05);
     padding: 24px 20px;
     margin-bottom: 12px;
     border-bottom: none;
@@ -715,23 +668,23 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
   }
   .compare-table tbody td:first-child {
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.7);
-    margin-bottom: 14px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 12px;
   }
   .compare-table tbody td:nth-child(2) {
     font-size: 13px;
-    color: rgba(255,255,255,0.62);
+    color: rgba(255,255,255,0.35);
     padding: 10px 16px;
     margin-bottom: 6px;
-    border-left: 2px solid rgba(255,255,255,0.28);
+    border-left: 2px solid rgba(255,255,255,0.08);
   }
   .compare-table tbody td:nth-child(2)::before {
     content: 'Standaard: ';
-    font-weight: 600;
-    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+    color: rgba(255,255,255,0.25);
   }
   .compare-table tbody td:last-child {
     font-size: 14px;
@@ -754,12 +707,9 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
   }
   .process-step {
     border-right: none;
-    border-top: 1px solid rgba(255,255,255,0.12);
-    padding: 30px 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 24px 0;
   }
-  .process-step .step-title { font-size: 18px; margin-bottom: 12px; }
-  .process-step .step-desc { font-size: 16px; line-height: 1.75; color: rgba(255,255,255,0.8); }
-  .process-step .step-num { font-size: 46px; }
 
   /* Portfolio */
   .portfolio-section { padding: 60px 24px; }
@@ -798,8 +748,6 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
   .form-section { grid-template-columns: 1fr; }
   .form-left { padding: 48px 24px; gap: 20px; }
   .form-left h2 { font-size: 28px; }
-  .form-left p { font-size: 16px; }
-  .promise-item { font-size: 16px; }
   .form-right { padding: 40px 24px; }
   .form-row { grid-template-columns: 1fr; }
   .form-submit { padding: 18px; font-size: 13px; }
@@ -817,37 +765,6 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 .ann { display: inline-block; background: #FFE066; color: #333; font-size: 10px; font-weight: 600; padding: 2px 7px; font-family: 'Jost', sans-serif; vertical-align: middle; white-space: nowrap; margin-left: 6px; }
 .ann-bar { background: rgba(255,224,102,0.15); border-top: 2px solid #FFE066; padding: 8px 56px; display: flex; align-items: center; gap: 8px; }
 .ann-bar span { font-size: 11px; color: #FFE066; font-family: 'Jost', sans-serif; }
-
-/* ── STICKY MOBIELE CTA-BALK ── */
-.sticky-cta {
-  display: none; /* standaard verborgen; alleen tonen op mobiel/tablet */
-  position: fixed; left: 0; right: 0; bottom: 0;
-  z-index: 150; /* onder de cookiebanner-overlay (9998) */
-  background: rgba(20,20,16,0.97);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  border-top: 1px solid rgba(255,255,255,0.14);
-  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-  box-shadow: 0 -8px 28px rgba(0,0,0,0.35);
-  transform: translateY(140%);
-  transition: transform 0.35s ease;
-}
-.sticky-cta.visible { transform: translateY(0); }
-.sticky-cta-btn {
-  display: flex; align-items: center; justify-content: center;
-  width: 100%; min-height: 54px;
-  background: var(--white); color: var(--black);
-  font-family: var(--body-font); font-size: 15px; font-weight: 600;
-  letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none;
-  border: 1px solid var(--white);
-  transition: background 0.2s, color 0.2s;
-}
-.sticky-cta-btn:active { background: var(--primary); border-color: var(--primary); color: var(--white); }
-.sticky-cta-note { text-align: center; font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 8px; letter-spacing: 0.04em; }
-.sticky-cta-note strong { color: #c2c2a3; font-weight: 600; }
-@media (max-width: 1024px) {
-  .sticky-cta { display: block; }
-}
 </style>
 </head>
 <body>
@@ -891,15 +808,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span style="color:rgba(255,255,255,0.75);font-size:13px;font-weight:400;"><strong style="color:var(--white);">4.8</strong> / 5 · 22 Google Reviews</span>
     </div>
   </div>
-  <div class="hero-img">
-    <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=1000&quality=70&ssl=1"
-         srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=1200&quality=70&ssl=1 1200w"
-         sizes="(max-width: 768px) 100vw, 50vw"
-         width="800" height="600" fetchpriority="high" decoding="async"
-         alt="Keuken op maat uit het eigen atelier van L&amp;E Interieur">
-  </div>
+  <div class="hero-img"></div>
 </div>
 <!-- USP STRIP -->
 <div class="usp-strip">
@@ -926,15 +835,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <!-- INTRO -->
 <div class="intro-section">
-  <div class="intro-img">
-    <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-1.jpg?w=1000&quality=70&ssl=1"
-         srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-1.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-1.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-1.jpg?w=1200&quality=70&ssl=1 1200w"
-         sizes="(max-width: 768px) 100vw, 50vw"
-         width="800" height="600" loading="lazy" decoding="async"
-         alt="Maatwerk interieur uit het atelier van L&amp;E in Peer">
-  </div>
+  <div class="intro-img"></div>
   <div class="intro-text">
     <div class="section-eyebrow">Geen stress, geen verrassingen</div>
     <h2>U hoeft niets te coördineren. Dat doen wij.</h2>
@@ -954,57 +855,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
   <div class="portfolio-grid">
     <div class="p-img span2">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Keuken realisatie" loading="lazy" decoding="async">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/09/27.jpg" alt="Keuken realisatie" loading="lazy">
       <div class="p-label">Strak & tijdloos</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-2-4.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-2-4.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-2-4.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-2-4.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Keuken maatwerk" loading="lazy" decoding="async">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-2-4.jpg" alt="Keuken maatwerk" loading="lazy">
       <div class="p-label">Moderne keuken</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-10-1.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-10-1.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-10-1.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-10-1.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Keuken design" loading="lazy" decoding="async">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-10-1.jpg" alt="Keuken design" loading="lazy">
       <div class="p-label">Open leefkeuken</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-12.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-12.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-12.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-12.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Moderne keuken" loading="lazy" decoding="async">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-12.jpg" alt="Moderne keuken" loading="lazy">
       <div class="p-label">Keuken met eiland</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-5-3.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-5-3.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-5-3.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-5-3.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Landelijke keuken" loading="lazy" decoding="async">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-5-3.jpg" alt="Landelijke keuken" loading="lazy">
       <div class="p-label">Landelijke stijl</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-11-1.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-11-1.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-11-1.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-11-1.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Keuken eiland" loading="lazy" decoding="async">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-11-1.jpg" alt="Keuken eiland" loading="lazy">
       <div class="p-label">Maatwerk</div>
     </div>
   </div>
@@ -1152,66 +1023,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
   <div class="portfolio-grid">
     <div class="p-img span2">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/02/wmp.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/02/wmp.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/02/wmp.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/02/wmp.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Keuken realisatie Pelt" loading="lazy" decoding="async">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/02/wmp.jpg" alt="Keuken realisatie Pelt" loading="lazy">
       <div class="p-label">Moderne leefkeuken · Pelt</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-82-1.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-82-1.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-82-1.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-82-1.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Keuken realisatie Pelt" loading="lazy" decoding="async">
+      <img src="https://leneinterieur.be/wp-content/uploads/2024/02/wmp-82-1.jpg" alt="Keuken realisatie Pelt" loading="lazy">
       <div class="p-label">Klassiek maatwerk · Pelt</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/10/wmp-2.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/10/wmp-2.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/10/wmp-2.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/10/wmp-2.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Keuken realisatie Pelt" loading="lazy" decoding="async">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/10/wmp-2.jpg" alt="Keuken realisatie Pelt" loading="lazy">
       <div class="p-label">Strakke lijnen · Pelt</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-64.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-64.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-64.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-64.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Toonzaalkeuken" loading="lazy" decoding="async">
+      <img src="https://leneinterieur.be/wp-content/uploads/2024/02/wmp-64.jpg" alt="Toonzaalkeuken" loading="lazy">
       <div class="p-label">Toonzaalkeuken</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/07/wmp-2.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/07/wmp-2.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/07/wmp-2.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/07/wmp-2.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Keuken realisatie Peer" loading="lazy" decoding="async">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/07/wmp-2.jpg" alt="Keuken realisatie Peer" loading="lazy">
       <div class="p-label">Minimalistisch · Peer</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/11/wmp-1-2.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/11/wmp-1-2.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/11/wmp-1-2.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/11/wmp-1-2.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Keuken realisatie Achel" loading="lazy" decoding="async">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/11/wmp-1-2.jpg" alt="Keuken realisatie Achel" loading="lazy">
       <div class="p-label">Familiekeuken · Achel</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/12/1.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/12/1.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/12/1.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/12/1.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Keuken realisatie Peer" loading="lazy" decoding="async">
+      <img src="https://leneinterieur.be/wp-content/uploads/2025/12/1.jpg" alt="Keuken realisatie Peer" loading="lazy">
       <div class="p-label">Eigentijds · Peer</div>
     </div>
   </div>
@@ -1306,15 +1142,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <input type="tel" name="telefoon" placeholder="0499 00 00 00" required>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>E-mail *</label>
-          <input type="email" name="email" placeholder="jan@email.be" required>
-        </div>
-        <div class="form-group">
-          <label>Stad of gemeente *</label>
-          <input type="text" name="stad" placeholder="Bv. Pelt" required>
-        </div>
+      <div class="form-group">
+        <label>E-mail *</label>
+        <input type="email" name="email" placeholder="jan@email.be" required>
       </div>
       <div class="form-group">
         <label>Uw project</label>
@@ -1346,12 +1176,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <p><a href="https://leneinterieur.be/info-voorwaarden/" target="_blank">Privacybeleid</a></p>
 </div>
 
-<!-- STICKY MOBIELE CTA -->
-<div class="sticky-cta" id="sticky-cta">
-  <a href="#afspraak" class="sticky-cta-btn" id="sticky-cta-btn">Ontvang gratis 3D-ontwerp →</a>
-  <div class="sticky-cta-note"><strong>Volledig vrijblijvend</strong></div>
-</div>
-
 <!-- COOKIE OVERLAY -->
 <div id="cookie-overlay" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,0.65);backdrop-filter:blur(3px);"></div>
 
@@ -1371,12 +1195,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4jNlqf8xBN88VLGgYFsdu89r_nTfMp45m-8i6KSfkvDkWiy8U4VkSqWeLiAHs5hog_A/exec';
 
-  // Leest een cookie (voor Meta's _fbp/_fbc — verbetert de server-side matching)
-  function getCookie(name) {
-    var m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-    return m ? m.pop() : '';
-  }
-
   // Cookie banner
   function cookieKeuze(geaccepteerd) {
     localStorage.setItem('cookie_consent', geaccepteerd ? 'ja' : 'nee');
@@ -1388,15 +1206,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       ad_storage: state, ad_user_data: state,
       ad_personalization: state, analytics_storage: state
     });
-    // Meta Pixel: toestemming meeschakelen en PageView vuren zodra de bezoeker accepteert
-    if (typeof fbq === 'function') {
-      if (geaccepteerd) {
-        fbq('consent', 'grant');
-        fbq('track', 'PageView');
-      } else {
-        fbq('consent', 'revoke');
-      }
-    }
   }
   if (!localStorage.getItem('cookie_consent')) {
     document.getElementById('cookie-banner').style.display = 'block';
@@ -1413,13 +1222,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const data = Object.fromEntries(new FormData(this).entries());
     data.pagina = 'Keukens';
 
-    // Uniek event-ID + Meta-cookies meesturen, zodat de server-side CAPI dedupliceert en beter matcht
-    var leadEventId = 'lead.' + Date.now() + '.' + Math.random().toString(36).slice(2);
-    data.event_id = leadEventId;
-    data.event_source_url = window.location.href;
-    data.fbp = getCookie('_fbp');
-    data.fbc = getCookie('_fbc');
-
     try {
       await fetch(APPS_SCRIPT_URL + '?' + new URLSearchParams(data).toString(), {
         method: 'GET',
@@ -1431,74 +1233,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       // Google Ads conversie-tracking via GTM
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: 'keukens_submission', lead_event_id: leadEventId });
-
-      // Meta Pixel — Lead conversie met advanced matching (pixel hasht de gegevens lokaal)
-      if (typeof fbq === 'function') {
-        var _naam = (data.naam || '').trim();
-        fbq('init', '886954613675038', {
-          em: (data.email || '').trim().toLowerCase(),
-          ph: (data.telefoon || '').replace(/[^0-9]/g, ''),
-          fn: _naam.split(' ')[0] || '',
-          ln: _naam.split(' ').slice(1).join(' ')
-        });
-        fbq('track', 'Lead',
-          { content_name: 'Keukens — gratis 3D-ontwerp', content_category: 'Keukens' },
-          { eventID: leadEventId });
-      }
+      window.dataLayer.push({ event: 'keukens_submission' });
     } catch (err) {
       btn.textContent = 'Stuur mijn aanvraag →';
       btn.disabled = false;
       alert('Er ging iets mis. Probeer opnieuw of bel ons op 011 82 38 28.');
     }
   });
-
-  // ── Sticky mobiele CTA: tonen na de hero, verbergen zodra het formulier in beeld komt ──
-  (function () {
-    var bar  = document.getElementById('sticky-cta');
-    var hero = document.querySelector('.hero');
-    var form = document.getElementById('afspraak');
-    if (!bar || !hero || !form) return;
-
-    var pastHero = false, formVisible = false;
-    function update() { bar.classList.toggle('visible', pastHero && !formVisible); }
-
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        pastHero = !entries[0].isIntersecting;
-        update();
-      }, { rootMargin: '-120px 0px 0px 0px' }).observe(hero);
-
-      new IntersectionObserver(function (entries) {
-        formVisible = entries[0].isIntersecting;
-        update();
-      }, { threshold: 0.15 }).observe(form);
-    } else {
-      // Fallback: altijd tonen na wat scrollen
-      window.addEventListener('scroll', function () {
-        pastHero = window.scrollY > 500; update();
-      }, { passive: true });
-    }
-
-    document.getElementById('sticky-cta-btn').addEventListener('click', function (e) {
-      e.preventDefault();
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: 'sticky_cta_click' });
-      form.scrollIntoView({ behavior: 'smooth' });
-    });
-  })();
-
-  // ── Telefoon-kliks (alle tel:-links) meten als Meta 'Contact'-event ──
-  document.addEventListener('click', function (e) {
-    var link = e.target.closest ? e.target.closest('a[href^="tel:"]') : null;
-    if (!link) return;
-    var contactId = 'contact.' + Date.now() + '.' + Math.random().toString(36).slice(2);
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: 'phone_click', phone_event_id: contactId });
-    if (typeof fbq === 'function') {
-      fbq('track', 'Contact', { content_name: 'Telefoon-klik keukens' }, { eventID: contactId });
-    }
-  }, true);
 </script>
 </body>
 </html>

@@ -16,8 +16,8 @@ const SHEET_TABS = {
 };
 
 const KOLOMMEN = {
-  'Keukenrenovatie': ["Datum", "Naam", "Telefoon", "E-mail", "Type renovatie", "Bericht"],
-  'Keukens':         ["Datum", "Naam", "Telefoon", "E-mail", "Project type",   "Bericht"]
+  'Keukenrenovatie': ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Type renovatie", "Bericht"],
+  'Keukens':         ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Project type",   "Bericht"]
 };
 
 function doPost(e) {
@@ -49,7 +49,7 @@ function logNaarSheet(data) {
 
   // Voeg header toe als sheet leeg is
   if (sheet.getLastRow() === 0) {
-    const headers = KOLOMMEN[data.pagina] || ["Datum", "Naam", "Telefoon", "E-mail", "Type", "Bericht"];
+    const headers = KOLOMMEN[data.pagina] || ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Type", "Bericht"];
     sheet.appendRow(headers);
     sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold");
   }
@@ -59,6 +59,7 @@ function logNaarSheet(data) {
     data.naam     || "",
     data.telefoon || "",
     data.email    || "",
+    data.stad     || "",
     data.type     || "",
     data.bericht  || ""
   ]);
@@ -72,6 +73,7 @@ Nieuwe aanvraag via info.leneinterieur.be
 Naam:      ${data.naam     || "-"}
 Telefoon:  ${data.telefoon || "-"}
 E-mail:    ${data.email    || "-"}
+Stad/Gem.: ${data.stad     || "-"}
 Type:      ${data.type     || "-"}
 Bericht:   ${data.bericht  || "-"}
 Pagina:    ${data.pagina   || "-"}
