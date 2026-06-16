@@ -1413,12 +1413,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const data = Object.fromEntries(new FormData(this).entries());
     data.pagina = 'Keukens';
 
-    // Uniek event-ID + Meta-cookies meesturen, zodat de server-side CAPI dedupliceert en beter matcht
-    var leadEventId = 'lead.' + Date.now() + '.' + Math.random().toString(36).slice(2);
-    data.event_id = leadEventId;
-    data.event_source_url = window.location.href;
-    data.fbp = getCookie('_fbp');
-    data.fbc = getCookie('_fbc');
+    // Alleen MET cookie-toestemming sturen we marketing-data naar Meta (browser-pixel én server-side CAPI).
+    // Zonder toestemming blijft event_id leeg, waardoor de server-side CAPI in Code.gs wordt overgeslagen — GDPR-conform.
+    var marketingConsent = localStorage.getItem('cookie_consent') === 'ja';
+    var leadEventId = null;
+    if (marketingConsent) {
+      leadEventId = 'lead.' + Date.now() + '.' + Math.random().toString(36).slice(2);
+      data.event_id = leadEventId;
+      data.event_source_url = window.location.href;
+      data.fbp = getCookie('_fbp');
+      data.fbc = getCookie('_fbc');
+    }
 
     try {
       await fetch(APPS_SCRIPT_URL + '?' + new URLSearchParams(data).toString(), {
@@ -1433,8 +1438,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: 'keukens_submission', lead_event_id: leadEventId });
 
-      // Meta Pixel — Lead conversie met advanced matching (pixel hasht de gegevens lokaal)
-      if (typeof fbq === 'function') {
+      // Meta Pixel — Lead conversie met advanced matching (pixel hasht de gegevens lokaal). Alleen met toestemming.
+      if (marketingConsent && typeof fbq === 'function') {
         var _naam = (data.naam || '').trim();
         fbq('init', '886954613675038', {
           em: (data.email || '').trim().toLowerCase(),

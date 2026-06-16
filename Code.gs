@@ -2,7 +2,7 @@
 // Deploy als Web App: Execute as "Me", Who has access "Anyone"
 // Koppel dit script aan de Google Sheet met de 2 tabs
 
-const ONTVANGER = "arthur@relightmarketing.com";
+const ONTVANGER = "arthur@relightmarketing.com, jos@leneinterieur.be";
 
 // Meta Conversions API (server-side)
 const META_PIXEL_ID   = "886954613675038";
@@ -119,6 +119,7 @@ function stuurMetaCapi(data) {
       userData.fn = [sha256(delen[0].toLowerCase())];
       if (delen.length > 1) userData.ln = [sha256(delen.slice(1).join(" ").toLowerCase())];
     }
+    if (data.stad) userData.ct = [sha256(normCity(data.stad))];   // stad/gemeente → betere matching
     if (data.fbp) userData.fbp = data.fbp;   // niet hashen
     if (data.fbc) userData.fbc = data.fbc;   // niet hashen
 
