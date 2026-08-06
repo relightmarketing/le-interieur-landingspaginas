@@ -16,11 +16,18 @@ const SHEET_TABS = {
   'Maatkasten':      'maatkasten'          // ← wordt automatisch aangemaakt bij de eerste aanvraag
 };
 
+// Attributie-kolommen (toegevoegd 2026-08-06). Staan ACHTERAAN, zodat bestaande
+// tabs en historische rijen niet verschuiven.
+const BRON_KOLOMMEN = ["Bron", "Campagne", "Click ID", "Landingspagina"];
+
 const KOLOMMEN = {
-  'Keukenrenovatie': ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Type renovatie", "Bericht"],
-  'Keukens':         ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Project type",   "Bericht"],
-  'Maatkasten':      ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Type kast",      "Bericht"]
+  'Keukenrenovatie': ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Type renovatie", "Bericht"].concat(BRON_KOLOMMEN),
+  'Keukens':         ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Project type",   "Bericht"].concat(BRON_KOLOMMEN),
+  'Maatkasten':      ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Type kast",      "Bericht"].concat(BRON_KOLOMMEN)
 };
+
+// Fallback voor tabs die niet in KOLOMMEN staan (o.a. 'Homepage', die automatisch ontstaat)
+const STANDAARD_KOLOMMEN = ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Type", "Bericht"].concat(BRON_KOLOMMEN);
 
 // Wat we per pagina aan Meta doorgeven in de Conversions API
 const CAPI_CONTENT = {
@@ -47,6 +54,31 @@ function doPost(e) {
   }
 }
 
+// Zorgt dat de kop-rij álle verwachte kolommen heeft.
+//
+// Waarom dit bestaat: in juni 2026 schreef dit script 6 waarden weg in tabs met
+// 7 kolommen, waardoor elke rij één kolom opschoof. Dat was niet zichtbaar tot
+// iemand de Sheet opende. Het aantal weggeschreven waarden en het aantal
+// kolommen moeten dus altijd gelijk lopen — deze functie bewaakt dat, ook voor
+// tabs die al bestonden vóór er kolommen bijkwamen.
+function zorgVoorKolommen(sheet, headers) {
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(headers);
+    sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold");
+    return;
+  }
+
+  const breedte = Math.max(sheet.getLastColumn(), 1);
+  const huidig  = sheet.getRange(1, 1, 1, breedte).getValues()[0];
+
+  if (huidig.length < headers.length) {
+    const ontbreekt = headers.slice(huidig.length);
+    sheet.getRange(1, huidig.length + 1, 1, ontbreekt.length)
+         .setValues([ontbreekt])
+         .setFontWeight("bold");
+  }
+}
+
 function logNaarSheet(data) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const tabNaam = SHEET_TABS[data.pagina] || data.pagina || 'Overig';
@@ -56,13 +88,10 @@ function logNaarSheet(data) {
     sheet = ss.insertSheet(tabNaam);
   }
 
-  // Voeg header toe als sheet leeg is
-  if (sheet.getLastRow() === 0) {
-    const headers = KOLOMMEN[data.pagina] || ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Type", "Bericht"];
-    sheet.appendRow(headers);
-    sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold");
-  }
+  const headers = KOLOMMEN[data.pagina] || STANDAARD_KOLOMMEN;
+  zorgVoorKolommen(sheet, headers);
 
+  // Volgorde MOET gelijklopen met `headers` hierboven.
   sheet.appendRow([
     new Date(),
     data.naam     || "",
@@ -70,7 +99,11 @@ function logNaarSheet(data) {
     data.email    || "",
     data.stad     || "",
     data.type     || "",
-    data.bericht  || ""
+    data.bericht  || "",
+    data.bron     || "Direct / onbekend",
+    data.campagne || "",
+    data.click_id || "",
+    data.landing  || ""
   ]);
 }
 
@@ -87,6 +120,12 @@ Type:      ${data.type     || "-"}
 Bericht:   ${data.bericht  || "-"}
 Pagina:    ${data.pagina   || "-"}
 Tijdstip:  ${new Date().toLocaleString("nl-BE")}
+
+--- Waar komt deze lead vandaan ---
+Bron:      ${data.bron     || "Direct / onbekend"}
+Campagne:  ${data.campagne || "-"}
+Click ID:  ${data.click_id || "-"}
+Landing:   ${data.landing  || "-"}
   `.trim();
 
   GmailApp.sendEmail(ONTVANGER, onderwerp, body);

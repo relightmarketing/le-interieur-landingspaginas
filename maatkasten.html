@@ -1383,6 +1383,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.body.style.overflow = 'hidden';
   }
 
+  // --- Waar komt deze bezoeker vandaan? ---------------------------------------
+  // Leest de klik-parameters uit de URL op het moment van verzenden. Bewust geen
+  // cookies en geen storage: dit is een first-party actie die de bezoeker zelf
+  // start, dus hier is geen cookie-toestemming voor nodig — de bron komt dus ook
+  // binnen bij mensen die de banner weigeren.
+  // Google zet `gclid` zelf via auto-tagging. Voor Meta moeten er UTM's op de
+  // advertentie-URL staan, anders blijft de bron 'Direct / onbekend'.
+  function haalBron() {
+    var p      = new URLSearchParams(window.location.search);
+    var gclid  = p.get('gclid') || p.get('gbraid') || p.get('wbraid') || '';
+    var fbclid = p.get('fbclid') || '';
+    var src    = (p.get('utm_source') || '').toLowerCase();
+
+    var bron = 'Direct / onbekend';
+    if (gclid || src === 'google') {
+      bron = 'Google Ads';
+    } else if (fbclid || ['meta', 'facebook', 'instagram', 'fb', 'ig'].indexOf(src) !== -1) {
+      bron = 'Meta';
+    } else if (src) {
+      bron = src;
+    }
+
+    return {
+      bron:     bron,
+      campagne: [p.get('utm_campaign'), p.get('utm_content')].filter(Boolean).join(' / '),
+      click_id: gclid || fbclid,
+      landing:  window.location.href
+    };
+  }
+
   document.getElementById('maatkasten-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     const btn = document.getElementById('maatkasten-submit');
@@ -1391,6 +1421,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     const data = Object.fromEntries(new FormData(this).entries());
     data.pagina = 'Maatkasten';
+
+    var _bron = haalBron();
+    data.bron     = _bron.bron;
+    data.campagne = _bron.campagne;
+    data.click_id = _bron.click_id;
+    data.landing  = _bron.landing;
 
     // Alleen MET cookie-toestemming sturen we marketing-data naar Meta (browser-pixel én server-side CAPI).
     // Zonder toestemming blijft event_id leeg, waardoor de server-side CAPI in Code.gs wordt overgeslagen — GDPR-conform.
