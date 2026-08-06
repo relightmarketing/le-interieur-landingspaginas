@@ -1,6 +1,6 @@
 // Google Apps Script — L&E Interieur aanvraagformulieren
 // Deploy als Web App: Execute as "Me", Who has access "Anyone"
-// Koppel dit script aan de Google Sheet met de 2 tabs
+// Koppel dit script aan de Google Sheet "Google Ads aanvragen" (tabs: keukenrenovatie, keuken nieuw, maatkasten)
 
 const ONTVANGER = "arthur@relightmarketing.com, jos@leneinterieur.be";
 
@@ -12,12 +12,21 @@ const META_API_VERSION = "v25.0";
 
 const SHEET_TABS = {
   'Keukenrenovatie': 'keukenrenovatie',   // ← exacte tabnaam in jouw Sheet
-  'Keukens':         'keuken nieuw'        // ← exacte tabnaam in jouw Sheet
+  'Keukens':         'keuken nieuw',       // ← exacte tabnaam in jouw Sheet
+  'Maatkasten':      'maatkasten'          // ← wordt automatisch aangemaakt bij de eerste aanvraag
 };
 
 const KOLOMMEN = {
   'Keukenrenovatie': ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Type renovatie", "Bericht"],
-  'Keukens':         ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Project type",   "Bericht"]
+  'Keukens':         ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Project type",   "Bericht"],
+  'Maatkasten':      ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeente", "Type kast",      "Bericht"]
+};
+
+// Wat we per pagina aan Meta doorgeven in de Conversions API
+const CAPI_CONTENT = {
+  'Keukenrenovatie': { content_name: 'Keukenrenovatie — gratis adviesgesprek', content_category: 'Keukenrenovatie' },
+  'Keukens':         { content_name: 'Keukens — gratis 3D-ontwerp',            content_category: 'Keukens' },
+  'Maatkasten':      { content_name: 'Maatkasten — gratis 3D-ontwerp',         content_category: 'Maatkasten' }
 };
 
 function doPost(e) {
@@ -130,7 +139,7 @@ function stuurMetaCapi(data) {
       event_id: data.event_id,                                 // dedup met de browser-pixel
       event_source_url: data.event_source_url || "https://info.leneinterieur.be/keukens",
       user_data: userData,
-      custom_data: { content_name: "Keukens — gratis 3D-ontwerp", content_category: "Keukens" }
+      custom_data: CAPI_CONTENT[data.pagina] || { content_name: data.pagina || "Website", content_category: data.pagina || "Website" }
     };
 
     const payload = { data: [event] };
@@ -160,6 +169,15 @@ function normPhone(v) {
   let d = String(v).replace(/[^0-9]/g, "");
   if (d.indexOf("0") === 0) d = "32" + d.substring(1);   // BE: 0... → 32...
   return d;
+}
+
+// Meta-spec voor 'ct': kleine letters, geen accenten, geen spaties/leestekens.
+// Bv. "Sint-Truiden" → "sinttruiden", "Luik " → "luik".
+function normCity(v) {
+  return String(v)
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z]/g, "");
 }
 
 function sha256(str) {
