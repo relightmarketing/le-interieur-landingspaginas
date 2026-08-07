@@ -28,6 +28,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-ND5Z382N');</script>
 <!-- End Google Tag Manager -->
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+
+// GDPR: standaard geen toestemming — pixel vuurt pas na akkoord op de cookiebanner
+fbq('consent', 'revoke');
+fbq('init', '886954613675038');
+// Alleen vuren als er al toestemming is (terugkerende bezoeker); anders wacht op de banner
+if (localStorage.getItem('cookie_consent') === 'ja') {
+  fbq('consent', 'grant');
+  fbq('track', 'PageView');
+}
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=886954613675038&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Keukenrenovatie in Limburg — L&amp;E Interieur</title>
@@ -1003,6 +1028,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4jNlqf8xBN88VLGgYFsdu89r_nTfMp45m-8i6KSfkvDkWiy8U4VkSqWeLiAHs5hog_A/exec';
 
+  // Leest een cookie (voor Meta's _fbp/_fbc — verbetert de server-side matching)
+  function getCookie(name) {
+    var m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return m ? m.pop() : '';
+  }
+
   // Cookie banner
   function cookieKeuze(geaccepteerd) {
     localStorage.setItem('cookie_consent', geaccepteerd ? 'ja' : 'nee');
@@ -1014,6 +1045,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       ad_storage: state, ad_user_data: state,
       ad_personalization: state, analytics_storage: state
     });
+    // Meta Pixel: toestemming meeschakelen en PageView vuren zodra de bezoeker accepteert
+    if (typeof fbq === 'function') {
+      if (geaccepteerd) {
+        fbq('consent', 'grant');
+        fbq('track', 'PageView');
+      } else {
+        fbq('consent', 'revoke');
+      }
+    }
   }
   if (!localStorage.getItem('cookie_consent')) {
     document.getElementById('cookie-banner').style.display = 'block';
@@ -1067,6 +1107,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     data.click_id = _bron.click_id;
     data.landing  = _bron.landing;
 
+    // Alleen MET cookie-toestemming sturen we marketing-data naar Meta (browser-pixel én server-side CAPI).
+    // Zonder toestemming blijft event_id leeg, waardoor de server-side CAPI in Code.gs wordt overgeslagen — GDPR-conform.
+    var marketingConsent = localStorage.getItem('cookie_consent') === 'ja';
+    var leadEventId = null;
+    if (marketingConsent) {
+      leadEventId = 'lead.' + Date.now() + '.' + Math.random().toString(36).slice(2);
+      data.event_id = leadEventId;
+      data.event_source_url = window.location.href;
+      data.fbp = getCookie('_fbp');
+      data.fbc = getCookie('_fbc');
+    }
+
     try {
       await fetch(APPS_SCRIPT_URL + '?' + new URLSearchParams(data).toString(), {
         method: 'GET',
@@ -1079,13 +1131,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       // Google Ads conversie-tracking via GTM
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: 'renovatie_submission' });
+      window.dataLayer.push({ event: 'renovatie_submission', lead_event_id: leadEventId });
+
+      // Meta Pixel — Lead conversie met advanced matching (pixel hasht de gegevens lokaal). Alleen met toestemming.
+      if (marketingConsent && typeof fbq === 'function') {
+        var _naam = (data.naam || '').trim();
+        fbq('init', '886954613675038', {
+          em: (data.email || '').trim().toLowerCase(),
+          ph: (data.telefoon || '').replace(/[^0-9]/g, ''),
+          fn: _naam.split(' ')[0] || '',
+          ln: _naam.split(' ').slice(1).join(' ')
+        });
+        fbq('track', 'Lead',
+          { content_name: 'Keukenrenovatie — gratis adviesgesprek', content_category: 'Keukenrenovatie' },
+          { eventID: leadEventId });
+      }
     } catch (err) {
       btn.textContent = 'Stuur mijn aanvraag →';
       btn.disabled = false;
       alert('Er ging iets mis. Probeer opnieuw of bel ons op 011 82 38 28.');
     }
   });
+
+  // ── Telefoon-kliks (alle tel:-links) meten als Meta 'Contact'-event ──
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest ? e.target.closest('a[href^="tel:"]') : null;
+    if (!link) return;
+    var contactId = 'contact.' + Date.now() + '.' + Math.random().toString(36).slice(2);
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'phone_click', phone_event_id: contactId });
+    if (typeof fbq === 'function') {
+      fbq('track', 'Contact', { content_name: 'Telefoon-klik keukenrenovatie' }, { eventID: contactId });
+    }
+  }, true);
 </script>
 </body>
 </html>
