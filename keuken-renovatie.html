@@ -57,11 +57,19 @@ src="https://www.facebook.com/tr?id=886954613675038&ev=PageView&noscript=1"
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Keuken renoveren of opknappen in Limburg — L&amp;E Interieur</title>
 <meta name="description" content="Uw bestaande keuken renoveren, opknappen of vernieuwen zonder volledige verbouwing: nieuwe fronten, werkblad en toestellen. Eigen atelier in Peer, Limburg.">
-<!-- Performance: fonts via <link> (niet @import), preconnect naar het afbeeldingen-CDN,
-     en preload van de hero-afbeelding (LCP). Zie keukens-mobile-performance-analyse.md -->
+<!-- Performance: preconnects, non-blocking font, preload van de hero (LCP).
+     Zie keukens-mobile-performance-analyse.md -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap">
+<!-- Font niet render-blocking laden. Een gewone <link rel="stylesheet"> naar Google Fonts
+     blokkeert de weergave en start bovendien een ketting: eerst googleapis voor de CSS,
+     dan pas gstatic voor de woff2. Met media="print" + onload laadt de browser hem
+     asynchroon; display=swap zorgt dat tekst meteen zichtbaar is in een systeemfont.
+     Gewicht 600 is verwijderd — de pagina gebruikt het nergens (0 van 42 declaraties). -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap"
+      media="print" onload="this.media='all';this.onload=null">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap"></noscript>
 <link rel="preconnect" href="https://i0.wp.com" crossorigin>
 <link rel="preload" as="image" href="keuken%20renovatie%20voor%20en%20na.webp" fetchpriority="high">
 <style>
