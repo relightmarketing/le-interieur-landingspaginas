@@ -57,8 +57,17 @@ src="https://www.facebook.com/tr?id=886954613675038&ev=PageView&noscript=1"
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>L&amp;E Interieur — Keukens, badkamers en maatwerk in Pelt, Limburg</title>
 <meta name="description" content="L&E Interieur maakt keukens, badkamers, dressings en maatwerk interieur. Familiebedrijf in Pelt met eigen atelier in Peer. 30+ jaar vakmanschap. Vraag een gratis gesprek aan.">
+<!-- Performance: font niet render-blocking. Een gewone <link rel=stylesheet> naar
+     Google Fonts blokkeert de weergave en start een ketting (googleapis -> gstatic).
+     media="print" + onload laadt hem asynchroon; display=swap houdt tekst zichtbaar. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://i0.wp.com" crossorigin>
+<link rel="preload" as="image" href="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/02/wmp.jpg?w=1200&quality=70&ssl=1" fetchpriority="high">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" media="print" onload="this.media='all';this.onload=null">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap"></noscript>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -182,7 +191,7 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 .hero-sub { color: rgba(255,255,255,0.55); font-size: 15px; line-height: 1.85; max-width: 420px; font-weight: 300; }
 .hero-cta-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .hero-img {
-  background: url('https://leneinterieur.be/wp-content/uploads/2025/02/wmp.jpg') center/cover no-repeat;
+  background: url('https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/02/wmp.jpg?w=1200&quality=70&ssl=1') center/cover no-repeat;
   min-height: 500px;
 }
 
@@ -247,7 +256,7 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 }
 .about-text h2 { font-family: var(--heading-font); font-size: 38px; font-weight: 400; color: var(--text); line-height: 1.2; }
 .about-img {
-  background: url('https://leneinterieur.be/wp-content/uploads/2025/09/27.jpg') center/cover no-repeat;
+  background: url('https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=1000&quality=70&ssl=1') center/cover no-repeat;
 }
 .fact-list { display: flex; flex-direction: column; gap: 18px; }
 .fact-item { display: flex; align-items: flex-start; gap: 16px; }
@@ -677,27 +686,63 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
   <div class="portfolio-grid">
     <div class="p-img span2">
-      <img src="https://leneinterieur.be/wp-content/uploads/2025/09/27.jpg" alt="Keuken op maat" loading="lazy">
+      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=1200&quality=70&ssl=1"
+           srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=400&quality=70&ssl=1 400w,
+                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=800&quality=70&ssl=1 800w,
+                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=1200&quality=70&ssl=1 1200w"
+           sizes="(max-width: 768px) 100vw, 50vw"
+           width="1200" height="800"
+           alt="Keuken op maat" loading="lazy" decoding="async">
       <div class="p-label">Keuken op maat · Pelt</div>
     </div>
     <div class="p-img">
-      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-2-4.jpg" alt="Moderne keuken" loading="lazy">
+      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-2-4.jpg?w=600&quality=70&ssl=1"
+           srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-2-4.jpg?w=400&quality=70&ssl=1 400w,
+                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-2-4.jpg?w=800&quality=70&ssl=1 800w,
+                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-2-4.jpg?w=1200&quality=70&ssl=1 1200w"
+           sizes="(max-width: 768px) 50vw, 25vw"
+           width="600" height="400"
+           alt="Moderne keuken" loading="lazy" decoding="async">
       <div class="p-label">Moderne keuken</div>
     </div>
     <div class="p-img">
-      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-10-1.jpg" alt="Open leefkeuken" loading="lazy">
+      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-10-1.jpg?w=600&quality=70&ssl=1"
+           srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-10-1.jpg?w=400&quality=70&ssl=1 400w,
+                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-10-1.jpg?w=800&quality=70&ssl=1 800w,
+                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-10-1.jpg?w=1200&quality=70&ssl=1 1200w"
+           sizes="(max-width: 768px) 50vw, 25vw"
+           width="600" height="400"
+           alt="Open leefkeuken" loading="lazy" decoding="async">
       <div class="p-label">Open leefkeuken</div>
     </div>
     <div class="p-img">
-      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-12.jpg" alt="Eilandkeuken" loading="lazy">
+      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-12.jpg?w=600&quality=70&ssl=1"
+           srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-12.jpg?w=400&quality=70&ssl=1 400w,
+                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-12.jpg?w=800&quality=70&ssl=1 800w,
+                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-12.jpg?w=1200&quality=70&ssl=1 1200w"
+           sizes="(max-width: 768px) 50vw, 25vw"
+           width="600" height="400"
+           alt="Eilandkeuken" loading="lazy" decoding="async">
       <div class="p-label">Eilandkeuken</div>
     </div>
     <div class="p-img">
-      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-5-3.jpg" alt="Landelijke keuken" loading="lazy">
+      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-5-3.jpg?w=600&quality=70&ssl=1"
+           srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-5-3.jpg?w=400&quality=70&ssl=1 400w,
+                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-5-3.jpg?w=800&quality=70&ssl=1 800w,
+                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-5-3.jpg?w=1200&quality=70&ssl=1 1200w"
+           sizes="(max-width: 768px) 50vw, 25vw"
+           width="600" height="400"
+           alt="Landelijke keuken" loading="lazy" decoding="async">
       <div class="p-label">Landelijke stijl</div>
     </div>
     <div class="p-img">
-      <img src="https://leneinterieur.be/wp-content/uploads/2025/08/wmp-11-1.jpg" alt="Keuken maatwerk" loading="lazy">
+      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-11-1.jpg?w=600&quality=70&ssl=1"
+           srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-11-1.jpg?w=400&quality=70&ssl=1 400w,
+                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-11-1.jpg?w=800&quality=70&ssl=1 800w,
+                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/08/wmp-11-1.jpg?w=1200&quality=70&ssl=1 1200w"
+           sizes="(max-width: 768px) 50vw, 25vw"
+           width="600" height="400"
+           alt="Keuken maatwerk" loading="lazy" decoding="async">
       <div class="p-label">Maatwerk interieur</div>
     </div>
   </div>
