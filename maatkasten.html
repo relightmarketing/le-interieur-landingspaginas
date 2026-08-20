@@ -119,6 +119,9 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
   justify-content: space-between;
   position: sticky; top: 36px; z-index: 100;
 }
+/* Ankerdoelen voor sitelinks — compenseer de sticky balk + header */
+#portfolio, #werkwijze, #faq, #afspraak { scroll-margin-top: 120px; }
+
 .logo-area { display: flex; align-items: center; gap: 12px; }
 .logo-crown { color: var(--white); font-size: 28px; line-height: 1; }
 .logo-text { color: var(--white); font-family: var(--heading-font); font-size: 18px; font-weight: 400; letter-spacing: 0.08em; line-height: 1.1; }
@@ -635,6 +638,9 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
     top: 0;
   }
 
+  /* Ankerdoelen — op mobiel is enkel de header sticky, dus lagere offset */
+  #portfolio, #werkwijze, #faq, #afspraak { scroll-margin-top: 80px; }
+
   /* Hero */
   .hero {
     grid-template-columns: 1fr;
@@ -1108,7 +1114,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <!-- PROCESS -->
-<div class="process-section">
+<div class="process-section" id="werkwijze">
   <div class="section-eyebrow">Hoe het werkt</div>
   <h2>Van eerste gesprek tot geplaatste kast</h2>
   <div class="process-grid">
@@ -1198,7 +1204,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <!-- FAQ / BEZWAREN -->
-<div class="faq-section">
+<div class="faq-section" id="faq">
   <div class="section-eyebrow">Veelgestelde vragen</div>
   <h2>Wat klanten ons vragen</h2>
   <div class="faq-grid">
