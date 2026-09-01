@@ -464,6 +464,37 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 
   .footer-bar { flex-direction: column; gap: 6px; text-align: center; padding: 22px 20px; }
 }
+
+/* ── STICKY MOBIELE CTA-BALK ── */
+.sticky-cta {
+  display: none; /* standaard verborgen; alleen tonen op mobiel/tablet */
+  position: fixed; left: 0; right: 0; bottom: 0;
+  z-index: 150; /* onder de cookiebanner-overlay (9998) */
+  background: rgba(20,20,16,0.97);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid rgba(255,255,255,0.14);
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  box-shadow: 0 -8px 28px rgba(0,0,0,0.35);
+  transform: translateY(140%);
+  transition: transform 0.35s ease;
+}
+.sticky-cta.visible { transform: translateY(0); }
+.sticky-cta-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; min-height: 54px;
+  background: var(--white); color: var(--text);
+  font-family: var(--body-font); font-size: 15px; font-weight: 600;
+  letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none;
+  border: 1px solid var(--white);
+  transition: background 0.2s, color 0.2s;
+}
+.sticky-cta-btn:active { background: var(--primary); border-color: var(--primary); color: var(--white); }
+.sticky-cta-note { text-align: center; font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 8px; letter-spacing: 0.04em; }
+.sticky-cta-note strong { color: #c2c2a3; font-weight: 600; }
+@media (max-width: 1024px) {
+  .sticky-cta { display: block; }
+}
 </style>
 </head>
 <body>
@@ -476,6 +507,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="bedankt-banner" style="display:none;position:fixed;top:0;left:0;width:100%;background:#2d6a4f;color:#fff;text-align:center;padding:16px 24px;font-size:15px;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
   ✓ &nbsp;Bedankt! We nemen binnen 1 werkdag contact met u op.
   <button onclick="document.getElementById('bedankt-banner').style.display='none'" style="margin-left:16px;background:none;border:1px solid rgba(255,255,255,0.5);color:#fff;padding:4px 12px;cursor:pointer;font-size:13px;">✕</button>
+</div>
+
+<!-- STICKY MOBIELE CTA -->
+<div class="sticky-cta" id="sticky-cta">
+  <a href="#afspraak" class="sticky-cta-btn" id="sticky-cta-btn">Vraag een gratis gesprek aan →</a>
+  <div class="sticky-cta-note"><strong>Volledig vrijblijvend</strong></div>
 </div>
 
 <!-- NOTIFICATIEBALK -->
@@ -996,6 +1033,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       alert('Er ging iets mis. Probeer opnieuw of bel ons op 011 82 38 28.');
     }
   });
+
+  // ── Sticky mobiele CTA: tonen na de hero, verbergen zodra het formulier in beeld komt ──
+  (function () {
+    var bar  = document.getElementById('sticky-cta');
+    var hero = document.querySelector('.hero');
+    var form = document.getElementById('afspraak');
+    if (!bar || !hero || !form) return;
+
+    var pastHero = false, formVisible = false;
+    function update() { bar.classList.toggle('visible', pastHero && !formVisible); }
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        pastHero = !entries[0].isIntersecting;
+        update();
+      }, { rootMargin: '-120px 0px 0px 0px' }).observe(hero);
+
+      new IntersectionObserver(function (entries) {
+        formVisible = entries[0].isIntersecting;
+        update();
+      }, { threshold: 0.15 }).observe(form);
+    } else {
+      // Fallback: altijd tonen na wat scrollen
+      window.addEventListener('scroll', function () {
+        pastHero = window.scrollY > 500; update();
+      }, { passive: true });
+    }
+
+    document.getElementById('sticky-cta-btn').addEventListener('click', function (e) {
+      e.preventDefault();
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'sticky_cta_click' });
+      form.scrollIntoView({ behavior: 'smooth' });
+    });
+  })();
 
   // ── Telefoon-kliks (alle tel:-links) meten als Meta 'Contact'-event ──
   document.addEventListener('click', function (e) {

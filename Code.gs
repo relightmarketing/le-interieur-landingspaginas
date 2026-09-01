@@ -33,7 +33,8 @@ const STANDAARD_KOLOMMEN = ["Datum", "Naam", "Telefoon", "E-mail", "Stad/Gemeent
 const CAPI_CONTENT = {
   'Keukenrenovatie': { content_name: 'Keukenrenovatie — gratis adviesgesprek', content_category: 'Keukenrenovatie' },
   'Keukens':         { content_name: 'Keukens — gratis 3D-ontwerp',            content_category: 'Keukens' },
-  'Maatkasten':      { content_name: 'Maatkasten — gratis 3D-ontwerp',         content_category: 'Maatkasten' }
+  'Maatkasten':      { content_name: 'Maatkasten — gratis 3D-ontwerp',         content_category: 'Maatkasten' },
+  'Homepage':        { content_name: 'Homepage — gratis gesprek',              content_category: 'Algemeen' }
 };
 
 function doPost(e) {
