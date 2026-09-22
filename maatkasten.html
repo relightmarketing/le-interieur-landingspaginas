@@ -824,6 +824,56 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
     text-align: center;
     padding: 22px 20px;
   }
+
+  /* ══════════════════════════════════════════════════════════════
+     MOBIELE LEESBAARHEID & CONTACT — 2026-09-22
+     Aanleiding: landingspagina-ervaring stond in Google Ads op
+     BELOW_AVERAGE, en 87 van de 118 mobiele klikken in 30 dagen
+     leverden geen aanvraag op. Drie oorzaken aangepakt:
+     dunne kleine tekst, velden die iOS laat inzoomen, en een
+     telefoonnummer dat niet aantikbaar was.
+  ══════════════════════════════════════════════════════════════ */
+
+  /* Lopende tekst — 14px in gewicht 300 leest niet op een telefoon */
+  .intro-text p     { font-size: 16px; font-weight: 400; line-height: 1.75; color: var(--text); }
+  .usp-desc         { font-size: 14px; font-weight: 400; line-height: 1.65; }
+  .usp-detail-desc  { font-size: 16px; font-weight: 400; line-height: 1.75; }
+  .faq-q            { font-size: 16px; }
+  .faq-a            { font-size: 16px; font-weight: 400; line-height: 1.75; }
+  .review-text      { font-size: 16px; font-weight: 400; color: rgba(255,255,255,0.82); }
+
+  /* Formuliervelden — onder 16px zoomt iOS bij focus in en springt de
+     pagina bij élk veld. Dat is de grootste wrijving op mobiel. */
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 16px;
+    font-weight: 400;
+    padding: 15px 16px;          /* ± 50px hoog — comfortabel tikdoel */
+  }
+  .form-group label {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .form-group    { margin-bottom: 20px; }
+  .form-row      { gap: 0; }     /* margin-bottom regelt de tussenruimte al */
+  .form-right h3 { font-size: 22px; margin-bottom: 24px; }
+  .form-submit   { min-height: 56px; font-size: 14px; letter-spacing: 0.1em; }
+
+  /* Bellen — de drie plekken waar iemand het nummer aantikt */
+  .notif-tel     { color: var(--white); font-weight: 500; text-decoration: underline; white-space: nowrap; }
+  .header-right  { gap: 16px; }
+  .header-phone  { font-size: 15px; color: var(--white); padding: 10px 2px; }
+  .phone-cta a   { font-size: 28px; }
+  .phone-cta p   {
+    font-size: 13px;
+    text-transform: none;        /* openingsuren in kapitalen lezen slecht */
+    letter-spacing: 0.01em;
+    line-height: 1.7;
+    margin-top: 8px;
+  }
 }
 
 /* ── ANNOTATION LABELS ── */
@@ -877,7 +927,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- NOTIFICATIEBALK -->
 <div class="notif-bar">
-  📞 Bel direct voor advies: <strong>011 82 38 28</strong> <span class="notif-hide">&nbsp;·&nbsp; Ma–Vr 09:30–18:00 · Woe op afspraak · Za 10:00–16:00 &nbsp;·&nbsp; <a onclick="document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})">Of plan een gratis gesprek →</a></span>
+  📞 Bel direct voor advies: <a href="tel:+3211823828" class="notif-tel"><strong>011 82 38 28</strong></a> <span class="notif-hide">&nbsp;·&nbsp; Ma–Vr 09:30–18:00 · Woe op afspraak · Za 10:00–16:00 &nbsp;·&nbsp; <a onclick="document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})">Of plan een gratis gesprek →</a></span>
 </div>
 <!-- HEADER — exact L&E stijl -->
 <header class="site-header">
@@ -1289,21 +1339,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="form-row">
         <div class="form-group">
           <label>Naam *</label>
-          <input type="text" name="naam" placeholder="Jan Janssen" required>
+          <input type="text" name="naam" placeholder="Jan Janssen" autocomplete="name" required>
         </div>
         <div class="form-group">
           <label>Telefoon *</label>
-          <input type="tel" name="telefoon" placeholder="0499 00 00 00" required>
+          <input type="tel" name="telefoon" placeholder="0499 00 00 00" autocomplete="tel" inputmode="tel" required>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label>E-mail *</label>
-          <input type="email" name="email" placeholder="jan@email.be" required>
+          <input type="email" name="email" placeholder="jan@email.be" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" required>
         </div>
         <div class="form-group">
           <label>Stad of gemeente *</label>
-          <input type="text" name="stad" placeholder="Bv. Pelt" required>
+          <input type="text" name="stad" placeholder="Bv. Pelt" autocomplete="address-level2" required>
         </div>
       </div>
       <div class="form-group">
