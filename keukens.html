@@ -863,11 +863,6 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<!-- BEDANKT-BANNER -->
-<div id="bedankt-banner" style="display:none;position:fixed;top:0;left:0;width:100%;background:#2d6a4f;color:#fff;text-align:center;padding:16px 24px;font-size:15px;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
-  ✓ &nbsp;Bedankt! We nemen binnen 1 werkdag contact met u op.
-  <button onclick="document.getElementById('bedankt-banner').style.display='none'" style="margin-left:16px;background:none;border:1px solid rgba(255,255,255,0.5);color:#fff;padding:4px 12px;cursor:pointer;font-size:13px;">✕</button>
-</div>
 
 <!-- NOTIFICATIEBALK — nieuw conversieelement -->
 <div class="notif-bar">
@@ -1301,44 +1296,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
   <div class="form-right">
-    <h3>Vraag een gratis gesprek aan</h3>
-    <form id="keukens-form">
-      <div class="form-row">
-        <div class="form-group">
-          <label>Naam *</label>
-          <input type="text" name="naam" placeholder="Jan Janssen" required>
-        </div>
-        <div class="form-group">
-          <label>Telefoon *</label>
-          <input type="tel" name="telefoon" placeholder="0499 00 00 00" required>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>E-mail *</label>
-          <input type="email" name="email" placeholder="jan@email.be" required>
-        </div>
-        <div class="form-group">
-          <label>Stad of gemeente *</label>
-          <input type="text" name="stad" placeholder="Bv. Pelt" required>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Uw project</label>
-        <select name="type">
-          <option value="">Waar kunnen we jou mee helpen?</option>
-          <option>Nieuwe keuken op maat</option>
-          <option>Keukenrenovatie</option>
-          <option>Badkamer op maat</option>
-          <option>Maatwerk / andere</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Extra info (optioneel)</label>
-        <textarea name="bericht" rows="3" placeholder="Bv. stijl, afmetingen, timing..."></textarea>
-      </div>
-      <button type="submit" class="form-submit" id="keukens-submit">Stuur mijn aanvraag →</button>
-    </form>
+    <!-- STAPPENFORMULIER: één vraag per scherm. Logica in stappenformulier.js, stijl in stappenformulier.css -->
+    <link rel="stylesheet" href="stappenformulier.css">
+    <div class="sf" id="stappenformulier">
+      <noscript><p>Ons formulier heeft JavaScript nodig. Bel ons gerust op <a href="tel:+3211823828">011 82 38 28</a>.</p></noscript>
+    </div>
     <div class="form-divider"><span>of</span></div>
     <div class="phone-cta">
       <a href="tel:+3211823828">011 82 38 28</a>
@@ -1441,66 +1403,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     };
   }
 
-  document.getElementById('keukens-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const btn = document.getElementById('keukens-submit');
-    btn.textContent = 'Bezig met verzenden…';
-    btn.disabled = true;
-
-    const data = Object.fromEntries(new FormData(this).entries());
-    data.pagina = 'Keukens';
-
-    var _bron = haalBron();
-    data.bron     = _bron.bron;
-    data.campagne = _bron.campagne;
-    data.click_id = _bron.click_id;
-    data.landing  = _bron.landing;
-
-    // Alleen MET cookie-toestemming sturen we marketing-data naar Meta (browser-pixel én server-side CAPI).
-    // Zonder toestemming blijft event_id leeg, waardoor de server-side CAPI in Code.gs wordt overgeslagen — GDPR-conform.
-    var marketingConsent = localStorage.getItem('cookie_consent') === 'ja';
-    var leadEventId = null;
-    if (marketingConsent) {
-      leadEventId = 'lead.' + Date.now() + '.' + Math.random().toString(36).slice(2);
-      data.event_id = leadEventId;
-      data.event_source_url = window.location.href;
-      data.fbp = getCookie('_fbp');
-      data.fbc = getCookie('_fbc');
-    }
-
-    try {
-      await fetch(APPS_SCRIPT_URL + '?' + new URLSearchParams(data).toString(), {
-        method: 'GET',
-        mode: 'no-cors'
-      });
-      document.getElementById('bedankt-banner').style.display = 'block';
-      document.getElementById('afspraak').scrollIntoView({ behavior: 'smooth' });
-      this.reset();
-
-      // Google Ads conversie-tracking via GTM
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: 'keukens_submission', lead_event_id: leadEventId });
-
-      // Meta Pixel — Lead conversie met advanced matching (pixel hasht de gegevens lokaal). Alleen met toestemming.
-      if (marketingConsent && typeof fbq === 'function') {
-        var _naam = (data.naam || '').trim();
-        fbq('init', '886954613675038', {
-          em: (data.email || '').trim().toLowerCase(),
-          ph: (data.telefoon || '').replace(/[^0-9]/g, ''),
-          fn: _naam.split(' ')[0] || '',
-          ln: _naam.split(' ').slice(1).join(' ')
-        });
-        fbq('track', 'Lead',
-          { content_name: 'Keukens — gratis 3D-ontwerp', content_category: 'Keukens' },
-          { eventID: leadEventId });
-      }
-    } catch (err) {
-      btn.textContent = 'Stuur mijn aanvraag →';
-      btn.disabled = false;
-      alert('Er ging iets mis. Probeer opnieuw of bel ons op 011 82 38 28.');
-    }
-  });
-
   // ── Sticky mobiele CTA: tonen na de hero, verbergen zodra het formulier in beeld komt ──
   (function () {
     var bar  = document.getElementById('sticky-cta');
@@ -1548,5 +1450,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
   }, true);
 </script>
+<script>
+  // Configuratie van het stappenformulier voor deze pagina
+  window.LE_STAPPENFORMULIER = {
+    endpoint: APPS_SCRIPT_URL,
+    pagina:   'Keukens',
+    bedanktUrl: '/bedankt',
+    gtmEvent: 'keukens_submission',
+    capi:     { content_name: 'Keukens — gratis 3D-ontwerp', content_category: 'Keukens' },
+    typeVraag: {
+      vraag: 'Waar kunnen we u mee helpen?',
+      opties: [
+        { label: 'Nieuwe keuken op maat' },
+        { label: 'Keukenrenovatie' },
+        { label: 'Badkamer op maat' },
+        { label: 'Iets anders', vrij: true, placeholder: 'Bv. een bijkeuken of een tv-meubel' }
+      ]
+    },
+    berichtPlaceholder: 'Bv. stijl, afmetingen, wensen...'
+  };
+</script>
+<script src="stappenformulier.js" defer></script>
 </body>
 </html>
