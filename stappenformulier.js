@@ -34,6 +34,7 @@
              new URLSearchParams(location.search).has('test');
 
   var KEYS = 'ABCDEFGHIJ';
+  var VRIJ_PREFIX = 'Anders: ';   // zo herken je een zelf ingevuld antwoord in de Sheet
 
   // ── De vragen. Alleen de eerste verschilt per pagina. ──────────────────────
   var STAPPEN = [
@@ -259,17 +260,43 @@
 
     if (stap.soort === 'keuze') {
       var lijst = el('div', { 'class': 'sf-options' });
+      var vorig = antwoord[stap.id] || '';
       stap.opties.forEach(function (o, i) {
         var waarde = o.waarde || o.label;
         var knop = el('button', { type: 'button', 'class': 'sf-option', 'data-key': KEYS[i] }, [
           el('span', { 'class': 'sf-key', 'aria-hidden': 'true', text: KEYS[i] }),
           el('span', { text: o.label })
         ]);
-        if (antwoord[stap.id] === waarde) knop.classList.add('is-selected');
-        knop.addEventListener('click', function () { kies(stap, waarde, knop); });
+        if (o.vrij) {
+          // "Iets anders": opent een tekstveld i.p.v. meteen door te gaan
+          if (vorig.indexOf(VRIJ_PREFIX) === 0) knop.classList.add('is-selected');
+          knop.addEventListener('click', function () { kiesVrij(stap, knop); });
+        } else {
+          if (vorig === waarde) knop.classList.add('is-selected');
+          knop.addEventListener('click', function () { kies(stap, waarde, knop); });
+        }
         lijst.appendChild(knop);
       });
       box.appendChild(lijst);
+
+      var vrijeOptie = stap.opties.filter(function (o) { return o.vrij; })[0];
+      if (vrijeOptie) {
+        var vrijInput = el('input', { type: 'text', id: 'sf-vrij-' + stap.id, name: 'sf-vrij',
+                                      placeholder: vrijeOptie.placeholder || 'Omschrijf kort wat u zoekt' });
+        if (vorig.indexOf(VRIJ_PREFIX) === 0) vrijInput.value = vorig.slice(VRIJ_PREFIX.length);
+        var ok = el('button', { type: 'button', 'class': 'sf-next', text: 'Volgende →' });
+        ok.addEventListener('click', function () { bevestigVrij(stap); });
+        var vrijBlok = el('div', { 'class': 'sf-other' }, [
+          el('div', { 'class': 'sf-field' }, [
+            el('label', { 'for': 'sf-vrij-' + stap.id, text: vrijeOptie.label }),
+            vrijInput,
+            el('div', { 'class': 'sf-error', 'aria-live': 'polite' })
+          ]),
+          el('div', { 'class': 'sf-nav' }, [ok, el('span', { 'class': 'sf-enter', html: 'of druk op <kbd>Enter ↵</kbd>' })])
+        ]);
+        if (vorig.indexOf(VRIJ_PREFIX) !== 0) vrijBlok.hidden = true;
+        box.appendChild(vrijBlok);
+      }
     } else {
       stap.velden.forEach(function (v) {
         var attrs = { id: 'sf-' + v.naam, name: v.naam, placeholder: v.placeholder || '' };
@@ -331,6 +358,29 @@
     setTimeout(function () { bezig = false; volgende(); }, 320);
   }
 
+  // Vrije optie: tegel markeren en het tekstveld tonen. Geen automatische
+  // volgende stap; die komt pas bij "Volgende" of Enter.
+  function kiesVrij(stap, knop) {
+    if (bezig) return;
+    [].forEach.call(root.querySelectorAll('.sf-option'), function (b) { b.classList.remove('is-selected'); });
+    knop.classList.add('is-selected');
+    var blok = root.querySelector('.sf-other');
+    blok.hidden = false;
+    blok.querySelector('input').focus();
+  }
+
+  function bevestigVrij(stap) {
+    var input = root.querySelector('.sf-other input');
+    var tekst = (input.value || '').trim();
+    var wrap = input.closest('.sf-field');
+    var fout = tekst ? '' : 'Vul kort in wat u zoekt, of kies een optie hierboven.';
+    wrap.classList.toggle('has-error', !!fout);
+    wrap.querySelector('.sf-error').textContent = fout;
+    if (fout) { input.focus(); return; }
+    antwoord[stap.id] = VRIJ_PREFIX + tekst;
+    volgende();
+  }
+
   function toonEinde() {
     root.innerHTML = '';
     if (TEST) root.appendChild(el('div', { 'class': 'sf-testbadge', text: 'Testmodus · er wordt niets verstuurd' }));
@@ -349,9 +399,12 @@
   root.addEventListener('keydown', function (e) {
     var stap = STAPPEN[huidig];
     if (!stap) return;
-    if (e.key === 'Enter' && stap.soort === 'tekst' && e.target.tagName === 'INPUT') {
-      e.preventDefault(); volgende(); return;
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
+      e.preventDefault();
+      if (stap.soort === 'tekst') volgende(); else bevestigVrij(stap);
+      return;
     }
+    if (e.target.tagName === 'INPUT') return;   // typen in het vrije veld kiest geen optie
     if (stap.soort === 'keuze' && !e.metaKey && !e.ctrlKey && !e.altKey && e.key.length === 1) {
       var knop = root.querySelector('.sf-option[data-key="' + e.key.toUpperCase() + '"]');
       if (knop) { e.preventDefault(); knop.click(); }

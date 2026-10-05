@@ -104,3 +104,8 @@
   .sf-next { width: 100%; padding: 17px; font-size: 13px; }
   .sf-testbadge { top: -34px; }
 }
+
+/* Vrije optie ("Iets anders"): tekstveld onder de tegels */
+.sf-other { margin-top: 18px; animation: sf-in 0.25s ease both; }
+.sf-other[hidden] { display: none; }
+.sf-other .sf-nav { margin-top: 4px; }
