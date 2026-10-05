@@ -19,9 +19,14 @@
 //   live script zou per stap een nieuwe rij + mail maken. Niet naar `main` mergen
 //   vóór Code.gs v2 gedeployed is.
 //
-// TESTMODUS (localhost, 127.0.0.1, file:// of ?test in de URL):
-//   niets naar het Apps Script, geen GTM-conversie, geen Meta-pixel. Alles wordt
-//   in de console gelogd met het voorvoegsel [stappenformulier].
+// TWEE TESTMODI:
+//   Lokaal (localhost, 127.0.0.1, file:// of ?test in de URL): niets naar het Apps
+//     Script, geen GTM-conversie, geen Meta-pixel. Alles in de console met het
+//     voorvoegsel [stappenformulier]. Om te kijken hoe het formulier eruitziet.
+//   Sheet-test (?test=sheet in de URL, werkt lokaal én live): stuurt WEL naar het
+//     Apps Script, met test=1. Het script schrijft dan naar de tabs "Test" en
+//     "Funnel test" en mailt enkel Arthur. Geen conversie, geen CAPI. Om de hele
+//     keten formulier → script → Sheet → mail te testen.
 // ══════════════════════════════════════════════════════════════════════════
 (function () {
   'use strict';
@@ -30,8 +35,10 @@
   var root = document.getElementById('stappenformulier');
   if (!cfg || !root) return;
 
-  var TEST = /^(localhost|127\.0\.0\.1|)$/.test(location.hostname) ||
-             new URLSearchParams(location.search).has('test');
+  var params     = new URLSearchParams(location.search);
+  var SHEET_TEST = params.get('test') === 'sheet';
+  var TEST       = !SHEET_TEST &&
+                   (/^(localhost|127\.0\.0\.1|)$/.test(location.hostname) || params.has('test'));
 
   var KEYS = 'ABCDEFGHIJ';
   var VRIJ_PREFIX = 'Anders: ';   // zo herken je een zelf ingevuld antwoord in de Sheet
@@ -138,6 +145,7 @@
     }, antwoord, extra || {});
 
     if (TEST) { log('verzending (TEST, niet verstuurd):', data); return Promise.resolve(); }
+    if (SHEET_TEST) { data.test = '1'; log('verzending (SHEET-TEST → tab Test):', data); }
 
     return fetch(cfg.endpoint + '?' + new URLSearchParams(data).toString(), {
       method: 'GET', mode: 'no-cors', keepalive: true
@@ -147,7 +155,7 @@
   // De conversie. Vuurt één keer, bij de contactstap. Zelfde events en
   // dedup-logica als het oude formulier, zodat GTM en Ads niets merken.
   function vuurConversie(eventId, toestemming) {
-    if (TEST) { log('conversie (TEST, niet gevuurd):', cfg.gtmEvent, '+ Meta Lead', eventId || '(geen toestemming)'); return; }
+    if (TEST || SHEET_TEST) { log('conversie (TEST, niet gevuurd):', cfg.gtmEvent, '+ Meta Lead', eventId || '(geen toestemming)'); return; }
 
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: cfg.gtmEvent, lead_event_id: eventId });
@@ -198,7 +206,7 @@
     if (stap.isLead && !leadVerstuurd) {
       // Alleen MET cookie-toestemming gaat er marketing-data naar Meta
       // (browser-pixel én server-side CAPI). Zonder blijft event_id leeg.
-      var toestemming = localStorage.getItem('cookie_consent') === 'ja';
+      var toestemming = !SHEET_TEST && localStorage.getItem('cookie_consent') === 'ja';
       var eventId = null;
       if (toestemming) {
         eventId = 'lead.' + Date.now() + '.' + Math.random().toString(36).slice(2);
@@ -221,7 +229,7 @@
     var stap = STAPPEN[index];
     root.innerHTML = '';
 
-    if (TEST) root.appendChild(el('div', { 'class': 'sf-testbadge', text: 'Testmodus · er wordt niets verstuurd' }));
+    testLabel();
 
     // Voortgang
     var pct = Math.round((index / STAPPEN.length) * 100);
@@ -362,6 +370,11 @@
     volgende();
   }
 
+  function testLabel() {
+    if (TEST)       root.appendChild(el('div', { 'class': 'sf-testbadge', text: 'Testmodus · er wordt niets verstuurd' }));
+    if (SHEET_TEST) root.appendChild(el('div', { 'class': 'sf-testbadge', text: 'Sheet-test · naar tab Test, geen conversie' }));
+  }
+
   function toonEinde() {
     // Naar de bedankpagina. Veilig: de conversie vuurde al bij de contactstap,
     // dus deze navigatie kan geen tag meer afbreken. Voornaam en pagina gaan via
@@ -373,12 +386,12 @@
           pagina:   cfg.pagina
         }));
       } catch (e) {}
-      if (TEST) log('doorverwijzing naar', cfg.bedanktUrl);
+      if (TEST || SHEET_TEST) log('doorverwijzing naar', cfg.bedanktUrl);
       location.href = cfg.bedanktUrl;
       return;
     }
     root.innerHTML = '';
-    if (TEST) root.appendChild(el('div', { 'class': 'sf-testbadge', text: 'Testmodus · er wordt niets verstuurd' }));
+    testLabel();
     var voornaam = (antwoord.naam || '').trim().split(' ')[0];
     var q = el('h3', { 'class': 'sf-q', tabindex: '-1', text: 'Bedankt' + (voornaam ? ', ' + voornaam : '') + '. Uw aanvraag is binnen.' });
     root.appendChild(el('div', { 'class': 'sf-step sf-done' }, [
@@ -407,5 +420,6 @@
   });
 
   toon(0, false);
-  if (TEST) log('testmodus actief: niets wordt verstuurd. lead_id =', leadId);
+  if (TEST)       log('testmodus actief: niets wordt verstuurd. lead_id =', leadId);
+  if (SHEET_TEST) log('sheet-test actief: verzendt naar tab Test, geen conversie. lead_id =', leadId);
 })();
