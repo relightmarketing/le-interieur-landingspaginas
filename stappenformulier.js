@@ -339,7 +339,7 @@
     root.appendChild(el('div', { 'class': 'sf-step sf-done' }, [
       q,
       // Tijdelijk eindscherm. Wordt vervangen door een redirect naar /bedankt.
-      el('p', { text: 'We bellen u binnen 1 werkdag op om een vrijblijvend gesprek in onze showroom in Pelt in te plannen.' }),
+      el('p', { text: 'We bellen u op om een vrijblijvend gesprek in onze showroom in Pelt in te plannen.' }),
       el('p', { html: 'Liever zelf bellen? <a href="tel:+3211823828">011 82 38 28</a>' })
     ]));
     q.focus({ preventScroll: true });
