@@ -363,6 +363,20 @@
   }
 
   function toonEinde() {
+    // Naar de bedankpagina. Veilig: de conversie vuurde al bij de contactstap,
+    // dus deze navigatie kan geen tag meer afbreken. Voornaam en pagina gaan via
+    // sessionStorage, niet via de URL (dan zou de naam in GA4/Meta-logs staan).
+    if (cfg.bedanktUrl) {
+      try {
+        sessionStorage.setItem('le_aanvraag', JSON.stringify({
+          voornaam: (antwoord.naam || '').trim().split(' ')[0],
+          pagina:   cfg.pagina
+        }));
+      } catch (e) {}
+      if (TEST) log('doorverwijzing naar', cfg.bedanktUrl);
+      location.href = cfg.bedanktUrl;
+      return;
+    }
     root.innerHTML = '';
     if (TEST) root.appendChild(el('div', { 'class': 'sf-testbadge', text: 'Testmodus · er wordt niets verstuurd' }));
     var voornaam = (antwoord.naam || '').trim().split(' ')[0];

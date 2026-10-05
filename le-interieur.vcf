@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:;L&E Interieur;;;
+FN:L&E Interieur
+ORG:L&E Interieur
+TEL;TYPE=WORK,VOICE:+3211823828
+EMAIL;TYPE=WORK:info@leneinterieur.be
+ADR;TYPE=WORK:;;Leopoldlaan 104;Pelt;;3900;België
+URL:https://leneinterieur.be
+NOTE:Showroom Pelt. Ma-Vr 09:30-18:00, woe op afspraak, za 10:00-16:00.
+END:VCARD
