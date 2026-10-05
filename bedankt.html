@@ -110,8 +110,6 @@ h2 { font-family: var(--heading-font); font-size: 36px; font-weight: 400; line-h
 .check span { width: 22px; height: 22px; border: 1px solid rgba(255,255,255,0.5); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; letter-spacing: 0; color: var(--white); }
 .hero h1 { font-family: var(--heading-font); font-size: 46px; line-height: 1.15; color: var(--white); font-weight: 400; }
 .hero p { color: rgba(255,255,255,0.75); font-size: 16px; line-height: 1.85; max-width: 460px; }
-.hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
-.hero-note { font-size: 13px !important; color: rgba(255,255,255,0.5) !important; }
 .hero-img { position: relative; min-height: 420px; }
 .hero-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
@@ -126,6 +124,32 @@ h2 { font-family: var(--heading-font); font-size: 36px; font-weight: 400; line-h
 .step-desc { font-size: 15px; color: var(--text-muted); line-height: 1.8; }
 .step.is-now .step-num { color: var(--primary); font-weight: 400; }
 .step.is-now .step-num::after { content: '  ·  nu'; font-family: var(--body-font); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; }
+
+.section-eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); font-weight: 400; }
+/* ── REVIEWS ── */
+.reviews-section {
+  background: var(--black);
+  padding: 88px 56px;
+}
+.reviews-section .section-eyebrow, .reviews-section .eyebrow { color: rgba(255,255,255,0.4); margin-bottom: 12px; }
+.reviews-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 56px; }
+.reviews-header h2 { font-family: var(--heading-font); font-size: 38px; font-weight: 400; color: var(--white); line-height: 1.2; }
+.google-badge { display: flex; align-items: center; gap: 12px; }
+.score-num { font-family: var(--heading-font); font-size: 48px; color: var(--white); line-height: 1; }
+.score-stars { color: #F4A623; font-size: 16px; display: block; margin-bottom: 2px; }
+.score-label { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; text-transform: uppercase; }
+.review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.08); }
+.review-card {
+  background: #1a1a1a;
+  padding: 36px 32px;
+}
+.review-stars-sm { color: #F4A623; font-size: 12px; margin-bottom: 16px; letter-spacing: 2px; }
+.review-text { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.8; margin-bottom: 20px; font-weight: 300; font-style: italic; }
+.review-author { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.85); letter-spacing: 0.06em; text-transform: uppercase; }
+.review-note { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 4px; }
+.review-source { display: flex; align-items: center; gap: 6px; margin-top: 10px; }
+.review-source svg { flex-shrink: 0; }
+.review-source span { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.06em; text-transform: uppercase; }
 
 /* Voorbereiden */
 .prep { display: grid; grid-template-columns: 1fr 1fr; }
@@ -170,12 +194,17 @@ h2 { font-family: var(--heading-font); font-size: 36px; font-weight: 400; line-h
   .hero-text { padding: 48px 24px 40px; gap: 20px; }
   .hero h1 { font-size: 32px; }
   .hero-img { min-height: 260px; order: -1; }
-  .hero-cta .btn { width: 100%; text-align: center; padding: 17px; }
   h2 { font-size: 28px; }
   .steps-section, .prep-text, .why, .visit { padding: 56px 24px; }
   .steps { grid-template-columns: 1fr; margin-top: 28px; }
   .step, .step + .step { padding: 24px 0; border-right: none; border-top: 1px solid var(--border-light); }
   .prep-img { min-height: 260px; }
+  .reviews-section { padding: 56px 24px; }
+  .reviews-header { flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: 32px; }
+  .reviews-header h2 { font-size: 28px; }
+  .review-grid { grid-template-columns: 1fr; }
+  .review-card { padding: 28px 22px; }
+  .score-num { font-size: 40px; }
   .why-grid { grid-template-columns: 1fr; gap: 28px; }
   .visit { gap: 8px; }
   .visit dl { grid-template-columns: 1fr; gap: 4px; }
@@ -202,11 +231,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="check"><span>✓</span>Aanvraag ontvangen</div>
     <h1 id="bedankt-titel">Bedankt. We bellen u op.</h1>
     <p>We bellen u op om een vrijblijvend gesprek in onze showroom in Pelt in te plannen. Hieronder leest u hoe het verder gaat.</p>
-    <div class="hero-cta">
-      <a href="le-interieur.vcf" class="btn btn-filled" id="vcard-btn" download>Sla ons nummer op</a>
-      <a href="tel:+3211823828" class="btn btn-outline">Of bel ons zelf</a>
-    </div>
-    <p class="hero-note">Zet ons nummer bij uw contacten, dan herkent u de oproep.</p>
   </div>
   <div class="hero-img">
     <img id="hero-foto"
@@ -247,6 +271,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </section>
+
+<!-- KLANTERVARINGEN (letterlijk, zoals op de landingspagina's) -->
+<div class="reviews-section">
+  <div class="section-eyebrow">Klantervaringen</div>
+  <div class="reviews-header">
+    <h2>Wat klanten zeggen</h2>
+    <div class="google-badge">
+      <svg viewBox="0 0 24 24" width="32" height="32" style="flex-shrink:0;"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.86h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.81 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      <div class="score-num">4.8</div>
+      <div>
+        <span class="score-stars">★★★★★</span>
+        <span class="score-label">22 Google Reviews</span>
+      </div>
+    </div>
+  </div>
+  <div class="review-grid">
+    <div class="review-card">
+      <div class="review-stars-sm">★★★★★</div>
+      <div class="review-text">"Van het eerste gesprek tot de plaatsing: alles verliep perfect. Jos en zijn team denken echt mee en leveren vakwerk. Onze keuken is precies wat we ons hadden voorgesteld."</div>
+      <div class="review-author">Marie V.</div>
+      <div class="review-note">Pelt · Keuken op maat</div>
+      <div class="review-source"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.86h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.81 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg><span>Google Review</span></div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars-sm">★★★★★</div>
+      <div class="review-text">"Het 3D-ontwerp maakte alles zo duidelijk — we konden alles zien vóór de productie. Geen stress, geen verrassingen op de factuur. Een echte aanrader voor iedereen in Limburg."</div>
+      <div class="review-author">Tom &amp; Els D.</div>
+      <div class="review-note">Neerpelt · Maatwerk</div>
+      <div class="review-source"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.86h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.81 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg><span>Google Review</span></div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars-sm">★★★★★</div>
+      <div class="review-text">"Professioneel, vriendelijk en eerlijk. We bevelen L&amp;E aan bij iedereen die een keuken laat plaatsen. Familiebedrijf met een hart voor hun klanten."</div>
+      <div class="review-author">Peter K.</div>
+      <div class="review-note">Hamont · Interieur op maat</div>
+      <div class="review-source"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.86h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.81 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg><span>Google Review</span></div>
+    </div>
+  </div>
+</div>
 
 <!-- 3. VOORBEREIDEN -->
 <section class="prep">
@@ -395,12 +458,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     zet('prep-foto', p.prep);
   })();
 
-  // ── Telefoon-kliks en vCard meten (geen conversie, enkel inzicht) ──────────
+  // ── Telefoon-kliks meten (secundair, geen leadconversie) ───────────────────
   document.addEventListener('click', function (e) {
-    var link = e.target.closest ? e.target.closest('a[href^="tel:"], #vcard-btn') : null;
+    var link = e.target.closest ? e.target.closest('a[href^="tel:"]') : null;
     if (!link) return;
     window.dataLayer = window.dataLayer || [];
-    if (link.id === 'vcard-btn') { window.dataLayer.push({ event: 'vcard_download' }); return; }
     var contactId = 'contact.' + Date.now() + '.' + Math.random().toString(36).slice(2);
     window.dataLayer.push({ event: 'phone_click', phone_event_id: contactId });
     if (typeof fbq === 'function') {
