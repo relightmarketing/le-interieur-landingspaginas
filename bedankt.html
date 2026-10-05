@@ -104,18 +104,18 @@ h2 { font-family: var(--heading-font); font-size: 36px; font-weight: 400; line-h
 .btn-outline:hover { background: var(--white); color: var(--black); }
 
 /* Hero */
-.hero { background: var(--black); display: grid; grid-template-columns: 1fr 1fr; min-height: 520px; }
-.hero-text { padding: 72px 56px; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
+.hero { background: var(--black); display: grid; grid-template-columns: 1fr 1fr; min-height: 380px; }
+.hero-text { padding: 56px 56px; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
 .check { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
 .check span { width: 22px; height: 22px; border: 1px solid rgba(255,255,255,0.5); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; letter-spacing: 0; color: var(--white); }
 .hero h1 { font-family: var(--heading-font); font-size: 46px; line-height: 1.15; color: var(--white); font-weight: 400; }
 .hero p { color: rgba(255,255,255,0.75); font-size: 16px; line-height: 1.85; max-width: 460px; }
-.hero-img { position: relative; min-height: 420px; }
+.hero-img { position: relative; min-height: 300px; }
 .hero-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
 /* Stappen */
-.steps-section { background: var(--bg-light); padding: 88px 56px; }
-.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 44px; border-top: 1px solid var(--border-light); }
+.steps-section { background: var(--bg-light); padding: 64px 56px; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 32px; border-top: 1px solid var(--border-light); }
 .step { padding: 32px 28px 8px 0; border-right: 1px solid var(--border-light); }
 .step + .step { padding-left: 28px; }
 .step:last-child { border-right: none; }
@@ -151,16 +151,19 @@ h2 { font-family: var(--heading-font); font-size: 36px; font-weight: 400; line-h
 .review-source svg { flex-shrink: 0; }
 .review-source span { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.06em; text-transform: uppercase; }
 
-/* Voorbereiden */
-.prep { display: grid; grid-template-columns: 1fr 1fr; }
-.prep-text { padding: 88px 56px; }
-.prep-list { list-style: none; margin: 28px 0; display: flex; flex-direction: column; gap: 14px; }
+/* Voor uw afspraak */
+.appt { padding: 72px 56px; }
+.appt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 36px; }
+.appt h3 { font-family: var(--heading-font); font-size: 22px; font-weight: 400; margin-bottom: 8px; }
+.appt-sub { font-size: 15px; color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; }
+.appt dl { display: grid; grid-template-columns: 120px 1fr; gap: 14px 20px; font-size: 16px; }
+.appt dt { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); padding-top: 4px; }
+.appt dd a { color: var(--primary); }
+.prep-list { list-style: none; margin: 0 0 24px; display: flex; flex-direction: column; gap: 14px; }
 .prep-list li { display: flex; gap: 14px; align-items: flex-start; font-size: 16px; line-height: 1.6; }
 .prep-list li::before { content: ''; flex-shrink: 0; width: 18px; height: 18px; margin-top: 3px; border: 1px solid var(--primary); }
 .prep-mail { font-size: 15px; color: var(--text-muted); line-height: 1.8; border-left: 2px solid var(--primary); padding-left: 16px; }
 .prep-mail a { color: var(--primary); font-weight: 400; }
-.prep-img { position: relative; min-height: 420px; }
-.prep-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
 /* Waarom de showroom */
 .why { background: var(--black); color: var(--white); padding: 88px 56px; }
@@ -169,11 +172,6 @@ h2 { font-family: var(--heading-font); font-size: 36px; font-weight: 400; line-h
 .why-item h3 { font-family: var(--heading-font); font-size: 21px; font-weight: 400; margin-bottom: 10px; }
 .why-item p { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.8; }
 
-/* Bezoek */
-.visit { padding: 88px 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
-.visit dl { display: grid; grid-template-columns: 120px 1fr; gap: 14px 20px; font-size: 16px; margin-top: 8px; }
-.visit dt { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); padding-top: 4px; }
-.visit dd a { color: var(--primary); }
 .btn-dark { background: var(--black); color: var(--white); border-color: var(--black); margin-top: 28px; }
 .btn-dark:hover { background: var(--primary); border-color: var(--primary); }
 
@@ -190,15 +188,15 @@ h2 { font-family: var(--heading-font); font-size: 36px; font-weight: 400; line-h
 @media (max-width: 768px) {
   .site-header { padding: 14px 20px; }
   .site-header img { height: 40px; }
-  .hero, .prep, .visit { grid-template-columns: 1fr; }
-  .hero-text { padding: 48px 24px 40px; gap: 20px; }
+  .hero, .appt-grid { grid-template-columns: 1fr; }
+  .appt-grid { gap: 48px; margin-top: 28px; }
+  .hero-text { padding: 36px 24px 32px; gap: 16px; }
   .hero h1 { font-size: 32px; }
-  .hero-img { min-height: 260px; order: -1; }
+  .hero-img { display: none; } /* bevestiging en volgende stappen eerst, geen foto ervoor */
   h2 { font-size: 28px; }
-  .steps-section, .prep-text, .why, .visit { padding: 56px 24px; }
+  .steps-section, .appt, .why { padding: 48px 24px; }
   .steps { grid-template-columns: 1fr; margin-top: 28px; }
   .step, .step + .step { padding: 24px 0; border-right: none; border-top: 1px solid var(--border-light); }
-  .prep-img { min-height: 260px; }
   .reviews-section { padding: 56px 24px; }
   .reviews-header { flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: 32px; }
   .reviews-header h2 { font-size: 28px; }
@@ -206,9 +204,8 @@ h2 { font-family: var(--heading-font); font-size: 36px; font-weight: 400; line-h
   .review-card { padding: 28px 22px; }
   .score-num { font-size: 40px; }
   .why-grid { grid-template-columns: 1fr; gap: 28px; }
-  .visit { gap: 8px; }
-  .visit dl { grid-template-columns: 1fr; gap: 4px; }
-  .visit dd { margin-bottom: 12px; }
+  .appt dl { grid-template-columns: 1fr; gap: 4px; }
+  .appt dd { margin-bottom: 12px; }
   .btn-dark { width: 100%; text-align: center; }
   .footer-bar { flex-direction: column; text-align: center; padding: 22px 20px; }
 }
@@ -247,7 +244,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="steps-section">
   <div class="eyebrow">Wat gebeurt er nu?</div>
   <h2>Van uw aanvraag tot uw <span id="dienst-woord">interieur</span> op maat</h2>
-  <p class="lead">Zo verloopt het, van het eerste telefoontje tot de plaatsing. U zit bij elke stap tegenover dezelfde mensen.</p>
+  <p class="lead">U zit bij elke stap tegenover dezelfde mensen.</p>
   <div class="steps">
     <div class="step is-now">
       <div class="step-num">01</div>
@@ -268,6 +265,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="step-num">04</div>
       <div class="step-title">Gemaakt en geplaatst</div>
       <div class="step-desc">Alles wordt gemaakt in ons eigen atelier in Peer en geplaatst door ons eigen team. Eén aanspreekpunt van begin tot eind.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. VOOR UW AFSPRAAK: praktisch (waar/wanneer) + wat meebrengen -->
+<section class="appt">
+  <div class="eyebrow">Goed om te weten</div>
+  <h2>Voor uw afspraak</h2>
+  <div class="appt-grid">
+    <div class="appt-col">
+      <h3>Waar en wanneer</h3>
+      <p class="appt-sub">U komt langs op een moment dat we samen afspreken aan de telefoon.</p>
+      <dl>
+        <dt>Adres</dt><dd>Leopoldlaan 104, 3900 Pelt</dd>
+        <dt>Openingsuren</dt><dd>Ma–Vr 09:30–18:00<br>Woensdag op afspraak<br>Za 10:00–16:00</dd>
+        <dt>Telefoon</dt><dd><a href="tel:+3211823828">011 82 38 28</a></dd>
+        <dt>E-mail</dt><dd><a href="mailto:info@leneinterieur.be">info@leneinterieur.be</a></dd>
+      </dl>
+      <a class="btn btn-dark" href="https://www.google.com/maps/search/?api=1&amp;query=L%26E+Interieur+Leopoldlaan+104+3900+Pelt" target="_blank" rel="noopener">Route in Google Maps</a>
+    </div>
+    <div class="appt-col">
+      <h3>Wat u alvast kunt verzamelen</h3>
+      <p class="appt-sub">Hoe beter we uw ruimte kennen, hoe concreter het eerste gesprek. Niets hiervan is verplicht.</p>
+      <ul class="prep-list">
+        <li>Een paar foto's van de ruimte</li>
+        <li>Ruwe afmetingen: breedte, hoogte, schuine wanden of nissen</li>
+        <li>Plannen van uw architect of aannemer, als u die hebt</li>
+        <li>Beelden die u mooi vindt, bijvoorbeeld van Pinterest of Instagram</li>
+        <li>Een idee van uw timing</li>
+      </ul>
+      <p class="prep-mail">Hebt u al foto's of plannen? Mail ze gerust naar <a href="mailto:info@leneinterieur.be?subject=Mijn%20aanvraag%20via%20de%20website">info@leneinterieur.be</a> met uw naam erbij. Dan bekijken we ze vóór we bellen.</p>
     </div>
   </div>
 </section>
@@ -311,32 +339,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<!-- 3. VOORBEREIDEN -->
-<section class="prep">
-  <div class="prep-text">
-    <div class="eyebrow">Haal meer uit uw gesprek</div>
-    <h2>Wat u alvast kunt verzamelen</h2>
-    <p class="lead">Hoe beter we uw ruimte kennen, hoe concreter het eerste gesprek. Niets hiervan is verplicht.</p>
-    <ul class="prep-list">
-      <li>Een paar foto's van de ruimte</li>
-      <li>Ruwe afmetingen: breedte, hoogte, schuine wanden of nissen</li>
-      <li>Plannen van uw architect of aannemer, als u die hebt</li>
-      <li>Beelden die u mooi vindt, bijvoorbeeld van Pinterest of Instagram</li>
-      <li>Een idee van uw timing</li>
-    </ul>
-    <p class="prep-mail">Hebt u al foto's of plannen? Mail ze gerust naar <a href="mailto:info@leneinterieur.be?subject=Mijn%20aanvraag%20via%20de%20website">info@leneinterieur.be</a> met uw naam erbij. Dan bekijken we ze vóór we bellen.</p>
-  </div>
-  <div class="prep-img">
-    <img id="prep-foto"
-         src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=1000&quality=70&ssl=1"
-         srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2025/09/27.jpg?w=1200&quality=70&ssl=1 1200w"
-         sizes="(max-width: 768px) 100vw, 50vw"
-         width="1200" height="900" alt="Maatwerk uit het atelier van L&amp;E Interieur" loading="lazy" decoding="async">
-  </div>
-</section>
-
 <!-- 4. WAAROM LANGSKOMEN -->
 <section class="why">
   <div class="eyebrow">Waarom een gesprek in de showroom?</div>
@@ -354,24 +356,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h3>30+ jaar ervaring</h3>
       <p>Een familiebedrijf dat al meer dan dertig jaar maatwerk maakt in Limburg. Het gesprek is vrijblijvend, zonder verkoopdruk.</p>
     </div>
-  </div>
-</section>
-
-<!-- 5. BEZOEK -->
-<section class="visit">
-  <div>
-    <div class="eyebrow">Onze showroom</div>
-    <h2>Hier vindt u ons</h2>
-    <p class="lead">U komt langs op een moment dat we samen afspreken aan de telefoon.</p>
-  </div>
-  <div>
-    <dl>
-      <dt>Adres</dt><dd>Leopoldlaan 104, 3900 Pelt</dd>
-      <dt>Openingsuren</dt><dd>Ma–Vr 09:30–18:00<br>Woensdag op afspraak<br>Za 10:00–16:00</dd>
-      <dt>Telefoon</dt><dd><a href="tel:+3211823828">011 82 38 28</a></dd>
-      <dt>E-mail</dt><dd><a href="mailto:info@leneinterieur.be">info@leneinterieur.be</a></dd>
-    </dl>
-    <a class="btn btn-dark" href="https://www.google.com/maps/search/?api=1&amp;query=L%26E+Interieur+Leopoldlaan+104+3900+Pelt" target="_blank" rel="noopener">Route in Google Maps</a>
   </div>
 </section>
 
@@ -455,7 +439,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if (alt) img.alt = alt;
     }
     zet('hero-foto', p.hero, p.alt);
-    zet('prep-foto', p.prep);
   })();
 
   // ── Telefoon-kliks meten (secundair, geen leadconversie) ───────────────────
