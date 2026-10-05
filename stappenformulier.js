@@ -82,25 +82,6 @@
       privacy: true
     },
     {
-      id: 'showroom', soort: 'keuze',
-      vraag: 'Komt u graag langs in onze showroom in Pelt?',
-      hint: 'Daar ziet u materialen en afwerkingen in het echt, en luistert Jos naar uw plannen. Vrijblijvend.',
-      opties: [
-        { label: 'Ja, graag' },
-        { label: 'Liever eerst telefonisch kennismaken' }
-      ]
-    },
-    {
-      id: 'beltijd', soort: 'keuze',
-      vraag: 'Wanneer kunnen we u het best bellen?',
-      opties: [
-        { label: 'In de voormiddag' },
-        { label: 'In de namiddag' },
-        { label: 'Na 17 uur' },
-        { label: 'Maakt niet uit' }
-      ]
-    },
-    {
       id: 'bericht', soort: 'tekst', laatste: true,
       vraag: 'Wilt u ons nog iets laten weten?',
       hint: 'Niet verplicht. Alles wat helpt om het gesprek goed voor te bereiden.',
