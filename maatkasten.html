@@ -1334,46 +1334,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
   <div class="form-right">
-    <h3>Vraag een gratis gesprek aan</h3>
-    <form id="maatkasten-form">
-      <div class="form-row">
-        <div class="form-group">
-          <label>Naam *</label>
-          <input type="text" name="naam" placeholder="Jan Janssen" autocomplete="name" required>
-        </div>
-        <div class="form-group">
-          <label>Telefoon *</label>
-          <input type="tel" name="telefoon" placeholder="0499 00 00 00" autocomplete="tel" inputmode="tel" required>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>E-mail *</label>
-          <input type="email" name="email" placeholder="jan@email.be" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" required>
-        </div>
-        <div class="form-group">
-          <label>Stad of gemeente *</label>
-          <input type="text" name="stad" placeholder="Bv. Pelt" autocomplete="address-level2" required>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Wat wilt u laten maken?</label>
-        <select name="type">
-          <option value="">Kies een optie</option>
-          <option>Schuifdeurkast / kastenwand</option>
-          <option>Inbouwkast (nis of schuin dak)</option>
-          <option>Slaapkamerkast</option>
-          <option>Inloopdressing</option>
-          <option>Berging of bureaukast</option>
-          <option>Weet nog niet — advies gewenst</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Extra info (optioneel)</label>
-        <textarea name="bericht" rows="3" placeholder="Bv. afmetingen, schuin dak, stijl, timing..."></textarea>
-      </div>
-      <button type="submit" class="form-submit" id="maatkasten-submit">Stuur mijn aanvraag →</button>
-    </form>
+    <!-- STAPPENFORMULIER: één vraag per scherm. Logica in stappenformulier.js, stijl in stappenformulier.css -->
+    <link rel="stylesheet" href="stappenformulier.css">
+    <div class="sf" id="stappenformulier">
+      <noscript><p>Ons formulier heeft JavaScript nodig. Bel ons gerust op <a href="tel:+3211823828">011 82 38 28</a>.</p></noscript>
+    </div>
     <div class="form-divider"><span>of</span></div>
     <div class="phone-cta">
       <a href="tel:+3211823828">011 82 38 28</a>
@@ -1476,66 +1441,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     };
   }
 
-  document.getElementById('maatkasten-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const btn = document.getElementById('maatkasten-submit');
-    btn.textContent = 'Bezig met verzenden…';
-    btn.disabled = true;
-
-    const data = Object.fromEntries(new FormData(this).entries());
-    data.pagina = 'Maatkasten';
-
-    var _bron = haalBron();
-    data.bron     = _bron.bron;
-    data.campagne = _bron.campagne;
-    data.click_id = _bron.click_id;
-    data.landing  = _bron.landing;
-
-    // Alleen MET cookie-toestemming sturen we marketing-data naar Meta (browser-pixel én server-side CAPI).
-    // Zonder toestemming blijft event_id leeg, waardoor de server-side CAPI in Code.gs wordt overgeslagen — GDPR-conform.
-    var marketingConsent = localStorage.getItem('cookie_consent') === 'ja';
-    var leadEventId = null;
-    if (marketingConsent) {
-      leadEventId = 'lead.' + Date.now() + '.' + Math.random().toString(36).slice(2);
-      data.event_id = leadEventId;
-      data.event_source_url = window.location.href;
-      data.fbp = getCookie('_fbp');
-      data.fbc = getCookie('_fbc');
-    }
-
-    try {
-      await fetch(APPS_SCRIPT_URL + '?' + new URLSearchParams(data).toString(), {
-        method: 'GET',
-        mode: 'no-cors'
-      });
-      document.getElementById('bedankt-banner').style.display = 'block';
-      document.getElementById('afspraak').scrollIntoView({ behavior: 'smooth' });
-      this.reset();
-
-      // Google Ads conversie-tracking via GTM
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: 'maatkasten_submission', lead_event_id: leadEventId });
-
-      // Meta Pixel — Lead conversie met advanced matching (pixel hasht de gegevens lokaal). Alleen met toestemming.
-      if (marketingConsent && typeof fbq === 'function') {
-        var _naam = (data.naam || '').trim();
-        fbq('init', '886954613675038', {
-          em: (data.email || '').trim().toLowerCase(),
-          ph: (data.telefoon || '').replace(/[^0-9]/g, ''),
-          fn: _naam.split(' ')[0] || '',
-          ln: _naam.split(' ').slice(1).join(' ')
-        });
-        fbq('track', 'Lead',
-          { content_name: 'Maatkasten — gratis 3D-ontwerp', content_category: 'Maatkasten' },
-          { eventID: leadEventId });
-      }
-    } catch (err) {
-      btn.textContent = 'Stuur mijn aanvraag →';
-      btn.disabled = false;
-      alert('Er ging iets mis. Probeer opnieuw of bel ons op 011 82 38 28.');
-    }
-  });
-
   // ── Sticky mobiele CTA: tonen na de hero, verbergen zodra het formulier in beeld komt ──
   (function () {
     var bar  = document.getElementById('sticky-cta');
@@ -1583,5 +1488,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
   }, true);
 </script>
+<script>
+  // Configuratie van het stappenformulier voor deze pagina
+  window.LE_STAPPENFORMULIER = {
+    endpoint: APPS_SCRIPT_URL,
+    pagina:   'Maatkasten',
+    gtmEvent: 'maatkasten_submission',
+    capi:     { content_name: 'Maatkasten — gratis 3D-ontwerp', content_category: 'Maatkasten' },
+    typeVraag: {
+      vraag: 'Wat wilt u laten maken?',
+      opties: [
+        { label: 'Schuifdeurkast of kastenwand',   waarde: 'Schuifdeurkast / kastenwand' },
+        { label: 'Inbouwkast (nis of schuin dak)' },
+        { label: 'Slaapkamerkast' },
+        { label: 'Inloopdressing' },
+        { label: 'Berging of bureaukast' },
+        { label: 'Weet ik nog niet, graag advies', waarde: 'Weet nog niet — advies gewenst' }
+      ]
+    },
+    berichtPlaceholder: 'Bv. afmetingen, schuin dak, stijl...'
+  };
+</script>
+<script src="stappenformulier.js" defer></script>
 </body>
 </html>
