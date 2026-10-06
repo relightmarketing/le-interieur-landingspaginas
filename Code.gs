@@ -313,8 +313,6 @@ Bericht:       ${data.bericht  || "-"}
 Pagina:        ${data.pagina   || "-"}
 Tijdstip:      ${new Date().toLocaleString("nl-BE")}
 
-Aan de klant beloofd: we bellen op om een vrijblijvend gesprek in de showroom in Pelt in te plannen.
-
 --- Waar komt deze lead vandaan ---
 Bron:      ${data.bron     || "Direct / onbekend"}
 Campagne:  ${data.campagne || "-"}
