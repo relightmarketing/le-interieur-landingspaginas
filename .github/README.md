@@ -13,6 +13,7 @@ Live op **https://info.leneinterieur.be** via GitHub Pages.
 | `/keukens` | `keukens.html` | `Keukens` | `keuken nieuw` | GTM + Meta Pixel + CAPI |
 | `/keuken-renovatie` | `keuken-renovatie.html` | `Keukenrenovatie` | `keukenrenovatie` | GTM |
 | `/maatkasten` | `maatkasten.html` | `Maatkasten` | `maatkasten` | GTM + Meta Pixel + CAPI |
+| `/bedankt` | `bedankt.html` | — | — | enkel PageView, **geen** conversie (`noindex`) |
 
 `keukens.html` en `maatkasten.html` hebben de volledige tracking-stack — gebruik één van die twee
 als template voor een nieuwe pagina.
@@ -36,7 +37,7 @@ De Meta CAPI-token staat in Apps Script → Projectinstellingen → Scripteigens
 | Map | Wat | Publiek? |
 |---|---|---|
 | `/` (hoofdmap) | De pagina's zelf + `CNAME`. **Bestandsnaam = URL**, dus nooit verplaatsen of hernoemen. | ja |
-| `assets/` | Gedeelde CSS/JS en beelden die de pagina's laden | ja |
+| `assets/` | Gedeelde CSS/JS die de pagina's laden, o.a. het stappenformulier (`stappenformulier.js` + `.css`) | ja |
 | `_intern/` | Werkbestanden: kopie van het Apps Script, notities, bronbeelden | **nee** — GitHub Pages publiceert geen mappen die met `_` beginnen |
 | `.github/` | Deze README (blijft zichtbaar op GitHub, niet op de website) | nee |
 
