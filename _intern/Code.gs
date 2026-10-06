@@ -9,6 +9,7 @@
 //       · Elke stap → tab "Funnel": één rij per bezoeker, bijgewerkt. Zonder naam, telefoon,
 //         e-mail of bericht. Toont waar mensen afhaken.
 //       · Zodra er contactgegevens zijn (stap 5) → rij in de tab van de pagina, zoals vroeger.
+//         Achteraan de opvolgkolommen van L&E en de scriptkolommen (zie V2_KOLOMMEN).
 //         Volgende stappen werken dezelfde rij bij. Eén rij = één lead, dus het tellen blijft gelijk.
 //       · Mail aan Arthur + Jos één keer, bij het verzenden van het formulier (laatste stap).
 //         Wie na de contactstap afhaakt, staat in de Sheet met Status "lead", zonder mail.
@@ -176,8 +177,13 @@ function doGet(e) {
 
 // Extra kolommen achteraan in de tab van elke pagina. De eerste 11 blijven
 // exact zoals vroeger, zodat oude rijen en het maandrapport niet verschuiven.
-// "Afspraak gemaakt" en "Opgedaagd" vult Jos zelf in; het script schrijft er nooit in.
-const V2_KOLOMMEN = ["Lead ID", "Status", "Timing", "Fase", "Afspraak gemaakt", "Opgedaagd"];
+// Eerst de opvolgkolommen die L&E zelf invult (namen exact zoals in de tab
+// keukenrenovatie, aangemaakt 06/10/2026 — het script schrijft er nooit in),
+// daarna de kolommen die het script vult. Kolommen worden op NAAM gezocht:
+// een naam wijzigen in de Sheet = het script maakt een nieuwe kolom aan.
+const OPVOLG_KOLOMMEN = ["Afspraak gemaakt", "Opgedaagd?", "Offerte gemaakt?", "gewonnen / verloren"];
+const SCRIPT_KOLOMMEN = ["Lead ID", "Status", "Timing", "Fase"];
+const V2_KOLOMMEN = OPVOLG_KOLOMMEN.concat(SCRIPT_KOLOMMEN);
 
 // De Funnel-tab: geen persoonsgegevens, enkel hoe ver iemand geraakte.
 const FUNNEL_KOLOMMEN = ["Gestart", "Bijgewerkt", "Lead ID", "Pagina", "Laatste stap", "Status",
@@ -266,7 +272,7 @@ function bewaarLead(data, test) {
   zorgVoorKolommen(sheet, KOLOMMEN[data.pagina] || STANDAARD_KOLOMMEN);
   const koppen = zorgVoorKoppenOpNaam(sheet, V2_KOLOMMEN);
   const kol = {};
-  V2_KOLOMMEN.forEach(function (k) { kol[k] = koppen.indexOf(k) + 1; });
+  SCRIPT_KOLOMMEN.forEach(function (k) { kol[k] = koppen.indexOf(k) + 1; });
 
   // Eerste 11 kolommen: zelfde volgorde als logNaarSheet().
   const kern = [
