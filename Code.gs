@@ -10,8 +10,8 @@
 //         e-mail of bericht. Toont waar mensen afhaken.
 //       · Zodra er contactgegevens zijn (stap 5) → rij in de tab van de pagina, zoals vroeger.
 //         Volgende stappen werken dezelfde rij bij. Eén rij = één lead, dus het tellen blijft gelijk.
-//       · Mail aan Arthur + Jos één keer, bij de contactstap. Vult de klant daarna nog een
-//         bericht in, dan volgt een korte aanvullende mail.
+//       · Mail aan Arthur + Jos één keer, bij het verzenden van het formulier (laatste stap).
+//         Wie na de contactstap afhaakt, staat in de Sheet met Status "lead", zonder mail.
 //       · CAPI enkel bij de contactstap (alleen dan stuurt het formulier een event_id mee).
 //   - Testaanvragen (`test=1`, via ?test=sheet op de pagina): tab "Test" en "Funnel test",
 //     mail enkel naar Arthur, geen CAPI.
@@ -192,8 +192,9 @@ function verwerkStap(data) {
 
     if (data.naam) {
       const resultaat = bewaarLead(data, test);
-      if (resultaat.nieuw) stuurMailV2(data, test);
-      else if (resultaat.nieuwBericht) stuurAanvulling(data, test);
+      // Eén mail per lead, pas bij het verzenden van het formulier (laatste stap).
+      // Wie na de contactstap afhaakt, staat wél in de Sheet (Status "lead"), maar krijgt geen mail.
+      if (data.status === 'volledig' && resultaat.vorigeStatus !== 'volledig') stuurMailV2(data, test);
     }
   } finally {
     lock.releaseLock();
@@ -255,8 +256,8 @@ function zorgVoorKoppenOpNaam(sheet, namen) {
 }
 
 // Schrijft of werkt de leadrij bij in de tab van de pagina.
-// Geeft { nieuw: true } bij de eerste keer (→ mail), { nieuwBericht: true } als er
-// een bericht bijkwam of veranderde (→ aanvullende mail).
+// Geeft de status vóór deze update terug, zodat de mail maar één keer vertrekt
+// (ook als dezelfde laatste stap twee keer binnenkomt).
 function bewaarLead(data, test) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const tabNaam = test ? 'Test' : (SHEET_TABS[data.pagina] || data.pagina || 'Overig');
@@ -283,17 +284,16 @@ function bewaarLead(data, test) {
     nieuweRij[kol["Timing"] - 1]  = data.timing || "";
     nieuweRij[kol["Fase"] - 1]    = data.fase || "";
     sheet.appendRow(nieuweRij);
-    return { nieuw: true };
+    return { vorigeStatus: "" };
   }
 
-  const oudBericht = String(sheet.getRange(rij, 7).getValue() || "");
+  const vorigeStatus = String(sheet.getRange(rij, kol["Status"]).getValue() || "");
   sheet.getRange(rij, 2, 1, kern.length).setValues([kern]);   // Datum (kolom A) blijft staan
   sheet.getRange(rij, kol["Status"]).setValue(data.status || "lead");
   sheet.getRange(rij, kol["Timing"]).setValue(data.timing || "");
   sheet.getRange(rij, kol["Fase"]).setValue(data.fase || "");
 
-  const bericht = String(data.bericht || "").trim();
-  return { nieuwBericht: !!bericht && bericht !== oudBericht.replace(/^'/, "").trim() };
+  return { vorigeStatus: vorigeStatus };
 }
 
 function stuurMailV2(data, test) {
@@ -309,11 +309,11 @@ Gemeente:      ${data.stad     || "-"}
 Wat:           ${data.type     || "-"}
 Wanneer:       ${data.timing   || "-"}
 Hoe ver:       ${data.fase     || "-"}
+Bericht:       ${data.bericht  || "-"}
 Pagina:        ${data.pagina   || "-"}
 Tijdstip:      ${new Date().toLocaleString("nl-BE")}
 
 Aan de klant beloofd: we bellen op om een vrijblijvend gesprek in de showroom in Pelt in te plannen.
-Laat de klant nog een bericht achter, dan volgt dat in een aparte mail.
 
 --- Waar komt deze lead vandaan ---
 Bron:      ${data.bron     || "Direct / onbekend"}
@@ -322,17 +322,6 @@ Click ID:  ${data.click_id || "-"}
 Landing:   ${data.landing  || "-"}
   `.trim();
 
-  GmailApp.sendEmail(test ? ONTVANGER_TEST : ONTVANGER, onderwerp, body);
-}
-
-function stuurAanvulling(data, test) {
-  const onderwerp = (test ? "[TEST] " : "") +
-    `Aanvulling bij aanvraag ${data.pagina || "website"}: ${data.naam || "onbekend"}`;
-  const body = `
-${data.naam || "De klant"} (${data.telefoon || "-"}) liet nog een bericht achter:
-
-${data.bericht}
-  `.trim();
   GmailApp.sendEmail(test ? ONTVANGER_TEST : ONTVANGER, onderwerp, body);
 }
 

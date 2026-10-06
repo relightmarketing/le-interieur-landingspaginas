@@ -219,7 +219,7 @@
       verstuur(stap);
     }
 
-    if (stap.laatste) { toonEinde(); return; }
+    if (stap.laatste) { bezig = true; toonEinde(); return; }   // geen dubbele verzending bij twee keer klikken
     toon(huidig + 1, false);
   }
 
