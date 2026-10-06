@@ -1,8 +1,23 @@
 // Google Apps Script — L&E Interieur aanvraagformulieren
 // Deploy als Web App: Execute as "Me", Who has access "Anyone"
 // Koppel dit script aan de Google Sheet "Google Ads aanvragen" (tabs: keukenrenovatie, keuken nieuw, maatkasten)
+//
+// TWEE SOORTEN AANVRAGEN (sinds v2, oktober 2026):
+//   - Oud formulier (geen `v`-parameter): één verzending per aanvraag → rij toevoegen,
+//     mail, CAPI. Ongewijzigd, zodat de live pagina's blijven werken tijdens de uitrol.
+//   - Stappenformulier (`v=2`): één verzending per stap, allemaal met hetzelfde `lead_id`.
+//       · Elke stap → tab "Funnel": één rij per bezoeker, bijgewerkt. Zonder naam, telefoon,
+//         e-mail of bericht. Toont waar mensen afhaken.
+//       · Zodra er contactgegevens zijn (stap 5) → rij in de tab van de pagina, zoals vroeger.
+//         Volgende stappen werken dezelfde rij bij. Eén rij = één lead, dus het tellen blijft gelijk.
+//       · Mail aan Arthur + Jos één keer, bij het verzenden van het formulier (laatste stap).
+//         Wie na de contactstap afhaakt, staat in de Sheet met Status "lead", zonder mail.
+//       · CAPI enkel bij de contactstap (alleen dan stuurt het formulier een event_id mee).
+//   - Testaanvragen (`test=1`, via ?test=sheet op de pagina): tab "Test" en "Funnel test",
+//     mail enkel naar Arthur, geen CAPI.
 
 const ONTVANGER = "arthur@relightmarketing.com, jos@leneinterieur.be";
+const ONTVANGER_TEST = "arthur@relightmarketing.com";
 
 // Meta Conversions API (server-side)
 const META_PIXEL_ID   = "886954613675038";
@@ -137,7 +152,10 @@ function doGet(e) {
     Logger.log('doGet aangeroepen');
     Logger.log('e.parameter: ' + JSON.stringify(e.parameter));
     const data = e.parameter;
-    if (data && data.naam) {
+    if (data && data.v === '2') {
+      verwerkStap(data);
+      Logger.log('Klaar (v2, stap ' + data.stap + ')');
+    } else if (data && data.naam) {
       Logger.log('Data geldig, verwerken...');
       logNaarSheet(data);
       stuurMail(data);
@@ -150,6 +168,159 @@ function doGet(e) {
     Logger.log('FOUT: ' + err.message);
   }
   return ContentService.createTextOutput("OK").setMimeType(ContentService.MimeType.TEXT);
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// STAPPENFORMULIER (v2)
+// ══════════════════════════════════════════════════════════════════════════
+
+// Extra kolommen achteraan in de tab van elke pagina. De eerste 11 blijven
+// exact zoals vroeger, zodat oude rijen en het maandrapport niet verschuiven.
+// "Afspraak gemaakt" en "Opgedaagd" vult Jos zelf in; het script schrijft er nooit in.
+const V2_KOLOMMEN = ["Lead ID", "Status", "Timing", "Fase", "Afspraak gemaakt", "Opgedaagd"];
+
+// De Funnel-tab: geen persoonsgegevens, enkel hoe ver iemand geraakte.
+const FUNNEL_KOLOMMEN = ["Gestart", "Bijgewerkt", "Lead ID", "Pagina", "Laatste stap", "Status",
+                         "Type", "Stad/Gemeente", "Timing", "Fase", "Bron", "Campagne", "Landingspagina"];
+
+function verwerkStap(data) {
+  const test = data.test === '1';
+  const lock = LockService.getScriptLock();
+  lock.waitLock(15000);   // stappen kunnen snel na elkaar binnenkomen: geen dubbele rijen
+  try {
+    bewaarFunnel(data, test);
+
+    if (data.naam) {
+      const resultaat = bewaarLead(data, test);
+      // Eén mail per lead, pas bij het verzenden van het formulier (laatste stap).
+      // Wie na de contactstap afhaakt, staat wél in de Sheet (Status "lead"), maar krijgt geen mail.
+      if (data.status === 'volledig' && resultaat.vorigeStatus !== 'volledig') stuurMailV2(data, test);
+    }
+  } finally {
+    lock.releaseLock();
+  }
+
+  // Buiten de lock: een trage Meta-API mag de volgende stap niet ophouden.
+  if (data.naam && data.event_id && !test) stuurMetaCapi(data);
+}
+
+// Zoekt de rij met dit lead_id in de opgegeven kolom. Geeft het rijnummer of 0.
+function zoekRij(sheet, kolom, leadId) {
+  if (!leadId || sheet.getLastRow() < 2) return 0;
+  const cel = sheet.getRange(2, kolom, sheet.getLastRow() - 1, 1)
+                   .createTextFinder(leadId).matchEntireCell(true).findNext();
+  return cel ? cel.getRow() : 0;
+}
+
+// Voorkomt dat invoer als formule wordt gelezen (=, +, -, @) en bewaart de
+// voorloopnul van telefoonnummers. Vroeger werd "0496..." in de Sheet "496...".
+function alsTekst(v) {
+  v = String(v || "");
+  return /^[=+\-@0]/.test(v) ? "'" + v : v;
+}
+
+function bewaarFunnel(data, test) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const naam = test ? 'Funnel test' : 'Funnel';
+  const sheet = ss.getSheetByName(naam) || ss.insertSheet(naam);
+  zorgVoorKolommen(sheet, FUNNEL_KOLOMMEN);
+
+  const nu = new Date();
+  const rij = zoekRij(sheet, 3, data.lead_id);
+  const waarden = [
+    data.lead_id || "", data.pagina || "", Number(data.stap) || "", data.status || "",
+    alsTekst(data.type), alsTekst(data.stad), data.timing || "", data.fase || "",
+    data.bron || "Direct / onbekend", alsTekst(data.campagne), data.landing || ""
+  ];
+
+  if (rij) {
+    // Kolom A ("Gestart") blijft staan; de rest wordt bijgewerkt.
+    sheet.getRange(rij, 2, 1, waarden.length + 1).setValues([[nu].concat(waarden)]);
+  } else {
+    sheet.appendRow([nu, nu].concat(waarden));
+  }
+}
+
+// Voegt ontbrekende koppen achteraan toe, op NAAM (niet op aantal kolommen):
+// heeft iemand zelf een kolom toegevoegd, dan komen de nieuwe er gewoon achter.
+// Geeft de volledige koprij terug.
+function zorgVoorKoppenOpNaam(sheet, namen) {
+  let koppen = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), 1)).getValues()[0];
+  const ontbreekt = namen.filter(function (n) { return koppen.indexOf(n) === -1; });
+  if (ontbreekt.length) {
+    const start = koppen.filter(String).length ? sheet.getLastColumn() + 1 : 1;
+    sheet.getRange(1, start, 1, ontbreekt.length).setValues([ontbreekt]).setFontWeight("bold");
+    koppen = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  }
+  return koppen;
+}
+
+// Schrijft of werkt de leadrij bij in de tab van de pagina.
+// Geeft de status vóór deze update terug, zodat de mail maar één keer vertrekt
+// (ook als dezelfde laatste stap twee keer binnenkomt).
+function bewaarLead(data, test) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const tabNaam = test ? 'Test' : (SHEET_TABS[data.pagina] || data.pagina || 'Overig');
+  const sheet = ss.getSheetByName(tabNaam) || ss.insertSheet(tabNaam);
+
+  zorgVoorKolommen(sheet, KOLOMMEN[data.pagina] || STANDAARD_KOLOMMEN);
+  const koppen = zorgVoorKoppenOpNaam(sheet, V2_KOLOMMEN);
+  const kol = {};
+  V2_KOLOMMEN.forEach(function (k) { kol[k] = koppen.indexOf(k) + 1; });
+
+  // Eerste 11 kolommen: zelfde volgorde als logNaarSheet().
+  const kern = [
+    alsTekst(data.naam), alsTekst(data.telefoon), alsTekst(data.email), alsTekst(data.stad),
+    alsTekst(data.type), alsTekst(data.bericht),
+    data.bron || "Direct / onbekend", alsTekst(data.campagne), data.click_id || "", data.landing || ""
+  ];
+
+  const rij = zoekRij(sheet, kol["Lead ID"], data.lead_id);
+  if (!rij) {
+    const nieuweRij = [new Date()].concat(kern);
+    while (nieuweRij.length < koppen.length) nieuweRij.push("");
+    nieuweRij[kol["Lead ID"] - 1] = data.lead_id;
+    nieuweRij[kol["Status"] - 1]  = data.status || "lead";
+    nieuweRij[kol["Timing"] - 1]  = data.timing || "";
+    nieuweRij[kol["Fase"] - 1]    = data.fase || "";
+    sheet.appendRow(nieuweRij);
+    return { vorigeStatus: "" };
+  }
+
+  const vorigeStatus = String(sheet.getRange(rij, kol["Status"]).getValue() || "");
+  sheet.getRange(rij, 2, 1, kern.length).setValues([kern]);   // Datum (kolom A) blijft staan
+  sheet.getRange(rij, kol["Status"]).setValue(data.status || "lead");
+  sheet.getRange(rij, kol["Timing"]).setValue(data.timing || "");
+  sheet.getRange(rij, kol["Fase"]).setValue(data.fase || "");
+
+  return { vorigeStatus: vorigeStatus };
+}
+
+function stuurMailV2(data, test) {
+  const onderwerp = (test ? "[TEST] " : "") +
+    `Nieuwe aanvraag ${data.pagina || "website"}: ${data.naam || "onbekend"}`;
+  const body = `
+Nieuwe aanvraag via info.leneinterieur.be
+
+Naam:          ${data.naam     || "-"}
+Telefoon:      ${data.telefoon || "-"}
+E-mail:        ${data.email    || "-"}
+Gemeente:      ${data.stad     || "-"}
+Wat:           ${data.type     || "-"}
+Wanneer:       ${data.timing   || "-"}
+Hoe ver:       ${data.fase     || "-"}
+Bericht:       ${data.bericht  || "-"}
+Pagina:        ${data.pagina   || "-"}
+Tijdstip:      ${new Date().toLocaleString("nl-BE")}
+
+--- Waar komt deze lead vandaan ---
+Bron:      ${data.bron     || "Direct / onbekend"}
+Campagne:  ${data.campagne || "-"}
+Click ID:  ${data.click_id || "-"}
+Landing:   ${data.landing  || "-"}
+  `.trim();
+
+  GmailApp.sendEmail(test ? ONTVANGER_TEST : ONTVANGER, onderwerp, body);
 }
 
 // ── Meta Conversions API: stuurt server-side een gehashte, gededupliceerde Lead ──

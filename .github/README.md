@@ -24,12 +24,25 @@ Elk formulier doet een GET naar de Apps Script web-app (`APPS_SCRIPT_URL`, boven
 mailt naar Arthur + Jos, en stuurt bij cookie-toestemming een server-side `Lead` naar Meta
 (gededupliceerd met de browser-pixel via `event_id`).
 
-⚠ **`Code.gs` in deze repo is een kopie, niet de uitvoerende versie.** Het echte script is
-sheet-bound aan de Google Sheet. Wijzig je `Code.gs`, plak het dan in de Apps Script-editor
+⚠ **`_intern/Code.gs` in deze repo is een kopie, niet de uitvoerende versie.** Het echte script is
+sheet-bound aan de Google Sheet. Wijzig je `_intern/Code.gs`, plak het dan in de Apps Script-editor
 **en deploy opnieuw** — anders draait de oude versie door.
 
 De Meta CAPI-token staat in Apps Script → Projectinstellingen → Scripteigenschappen
 (`META_CAPI_TOKEN`), niet in deze repo.
+
+## Mappen
+
+| Map | Wat | Publiek? |
+|---|---|---|
+| `/` (hoofdmap) | De pagina's zelf + `CNAME`. **Bestandsnaam = URL**, dus nooit verplaatsen of hernoemen. | ja |
+| `assets/` | Gedeelde CSS/JS en beelden die de pagina's laden | ja |
+| `_intern/` | Werkbestanden: kopie van het Apps Script, notities, bronbeelden | **nee** — GitHub Pages publiceert geen mappen die met `_` beginnen |
+| `.github/` | Deze README (blijft zichtbaar op GitHub, niet op de website) | nee |
+
+Nieuwe notities, back-ups of bronbestanden horen in `_intern/`, nooit in de hoofdmap:
+alles in de hoofdmap is publiek opvraagbaar via `info.leneinterieur.be/<bestandsnaam>`.
+Back-ups van pagina's zijn niet nodig: git bewaart elke versie.
 
 ## Vaste ID's
 
