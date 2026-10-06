@@ -12,7 +12,8 @@
 //         Achteraan de opvolgkolommen van L&E en de scriptkolommen (zie V2_KOLOMMEN).
 //         Volgende stappen werken dezelfde rij bij. Eén rij = één lead, dus het tellen blijft gelijk.
 //       · Mail aan Arthur + Jos één keer, bij het verzenden van het formulier (laatste stap).
-//         Wie na de contactstap afhaakt, staat in de Sheet met Status "lead", zonder mail.
+//         Wie na de contactstap afhaakt, staat in de Sheet met Status "Niet afgerond"
+//         (rij lichtoranje), zonder mail.
 //       · CAPI enkel bij de contactstap (alleen dan stuurt het formulier een event_id mee).
 //   - Testaanvragen (`test=1`, via ?test=sheet op de pagina): tab "Test" en "Funnel test",
 //     mail enkel naar Arthur, geen CAPI.
@@ -185,6 +186,14 @@ const OPVOLG_KOLOMMEN = ["Afspraak gemaakt", "Opgedaagd?", "Offerte gemaakt?", "
 const SCRIPT_KOLOMMEN = ["Lead ID", "Status", "Timing", "Fase"];
 const V2_KOLOMMEN = OPVOLG_KOLOMMEN.concat(SCRIPT_KOLOMMEN);
 
+// Wat in de kolom Status komt. Het formulier stuurt anoniem / lead / volledig;
+// in de Sheet staat leesbare tekst. "Niet afgerond" = contactgegevens gegeven maar
+// niet verzonden → GEEN mail. Die rijen kleuren lichtoranje (zie zorgVoorMarkering).
+const STATUS_LABEL = { anoniem: "Anoniem", lead: "Niet afgerond", volledig: "Afgerond" };
+const MARKEER_KLEUR = "#FCE5CD";   // lichtoranje
+function statusLabel(s) { return STATUS_LABEL[s] || STATUS_LABEL.lead; }
+function isAfgerond(label) { return label === STATUS_LABEL.volledig || label === "volledig"; }
+
 // De Funnel-tab: geen persoonsgegevens, enkel hoe ver iemand geraakte.
 const FUNNEL_KOLOMMEN = ["Gestart", "Bijgewerkt", "Lead ID", "Pagina", "Laatste stap", "Status",
                          "Type", "Stad/Gemeente", "Timing", "Fase", "Bron", "Campagne", "Landingspagina"];
@@ -199,8 +208,8 @@ function verwerkStap(data) {
     if (data.naam) {
       const resultaat = bewaarLead(data, test);
       // Eén mail per lead, pas bij het verzenden van het formulier (laatste stap).
-      // Wie na de contactstap afhaakt, staat wél in de Sheet (Status "lead"), maar krijgt geen mail.
-      if (data.status === 'volledig' && resultaat.vorigeStatus !== 'volledig') stuurMailV2(data, test);
+      // Wie na de contactstap afhaakt, staat wél in de Sheet (Status "Niet afgerond", rij oranje), maar krijgt geen mail.
+      if (data.status === 'volledig' && !isAfgerond(resultaat.vorigeStatus)) stuurMailV2(data, test);
     }
   } finally {
     lock.releaseLock();
@@ -234,7 +243,7 @@ function bewaarFunnel(data, test) {
   const nu = new Date();
   const rij = zoekRij(sheet, 3, data.lead_id);
   const waarden = [
-    data.lead_id || "", data.pagina || "", Number(data.stap) || "", data.status || "",
+    data.lead_id || "", data.pagina || "", Number(data.stap) || "", statusLabel(data.status),
     alsTekst(data.type), alsTekst(data.stad), data.timing || "", data.fase || "",
     data.bron || "Direct / onbekend", alsTekst(data.campagne), data.landing || ""
   ];
@@ -261,6 +270,34 @@ function zorgVoorKoppenOpNaam(sheet, namen) {
   return koppen;
 }
 
+// Kleurt elke rij met Status "Niet afgerond" lichtoranje, via voorwaardelijke
+// opmaak (de kleur verdwijnt vanzelf zodra de status "Afgerond" wordt).
+// Wordt één keer per tab aangemaakt; bestaat de regel al, dan gebeurt er niets.
+// Bewust een formule zonder scheidingstekens (; of ,): die verschillen per taal.
+function zorgVoorMarkering(sheet, statusKolom, aantalKolommen) {
+  if (!statusKolom) return;
+  const regels = sheet.getConditionalFormatRules();
+  const bestaat = regels.some(function (r) {
+    const c = r.getBooleanCondition();
+    return c && c.getCriteriaValues().join(" ").indexOf(STATUS_LABEL.lead) !== -1;
+  });
+  if (bestaat) return;
+  const letter = kolomLetter(statusKolom);
+  const bereik = sheet.getRange("A:" + kolomLetter(aantalKolommen));   // hele kolommen: ook toekomstige rijen
+  regels.push(SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied('=$' + letter + '1="' + STATUS_LABEL.lead + '"')
+    .setBackground(MARKEER_KLEUR)
+    .setRanges([bereik])
+    .build());
+  sheet.setConditionalFormatRules(regels);
+}
+
+function kolomLetter(n) {
+  let s = "";
+  while (n > 0) { const m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = Math.floor((n - 1) / 26); }
+  return s;
+}
+
 // Schrijft of werkt de leadrij bij in de tab van de pagina.
 // Geeft de status vóór deze update terug, zodat de mail maar één keer vertrekt
 // (ook als dezelfde laatste stap twee keer binnenkomt).
@@ -273,6 +310,8 @@ function bewaarLead(data, test) {
   const koppen = zorgVoorKoppenOpNaam(sheet, V2_KOLOMMEN);
   const kol = {};
   SCRIPT_KOLOMMEN.forEach(function (k) { kol[k] = koppen.indexOf(k) + 1; });
+  try { zorgVoorMarkering(sheet, kol["Status"], koppen.length); }
+  catch (err) { Logger.log("Markering mislukt (lead wordt wel bewaard): " + err.message); }
 
   // Eerste 11 kolommen: zelfde volgorde als logNaarSheet().
   const kern = [
@@ -286,7 +325,7 @@ function bewaarLead(data, test) {
     const nieuweRij = [new Date()].concat(kern);
     while (nieuweRij.length < koppen.length) nieuweRij.push("");
     nieuweRij[kol["Lead ID"] - 1] = data.lead_id;
-    nieuweRij[kol["Status"] - 1]  = data.status || "lead";
+    nieuweRij[kol["Status"] - 1]  = statusLabel(data.status);
     nieuweRij[kol["Timing"] - 1]  = data.timing || "";
     nieuweRij[kol["Fase"] - 1]    = data.fase || "";
     sheet.appendRow(nieuweRij);
@@ -295,7 +334,7 @@ function bewaarLead(data, test) {
 
   const vorigeStatus = String(sheet.getRange(rij, kol["Status"]).getValue() || "");
   sheet.getRange(rij, 2, 1, kern.length).setValues([kern]);   // Datum (kolom A) blijft staan
-  sheet.getRange(rij, kol["Status"]).setValue(data.status || "lead");
+  sheet.getRange(rij, kol["Status"]).setValue(statusLabel(data.status));
   sheet.getRange(rij, kol["Timing"]).setValue(data.timing || "");
   sheet.getRange(rij, kol["Fase"]).setValue(data.fase || "");
 
