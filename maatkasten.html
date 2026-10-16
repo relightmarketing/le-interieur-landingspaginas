@@ -56,16 +56,13 @@ src="https://www.facebook.com/tr?id=886954613675038&ev=PageView&noscript=1"
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maatkasten op maat in Limburg — L&amp;E Interieur</title>
+<title>Kasten op maat in Limburg | L&amp;E Interieur</title>
 <meta name="description" content="Maatkasten uit eigen atelier in Peer: schuifdeurkasten, inbouwkasten en inloopdressings. Ook onder een schuin dak of in een nis. Vraag uw vrijblijvend gesprek aan.">
 <!-- Performance: preconnect naar afbeeldingen-CDN + preload van de hero (LCP) -->
 <link rel="preconnect" href="https://i0.wp.com" crossorigin>
-<link rel="preload" as="image"
-      imagesrcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-137-1.jpg?w=480&quality=70&ssl=1 480w,
-                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-137-1.jpg?w=800&quality=70&ssl=1 800w,
-                   https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-137-1.jpg?w=1200&quality=70&ssl=1 1200w"
-      imagesizes="(max-width: 768px) 100vw, 50vw"
-      fetchpriority="high">
+<link rel="preload" as="image" media="(min-width: 769px)"
+      imagesrcset="assets/maatkasten/bureau-01-800.webp 800w, assets/maatkasten/bureau-01-1600.webp 1600w"
+      imagesizes="50vw" fetchpriority="high">
 <!-- Performance: font niet render-blocking. Een gewone <link rel=stylesheet> naar
      Google Fonts blokkeert de weergave en start een ketting (googleapis -> gstatic).
      media="print" + onload laadt hem asynchroon; display=swap houdt tekst zichtbaar. -->
@@ -742,7 +739,7 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
     border-left: 2px solid rgba(255,255,255,0.28);
   }
   .compare-table tbody td:nth-child(2)::before {
-    content: 'Standaard: ';
+    content: 'Online: ';
     font-weight: 600;
     color: rgba(255,255,255,0.5);
   }
@@ -911,6 +908,71 @@ body { font-family: var(--body-font); background: var(--white); color: var(--tex
 @media (max-width: 1024px) {
   .sticky-cta { display: block; }
 }
+
+/* ══════════════════════════════════════════
+   MAATKASTEN V2 (2026-10-16): formulier in de hero, eigen realisatiefoto's,
+   prijssectie en slot-CTA. Bouwt verder op de bestaande tokens hierboven.
+══════════════════════════════════════════ */
+.hero2 { grid-template-columns: 1.05fr 0.95fr; min-height: 640px; }
+.hero2 .hero-text { gap: 24px; }
+.hero2 h1 { font-size: 48px; max-width: 560px; }
+.hero2 .hero-sub { max-width: 480px; color: rgba(255,255,255,0.72); }
+.hero-checks { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.hero-checks li { position: relative; padding-left: 26px; font-size: 14px; color: rgba(255,255,255,0.88); font-weight: 400; }
+.hero-checks li::before { content: "\2713"; position: absolute; left: 0; top: 0; color: #c2c2a3; font-weight: 600; }
+.hero-proof { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 13px; color: rgba(255,255,255,0.75); }
+.hero-proof strong { color: var(--white); }
+.hero-stars { color: #F4A623; font-size: 15px; letter-spacing: 2px; }
+.hero-formcol { position: relative; display: flex; align-items: center; justify-content: center; padding: 48px 40px; overflow: hidden; background: var(--primary); }
+.hero-formcol-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero-formcol::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.35)); }
+.hero-form { position: relative; z-index: 1; width: 100%; max-width: 460px; background: var(--white); padding: 32px 32px 24px; box-shadow: 0 24px 60px rgba(0,0,0,0.28); }
+.hf-head { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--border-light); }
+.hf-title { font-family: var(--heading-font); font-size: 24px; color: var(--text); line-height: 1.25; }
+.hf-sub { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-top: 6px; font-weight: 300; }
+.hero-form .sf { min-height: 380px; }
+.hero-form .sf .sf-q { font-size: 21px; }
+.hero-form .sf-progress { margin-bottom: 22px; }
+.hf-foot { margin-top: 16px; font-size: 13px; color: var(--text-muted); text-align: center; }
+.hf-foot a { color: var(--text); font-weight: 500; }
+
+.price-section { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; padding: 96px 56px; background: var(--bg-light); align-items: center; }
+.price-text { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+.price-text h2 { font-family: var(--heading-font); font-size: 36px; font-weight: 400; color: var(--text); line-height: 1.25; }
+.price-text p { font-size: 15px; line-height: 1.85; color: var(--text-muted); font-weight: 300; max-width: 520px; }
+.price-factors { background: var(--white); padding: 36px 36px 20px; border: 1px solid var(--border-light); }
+.pf-title { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; }
+.pf-item { display: flex; gap: 18px; padding: 16px 0; border-top: 1px solid var(--border-light); font-size: 14px; color: var(--text-muted); line-height: 1.6; font-weight: 300; }
+.pf-item strong { display: block; color: var(--text); font-weight: 500; font-size: 15px; margin-bottom: 2px; }
+.pf-num { font-family: var(--heading-font); font-size: 22px; color: var(--primary); line-height: 1; min-width: 18px; }
+
+.final-cta { background: var(--black); color: var(--white); text-align: center; padding: 96px 24px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.final-cta .section-eyebrow { color: rgba(255,255,255,0.5); }
+.final-cta h2 { font-family: var(--heading-font); font-size: 40px; font-weight: 400; line-height: 1.2; }
+.final-cta p { font-size: 15px; color: rgba(255,255,255,0.72); max-width: 520px; line-height: 1.8; font-weight: 300; }
+.final-cta-phone { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 4px; }
+.final-cta-phone a { color: var(--white); font-weight: 500; }
+
+@media (max-width: 1024px) {
+  .hero2 h1 { font-size: 38px; }
+  .price-section { gap: 40px; padding: 72px 40px; }
+}
+@media (max-width: 768px) {
+  .hero2 { grid-template-columns: 1fr; }
+  .hero2 .hero-text { padding: 40px 24px 28px; gap: 18px; }
+  .hero2 h1 { font-size: 32px; }
+  .hero-checks { display: none; } /* staan ook in de USP-strip; zo komt stap 1 van het formulier hoger */
+  .hero-formcol { padding: 0 16px 32px; background: var(--black); }
+  .hero-formcol-bg, .hero-formcol::after { display: none; }
+  .hero-form { padding: 24px 20px 18px; box-shadow: none; }
+  .hero-form .sf { min-height: 0; }
+  .price-section { grid-template-columns: 1fr; padding: 56px 24px; gap: 32px; }
+  .price-text h2 { font-size: 28px; }
+  .price-factors { padding: 28px 22px 12px; }
+  .final-cta { padding: 64px 24px 96px; }
+  .final-cta h2 { font-size: 30px; }
+  .final-cta .btn-filled { width: 100%; text-align: center; }
+}
 </style>
 </head>
 <body>
@@ -922,7 +984,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- NOTIFICATIEBALK -->
 <div class="notif-bar">
-  📞 Bel direct voor advies: <a href="tel:+3211823828" class="notif-tel"><strong>011 82 38 28</strong></a> <span class="notif-hide">&nbsp;·&nbsp; Ma–Vr 09:30–18:00 · Woe op afspraak · Za 10:00–16:00 &nbsp;·&nbsp; <a onclick="document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})">Of plan een gratis gesprek →</a></span>
+  📞 Bel direct voor advies: <a href="tel:+3211823828" class="notif-tel"><strong>011 82 38 28</strong></a> <span class="notif-hide">&nbsp;·&nbsp; Ma–Vr 09:30–18:00 · Woe op afspraak · Za 10:00–16:00</span>
 </div>
 <!-- HEADER — exact L&E stijl -->
 <header class="site-header">
@@ -934,31 +996,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="#afspraak" onclick="event.preventDefault();document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})" class="btn-filled">Gratis gesprek</a>
   </div>
 </header>
-<!-- HERO -->
-<div class="hero">
+
+<!-- HERO (v2): belofte links, formulier rechts op een realisatiefoto. Stap 1 van het formulier staat zo boven de vouw. -->
+<div class="hero hero2">
   <div class="hero-text">
-    <div class="hero-eyebrow">Maatkasten &amp; dressings · Pelt, Limburg</div>
-    <h1>Benut elke centimeter<br>van uw ruimte<br>met een kast op maat</h1>
-    <p class="hero-sub">Schuifdeurkast, inbouwkast of volledige inloopdressing — op maat gemaakt in ons eigen atelier. Ook onder een schuin dak of in een nis waar geen standaardkast in past.</p>
-    <div class="hero-cta-row">
-      <a href="#afspraak" onclick="event.preventDefault();document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})" class="btn-filled">Plan een gratis gesprek</a>
-      <a href="#portfolio" onclick="event.preventDefault();document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})" class="btn-outline" style="margin-left:4px;">Bekijk realisaties</a>
-    </div>
-    <div style="display:flex;align-items:center;gap:10px;margin-top:4px;">
-      <span style="color:#F4A623;font-size:15px;letter-spacing:2px;">★★★★★</span>
-      <span style="color:rgba(255,255,255,0.75);font-size:13px;font-weight:400;"><strong style="color:var(--white);">4.8</strong> / 5 · 22 Google Reviews</span>
+    <div class="hero-eyebrow">Kasten op maat · atelier in Peer · showroom in Pelt</div>
+    <h1>Kasten op maat die passen waar niets anders past</h1>
+    <p class="hero-sub">Inbouwkast, schuifdeurkast, dressing of een kast onder het schuine dak. Getekend in 3D, gemaakt in ons eigen atelier in Peer en geplaatst door ons eigen team.</p>
+    <ul class="hero-checks">
+      <li>Gratis 3D-ontwerp bij offerte</li>
+      <li>Opmeting bij u thuis, ook van schuine wanden en nissen</li>
+      <li>Eén vast team, van eerste gesprek tot plaatsing</li>
+    </ul>
+    <div class="hero-proof">
+      <span class="hero-stars">★★★★★</span>
+      <span><strong>4.8</strong> / 5 · 22 Google Reviews · 30+ jaar vakmanschap</span>
     </div>
   </div>
-  <div class="hero-img">
-    <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-137-1.jpg?w=1000&quality=70&ssl=1"
-         srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-137-1.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-137-1.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-137-1.jpg?w=1200&quality=70&ssl=1 1200w"
-         sizes="(max-width: 768px) 100vw, 50vw"
-         width="800" height="600" fetchpriority="high" decoding="async"
-         alt="Inloopdressing op maat met schuifdeuren, gemaakt door L&amp;E Interieur">
+  <div class="hero-formcol">
+    <img class="hero-formcol-bg" src="assets/maatkasten/bureau-01-1600.webp"
+         srcset="assets/maatkasten/bureau-01-800.webp 800w, assets/maatkasten/bureau-01-1600.webp 1600w"
+         sizes="50vw" width="1600" height="1067" fetchpriority="high" decoding="async"
+         alt="Kastenwand op maat in noten met open vitrinevakken, gemaakt door L&amp;E Interieur">
+    <div class="hero-form" id="afspraak">
+      <div class="hf-head">
+        <div class="hf-title">Plan een gratis gesprek</div>
+        <div class="hf-sub">In onze showroom in Pelt. Vrijblijvend: we bellen u op om een afspraak te plannen.</div>
+      </div>
+      <!-- STAPPENFORMULIER: één vraag per scherm. Logica in assets/stappenformulier.js, stijl in assets/stappenformulier.css -->
+      <link rel="stylesheet" href="assets/stappenformulier.css">
+      <div class="sf" id="stappenformulier">
+        <noscript><p>Ons formulier heeft JavaScript nodig. Bel ons gerust op <a href="tel:+3211823828">011 82 38 28</a>.</p></noscript>
+      </div>
+      <div class="hf-foot">Liever meteen bellen? <a href="tel:+3211823828">011 82 38 28</a></div>
+    </div>
   </div>
 </div>
+
 <!-- USP STRIP -->
 <div class="usp-strip">
   <div class="usp-item">
@@ -969,7 +1043,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="usp-item">
     <div class="usp-number">Atelier</div>
     <div class="usp-label">Eigen productie in Peer</div>
-    <div class="usp-desc">Alles op maat geproduceerd — geen cataloguswerk</div>
+    <div class="usp-desc">Alles op maat geproduceerd, geen cataloguswerk</div>
   </div>
   <div class="usp-item">
     <div class="usp-number">3D</div>
@@ -982,177 +1056,115 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="usp-desc">Gemiddeld 4.8 op 22 reviews door tevreden klanten</div>
   </div>
 </div>
-<!-- INTRO -->
+
+<!-- INTRO: waar maatwerk wint -->
 <div class="intro-section">
   <div class="intro-img">
-    <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-77-1.jpg?w=1000&quality=70&ssl=1"
-         srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-77-1.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-77-1.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-77-1.jpg?w=1200&quality=70&ssl=1 1200w"
-         sizes="(max-width: 768px) 100vw, 50vw"
-         width="800" height="600" loading="lazy" decoding="async"
-         alt="Inloopdressing op maat in licht eik van L&amp;E Interieur">
+    <img src="assets/maatkasten/schuin-dak-1600.webp"
+         srcset="assets/maatkasten/schuin-dak-800.webp 800w, assets/maatkasten/schuin-dak-1600.webp 1600w"
+         sizes="(max-width: 768px) 100vw, 50vw" width="1600" height="1067" loading="lazy" decoding="async"
+         alt="Witte kastenwand op maat onder een schuin dak">
   </div>
   <div class="intro-text">
-    <div class="section-eyebrow">Rust, overzicht en ruimte</div>
-    <h2>Uw ruimte bepaalt de kast. Niet omgekeerd.</h2>
-    <p>Een standaardkast dwingt u tot compromissen: een dode hoek naast de schouw, verloren ruimte onder het schuine dak, een nis waar net niets in past. Bij maatwerk verdwijnt dat probleem — de kast wordt getekend rond úw ruimte, tot op de millimeter.</p>
-    <p>Yo begeleidt u van het eerste gesprek. Jos en Richard tekenen de volledige indeling uit in 3D vóór er iets gebouwd wordt: hoeveel hanghoogte, hoeveel lades, waar de schoenen, waar het strijkgoed. Alles wordt daarna gemaakt in ons eigen atelier in Peer — door hetzelfde team dat u van bij het begin kende.</p>
+    <div class="section-eyebrow">Waar maatwerk het verschil maakt</div>
+    <h2>Waar een standaardkast stopt, begint ons werk</h2>
+    <p>Een standaardkast dwingt u tot compromissen: een dode hoek naast de schouw, verloren ruimte onder het schuine dak, een nis waar net niets in past. Bij maatwerk verdwijnt dat probleem. De kast wordt getekend rond úw ruimte, tot op de millimeter.</p>
+    <p>Jos en Richard tekenen de volledige indeling uit in 3D vóór er iets gebouwd wordt: hoeveel hanghoogte, hoeveel lades, waar de schoenen, waar het strijkgoed. Zelfs de wasmachine en de technische installatie verdwijnen achter een kastdeur.</p>
     <a href="#afspraak" onclick="event.preventDefault();document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})" class="btn-dark">Plan een gratis gesprek</a>
   </div>
 </div>
 
-<!-- PORTFOLIO DEEL 1 -->
+<!-- PORTFOLIO: eigen realisatiefoto's (shoot september 2026) -->
+<!-- TODO vóór live: toestemming van Jos om deze beelden publiek te gebruiken (zie 00_OVERZICHT.md bij de foto's) -->
 <div class="portfolio-section" id="portfolio">
   <div class="portfolio-header">
     <div>
       <div class="section-eyebrow" style="margin-bottom:8px;">Realisaties</div>
-      <h2>Maatkasten waar we trots op zijn</h2>
+      <h2>Recent werk uit ons atelier</h2>
     </div>
   </div>
   <div class="portfolio-grid">
     <div class="p-img span2">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-137-1.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-137-1.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-137-1.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-137-1.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Inloopdressing met glazen schuifdeuren" loading="lazy" decoding="async">
-      <div class="p-label">Inloopdressing · glasdeuren</div>
+      <img src="assets/maatkasten/schoenenkast-open-800.webp"
+           srcset="assets/maatkasten/schoenenkast-open-800.webp 800w, assets/maatkasten/schoenenkast-open-1600.webp 1600w"
+           sizes="(max-width: 768px) 100vw, 33vw" width="800" height="1200" loading="lazy" decoding="async"
+           alt="Open schoenenkast op maat in donker noten in de inkomhal">
+      <div class="p-label">Schoenenkast in de inkomhal</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-73-1.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-73-1.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-73-1.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-73-1.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Kast op maat met spiegelende schuifdeuren" loading="lazy" decoding="async">
-      <div class="p-label">Spiegelende schuifdeuren</div>
+      <img src="assets/maatkasten/bureau-05-800.webp"
+           srcset="assets/maatkasten/bureau-05-800.webp 800w, assets/maatkasten/bureau-05-1600.webp 1600w"
+           sizes="(max-width: 768px) 100vw, 33vw" width="800" height="533" loading="lazy" decoding="async"
+           alt="Kastenwand en bureau op maat als één geheel">
+      <div class="p-label">Kastenwand en bureau als één geheel</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-147.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-147.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-147.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-147.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Schuifdeurkast op maat in de slaapkamer" loading="lazy" decoding="async">
-      <div class="p-label">Schuifdeurkast · slaapkamer</div>
+      <img src="assets/maatkasten/techniek-800.webp"
+           srcset="assets/maatkasten/techniek-800.webp 800w, assets/maatkasten/techniek-1600.webp 1600w"
+           sizes="(max-width: 768px) 100vw, 33vw" width="800" height="1200" loading="lazy" decoding="async"
+           alt="Technische installatie weggewerkt achter een kastdeur op maat">
+      <div class="p-label">Techniek achter de kastdeur</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/11/1-2.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/11/1-2.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/11/1-2.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/11/1-2.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Kastenwand op maat van vloer tot plafond" loading="lazy" decoding="async">
-      <div class="p-label">Kastenwand tot tegen het plafond</div>
+      <img src="assets/maatkasten/wasplaats-800.webp"
+           srcset="assets/maatkasten/wasplaats-800.webp 800w, assets/maatkasten/wasplaats-1600.webp 1600w"
+           sizes="(max-width: 768px) 100vw, 33vw" width="800" height="1200" loading="lazy" decoding="async"
+           alt="Wasplaats met was- en droogkast ingebouwd in een kast op maat">
+      <div class="p-label">Was- en droogkast ingebouwd</div>
     </div>
     <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-32-1.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-32-1.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-32-1.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-32-1.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Kast op maat met open vakken onder een schuine wand" loading="lazy" decoding="async">
-      <div class="p-label">Op maat onder schuine wand</div>
+      <img src="assets/maatkasten/kastenwand-open-800.webp"
+           srcset="assets/maatkasten/kastenwand-open-800.webp 800w, assets/maatkasten/kastenwand-open-1600.webp 1600w"
+           sizes="(max-width: 768px) 100vw, 33vw" width="800" height="1200" loading="lazy" decoding="async"
+           alt="Witte kastenwand op maat met binnenindeling van legplanken en hangruimte">
+      <div class="p-label">Indeling volledig op maat</div>
     </div>
   </div>
 </div>
 
-<!-- WAAROM L&E -->
-<div class="usp-detail-section">
-  <div class="usp-detail-header">
-    <div class="section-eyebrow">Waarom L&amp;E Interieur</div>
-    <h2>Uw maatkast, zonder zorgen</h2>
-    <p>Al meer dan 30 jaar combineren wij vakmanschap, persoonlijke begeleiding en eerlijke prijzen. Dit is waarom klanten voor ons kiezen.</p>
-  </div>
-  <div class="usp-detail-grid">
-    <div class="usp-detail-card">
-      <div class="usp-detail-icon">&#9881;</div>
-      <div class="usp-detail-title">Volledig eigen productie</div>
-      <div class="usp-detail-desc">Elke kast wordt stuk voor stuk op maat gemaakt in ons eigen atelier in Peer. Dat garandeert volledige controle over kwaliteit en afwerking — geen uitbesteding, geen compromissen.</div>
-    </div>
-    <div class="usp-detail-card">
-      <div class="usp-detail-icon">&#9633;</div>
-      <div class="usp-detail-title">Tot in elke hoek en nis</div>
-      <div class="usp-detail-desc">Schuine daken, dakkapellen, nissen, een verloren hoek achter de deur: net dáár haalt maatwerk zijn winst. Wij tekenen rond uw ruimte in plaats van er een standaardmaat in te duwen.</div>
-    </div>
-    <div class="usp-detail-card">
-      <div class="usp-detail-icon">&#9634;</div>
-      <div class="usp-detail-title">Van ontwerp tot plaatsing</div>
-      <div class="usp-detail-desc">Wij begeleiden u van A tot Z: kennismaking, 3D-ontwerp, opmeting, productie en plaatsing. Alles in eigen beheer, door hetzelfde team.</div>
-    </div>
-    <div class="usp-detail-card">
-      <div class="usp-detail-icon">&#9776;</div>
-      <div class="usp-detail-title">Indeling op uw manier van leven</div>
-      <div class="usp-detail-desc">Hanghoogtes, ladeblokken, schoenenrekken, uittrekbare broekhouders, verlichting in de kast: de indeling volgt wat u écht opbergt — niet wat er toevallig in het pakket zat.</div>
-    </div>
-    <div class="usp-detail-card">
-      <div class="usp-detail-icon">&#9825;</div>
-      <div class="usp-detail-title">Persoonlijke, familiale aanpak</div>
-      <div class="usp-detail-desc">L&amp;E Interieur is een familiebedrijf waarbij een persoonlijke aanpak centraal staat. Een vast team begeleidt u doorheen het hele project.</div>
-    </div>
-    <div class="usp-detail-card">
-      <div class="usp-detail-icon">&#9854;</div>
-      <div class="usp-detail-title">Duurzaam maatwerk</div>
-      <div class="usp-detail-desc">Wij bouwen met duurzame materialen en degelijk beslag — schuifdeuren die na jaren nog vlot lopen, lades die blijven sluiten. Gemaakt om mee te gaan.</div>
-    </div>
-  </div>
-</div>
-
-<!-- VERGELIJKINGSTABEL -->
+<!-- VERGELIJKING: online samenstellen vs laten maken. In de helft van de veilingen staat L&E naast een configurator (veilinginzichten 14/09–13/10). -->
 <div class="compare-table-section">
-  <div class="section-eyebrow">Waarom maatwerk</div>
-  <h2>L&amp;E Interieur vs. een standaardkast</h2>
-  <p>Een eerlijke vergelijking tussen een maatkast uit eigen atelier en een kastenwand uit de winkel.</p>
+  <div class="section-eyebrow">Online samenstellen of laten maken?</div>
+  <h2>Wat u bij ons niet zelf hoeft te doen</h2>
+  <p>Een online configurator is prima als u graag zelf meet en monteert. Wilt u dat liever niet, dan ziet u hier het verschil.</p>
   <table class="compare-table">
     <thead>
       <tr>
         <th></th>
-        <th>Standaardkast</th>
+        <th>Online samenstellen</th>
         <th>L&amp;E Interieur</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>Productie</td>
-        <td><span class="ct-cross">&#10007;</span> Fabriek in het buitenland</td>
-        <td><span class="ct-check">&#10003;</span> Eigen atelier in Peer</td>
+        <td>Opmeten</td>
+        <td><span class="ct-cross">&#10007;</span> U meet zelf op</td>
+        <td><span class="ct-check">&#10003;</span> Wij meten bij u thuis op</td>
       </tr>
       <tr>
-        <td>Passend in de ruimte</td>
-        <td><span class="ct-cross">&#10007;</span> Vaste maten, spleten en dode hoeken</td>
-        <td><span class="ct-check">&#10003;</span> Naadloos tot tegen muur en plafond</td>
+        <td>Ontwerp</td>
+        <td><span class="ct-cross">&#10007;</span> U stelt zelf samen op een scherm</td>
+        <td><span class="ct-check">&#10003;</span> Jos en Richard tekenen uw kast in 3D</td>
       </tr>
       <tr>
-        <td>Schuin dak of nis</td>
-        <td><span class="ct-cross">&#10007;</span> Niet mogelijk of verloren ruimte</td>
-        <td><span class="ct-check">&#10003;</span> Volledig ingevuld, tot in de punt</td>
-      </tr>
-      <tr>
-        <td>Indeling</td>
-        <td><span class="ct-cross">&#10007;</span> Vaste modules, u past zich aan</td>
-        <td><span class="ct-check">&#10003;</span> Hangkasten, lades en rekken naar uw wensen</td>
+        <td>Schuin dak, nis of trap</td>
+        <td><span class="ct-cross">&#10007;</span> Binnen wat het programma toelaat</td>
+        <td><span class="ct-check">&#10003;</span> Getekend rond uw ruimte, tot in de punt</td>
       </tr>
       <tr>
         <td>Materialen</td>
-        <td><span class="ct-cross">&#10007;</span> Beperkte keuze, vaste pakketten</td>
-        <td><span class="ct-check">&#10003;</span> Vrije keuze: lak, fineer, glas, spiegel, …</td>
-      </tr>
-      <tr>
-        <td>3D-ontwerp</td>
-        <td><span class="ct-cross">&#10007;</span> Zelden of beperkt</td>
-        <td><span class="ct-check">&#10003;</span> Gedetailleerd 3D vóór productie</td>
-      </tr>
-      <tr>
-        <td>Aanspreekpunt</td>
-        <td><span class="ct-cross">&#10007;</span> Wisselende verkoper of callcenter</td>
-        <td><span class="ct-check">&#10003;</span> Jos begeleidt u persoonlijk van A tot Z</td>
+        <td><span class="ct-cross">&#10007;</span> Keuze uit het vaste aanbod</td>
+        <td><span class="ct-check">&#10003;</span> Vrije keuze: lak, fineer, glas, spiegel</td>
       </tr>
       <tr>
         <td>Plaatsing</td>
-        <td><span class="ct-cross">&#10007;</span> Externe onderaannemers</td>
-        <td><span class="ct-check">&#10003;</span> Eigen team, zelfde vakmensen</td>
+        <td><span class="ct-cross">&#10007;</span> Zelf monteren of een montagedienst</td>
+        <td><span class="ct-check">&#10003;</span> Ons eigen team, dezelfde vakmensen</td>
+      </tr>
+      <tr>
+        <td>Aanspreekpunt</td>
+        <td><span class="ct-cross">&#10007;</span> Een klantendienst</td>
+        <td><span class="ct-check">&#10003;</span> Eén vast team van gesprek tot plaatsing</td>
       </tr>
     </tbody>
   </table>
@@ -1166,116 +1178,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="process-step">
       <div class="step-num">01</div>
       <div class="step-title">Kennismaking</div>
-      <div class="step-desc">Yo ontvangt u in onze showroom. Jos luistert — zonder verkoopdruk. Vrijblijvend gesprek: geen verplichting, geen tijdsdruk.</div>
+      <div class="step-desc">Yo ontvangt u in onze showroom in Pelt. Jos luistert naar wat u wil opbergen en waar. Vrijblijvend, zonder verkoopdruk.</div>
     </div>
     <div class="process-step">
       <div class="step-num">02</div>
       <div class="step-title">3D-ontwerp</div>
-      <div class="step-desc">Jos en Richard tekenen uw kast uit in gedetailleerde 3D — inclusief de volledige indeling. U ziet alles vóór de productie start.</div>
+      <div class="step-desc">Jos en Richard tekenen uw kast uit in gedetailleerde 3D, inclusief de volledige indeling. U ziet alles vóór de productie start.</div>
     </div>
     <div class="process-step">
       <div class="step-num">03</div>
       <div class="step-title">Opmeting</div>
-      <div class="step-desc">Wij komen bij u thuis voor perfecte opmetingen — ook van schuine wanden en nissen. Geen verrassingen bij plaatsing.</div>
+      <div class="step-desc">Wij komen bij u thuis voor de opmeting, ook van schuine wanden en nissen. Zo zijn er geen verrassingen bij de plaatsing.</div>
     </div>
     <div class="process-step">
       <div class="step-num">04</div>
       <div class="step-title">Productie</div>
-      <div class="step-desc">Alles wordt stuk voor stuk op maat gemaakt in ons eigen atelier — met 30+ jaar vakmanschap als garantie.</div>
+      <div class="step-desc">Elke kast wordt stuk voor stuk op maat gemaakt in ons eigen atelier in Peer.</div>
     </div>
     <div class="process-step">
       <div class="step-num">05</div>
       <div class="step-title">Plaatsing &amp; nazorg</div>
-      <div class="step-desc">Professionele installatie door Jos en Richard. Ook achteraf staan we voor u klaar.</div>
+      <div class="step-desc">Plaatsing door Jos en Richard zelf. Ook achteraf staan we voor u klaar.</div>
     </div>
   </div>
 </div>
 
-<!-- PORTFOLIO DEEL 2 -->
-<div class="portfolio-section">
-  <div class="portfolio-header">
-    <div>
-      <div class="section-eyebrow" style="margin-bottom:8px;">Meer realisaties</div>
-      <h2>Nog meer kasten uit ons atelier</h2>
-    </div>
+<!-- PRIJS: beantwoordt de prijsvraag zonder een bedrag te beloven. Prijsindicatie op afstand bewust níet (Arthur 16/10: te veel werk voor L&E). -->
+<!-- TODO (optioneel): "vanaf"-prijzen per type kast, als Jos die ooit eenmalig wil geven. -->
+<div class="price-section">
+  <div class="price-text">
+    <div class="section-eyebrow">Prijs</div>
+    <h2>Wat kost een kast op maat?</h2>
+    <p>Dat hangt af van uw ruimte en van wat u erin wil opbergen. Een prijs van op afstand zou niet eerlijk zijn, want geen twee ruimtes zijn hetzelfde.</p>
+    <p>Omdat alles in ons eigen atelier gemaakt wordt, betaalt u geen tussenpersonen en geen importmarges. U krijgt een offerte met een gratis 3D-ontwerp en beslist pas daarna. Er is geen offerteplicht.</p>
+    <a href="#afspraak" onclick="event.preventDefault();document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})" class="btn-dark">Plan een gratis gesprek</a>
   </div>
-  <div class="portfolio-grid">
-    <div class="p-img span2">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-77-1.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-77-1.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-77-1.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-77-1.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Inloopdressing op maat in licht hout" loading="lazy" decoding="async">
-      <div class="p-label">Inloopdressing · licht hout</div>
-    </div>
-    <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-23-1.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-23-1.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-23-1.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-23-1.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Open dressing met schoenenrek en ladeblokken" loading="lazy" decoding="async">
-      <div class="p-label">Open dressing met schoenenrek</div>
-    </div>
-    <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-22.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-22.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-22.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-22.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Dressingopstelling in de toonzaal van L&amp;E Interieur in Pelt" loading="lazy" decoding="async">
-      <div class="p-label">Dressingopstelling · toonzaal Pelt</div>
-    </div>
-    <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-126-1.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-126-1.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-126-1.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-126-1.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Inbouwkast op maat onder een schuin dak" loading="lazy" decoding="async">
-      <div class="p-label">Inbouwkast onder schuin dak</div>
-    </div>
-    <div class="p-img">
-      <img src="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-72.jpg?w=800&quality=70&ssl=1"
-             srcset="https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-72.jpg?w=480&quality=70&ssl=1 480w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-72.jpg?w=800&quality=70&ssl=1 800w,
-                 https://i0.wp.com/leneinterieur.be/wp-content/uploads/2024/02/wmp-72.jpg?w=1200&quality=70&ssl=1 1200w"
-             sizes="(max-width: 768px) 100vw, 33vw"
-             width="800" height="600" alt="Kast met schuifdeuren op maat" loading="lazy" decoding="async">
-      <div class="p-label">Kast met schuifdeuren</div>
-    </div>
+  <div class="price-factors">
+    <div class="pf-title">Dit bepaalt de prijs</div>
+    <div class="pf-item"><span class="pf-num">1</span><div><strong>De afmetingen</strong>Breedte, hoogte en een eventuele schuine wand.</div></div>
+    <div class="pf-item"><span class="pf-num">2</span><div><strong>Materiaal en afwerking</strong>Lak, fineer, glas of spiegel.</div></div>
+    <div class="pf-item"><span class="pf-num">3</span><div><strong>De binnenindeling</strong>Legplanken, lades, hangruimte, verlichting.</div></div>
+    <div class="pf-item"><span class="pf-num">4</span><div><strong>De deuren</strong>Draaideuren of schuifdeuren.</div></div>
   </div>
 </div>
 
-<!-- FAQ / BEZWAREN -->
-<div class="faq-section" id="faq">
-  <div class="section-eyebrow">Veelgestelde vragen</div>
-  <h2>Wat klanten ons vragen</h2>
-  <div class="faq-grid">
-    <div class="faq-item">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Is een maatkast niet veel duurder dan een kast uit de winkel?</div>
-      <div class="faq-a">Niet noodzakelijk. Omdat wij alles zelf produceren in ons eigen atelier, zijn er geen tussenpersonen en geen importmarges. U betaalt voor vakmanschap en kwaliteit — niet voor distributieschakels. Bovendien benut een kast op maat de volledige ruimte: u koopt geen tweede kast bij omdat de eerste net niet paste.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Kan een kast ook onder een schuin dak of in een smalle ruimte?</div>
-      <div class="faq-a">Juist dáár is maatwerk het meest waard. Schuine daken, dakkapellen, nissen en lage zolderruimtes zijn met standaardkasten bijna niet in te vullen. Wij meten de ruimte volledig op en tekenen de kast rond de schuine lijn, zodat ook de laagste centimeters bruikbaar blijven.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Wat als de indeling achteraf toch niet blijkt te werken?</div>
-      <div class="faq-a">Dat risico halen we er vooraf uit. Vóór er iets geproduceerd wordt, tekenen Jos en Richard de volledige kast uit in gedetailleerde 3D — inclusief hanghoogtes, lades, rekken en verlichting. We overlopen samen wat u waar wil opbergen, en u beslist pas verder als u 100% zeker bent.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Hoe lang duurt het traject van gesprek tot plaatsing?</div>
-      <div class="faq-a">Dat hangt af van de omvang: een enkele kast verloopt sneller dan een volledige inloopdressing. Tijdens het eerste gesprek krijgt u een concrete timing voor úw project. Wij coördineren hoe dan ook alles zelf — ontwerp, opmeting, productie en plaatsing — zodat u niets hoeft op te volgen.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Moet ik me tot iets verbinden na het eerste gesprek?</div>
-      <div class="faq-a">Absoluut niet. Het eerste gesprek is volledig vrijblijvend. Jos luistert naar uw wensen en stelt vragen — zonder verkoopdruk en zonder tijdslimieten. U beslist zelf wanneer en of u verdergaat. Er is geen offerteplicht.</div>
-    </div>
-  </div>
-</div>
-
+<!-- TODO: dit zijn de bestaande reviews (over keukens). Vervangen door 2-3 echte Google-reviews over kasten zodra Jos die aanwijst. -->
 <!-- REVIEWS -->
 <div class="reviews-section">
   <div class="section-eyebrow">Klantervaringen</div>
@@ -1314,33 +1261,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </div>
-<!-- FORM -->
-<div class="form-section" id="afspraak">
-  <div class="form-left">
-    <div class="section-eyebrow">Gratis adviesgesprek</div>
-    <h2>Plan uw vrijblijvend gesprek</h2>
-    <p>Vertel ons over uw ruimte en wij plannen een gesprek in onze showroom in Pelt. Geen verplichtingen, geen verkoopdruk.</p>
-    <div class="promise-list">
-      <div class="promise-item"><span class="promise-mark">—</span>We bellen u op om een afspraak te plannen</div>
-      <div class="promise-item"><span class="promise-mark">—</span>Volledig vrijblijvend</div>
-      <div class="promise-item"><span class="promise-mark">—</span>Gratis 3D-ontwerp bij offerte</div>
-      <div class="promise-item"><span class="promise-mark">—</span>30+ jaar ervaring in maatwerk</div>
-      <div class="promise-item"><span class="promise-mark">—</span>Eén vast aanspreekpunt van A tot Z</div>
+
+<!-- FAQ / BEZWAREN -->
+<div class="faq-section" id="faq">
+  <div class="section-eyebrow">Veelgestelde vragen</div>
+  <h2>Wat klanten ons vragen</h2>
+  <div class="faq-grid">
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Kan een kast ook onder een schuin dak of in een smalle ruimte?</div>
+      <div class="faq-a">Juist dáár is maatwerk het meest waard. Schuine daken, dakkapellen, nissen en lage zolderruimtes zijn met standaardkasten bijna niet in te vullen. Wij meten de ruimte volledig op en tekenen de kast rond de schuine lijn, zodat ook de laagste centimeters bruikbaar blijven.</div>
     </div>
-  </div>
-  <div class="form-right">
-    <!-- STAPPENFORMULIER: één vraag per scherm. Logica in assets/stappenformulier.js, stijl in assets/stappenformulier.css -->
-    <link rel="stylesheet" href="assets/stappenformulier.css">
-    <div class="sf" id="stappenformulier">
-      <noscript><p>Ons formulier heeft JavaScript nodig. Bel ons gerust op <a href="tel:+3211823828">011 82 38 28</a>.</p></noscript>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Wat als de indeling achteraf toch niet blijkt te werken?</div>
+      <div class="faq-a">Dat risico halen we er vooraf uit. Vóór er iets geproduceerd wordt, tekenen Jos en Richard de volledige kast uit in gedetailleerde 3D, inclusief hanghoogtes, lades, rekken en verlichting. We overlopen samen wat u waar wil opbergen, en u beslist pas verder als u 100% zeker bent.</div>
     </div>
-    <div class="form-divider"><span>of</span></div>
-    <div class="phone-cta">
-      <a href="tel:+3211823828">011 82 38 28</a>
-      <p>Direct bellen — Ma–Vr 09:30–18:00 · Woe op afspraak · Za 10:00–16:00</p>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Hoe lang duurt het traject van gesprek tot plaatsing?</div>
+      <div class="faq-a">Dat hangt af van de omvang: een enkele kast verloopt sneller dan een volledige inloopdressing. Tijdens het eerste gesprek krijgt u een concrete timing voor úw project. Wij coördineren alles zelf, van ontwerp en opmeting tot productie en plaatsing, zodat u niets hoeft op te volgen.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Moet ik me tot iets verbinden na het eerste gesprek?</div>
+      <div class="faq-a">Absoluut niet. Het eerste gesprek is volledig vrijblijvend. Jos luistert naar uw wensen en stelt vragen, zonder verkoopdruk en zonder tijdslimieten. U beslist zelf wanneer en of u verdergaat. Er is geen offerteplicht.</div>
     </div>
   </div>
 </div>
+
+<!-- SLOT-CTA: geen tweede formulier, de knop brengt u naar het formulier in de hero -->
+<div class="final-cta">
+  <div class="section-eyebrow">Gratis adviesgesprek</div>
+  <h2>Laat uw ruimte uittekenen</h2>
+  <p>Vertel ons kort wat u zoekt. Wij bellen u op om een gesprek in onze showroom in Pelt te plannen.</p>
+  <a href="#afspraak" onclick="event.preventDefault();document.getElementById('afspraak').scrollIntoView({behavior:'smooth'})" class="btn-filled">Plan een gratis gesprek</a>
+  <div class="final-cta-phone">Of bel ons: <a href="tel:+3211823828">011 82 38 28</a> · Ma–Vr 09:30–18:00 · Woe op afspraak · Za 10:00–16:00</div>
+</div>
+
 <!-- FOOTER -->
 <div class="footer-bar">
   <p>L&amp;E Interieur &nbsp;·&nbsp; Leopoldlaan 104, 3900 Pelt &nbsp;·&nbsp; <a href="tel:+3211823828">011 82 38 28</a> &nbsp;·&nbsp; info@leneinterieur.be &nbsp;·&nbsp; BTW BE 0866.300.961</p>
@@ -1350,8 +1304,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- STICKY MOBIELE CTA -->
 <div class="sticky-cta" id="sticky-cta">
-  <a href="#afspraak" class="sticky-cta-btn" id="sticky-cta-btn">Ontvang gratis 3D-ontwerp →</a>
-  <div class="sticky-cta-note"><strong>Volledig vrijblijvend</strong></div>
+  <a href="#afspraak" class="sticky-cta-btn" id="sticky-cta-btn">Plan een gratis gesprek →</a>
+  <div class="sticky-cta-note"><strong>Vrijblijvend</strong> · showroom in Pelt</div>
 </div>
 
 <!-- COOKIE OVERLAY -->
